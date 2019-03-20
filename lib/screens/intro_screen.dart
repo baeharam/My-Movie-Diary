@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymovie/bloc_helpers/bloc_event_state_builder.dart';
 import 'package:mymovie/logics/intro/intro.dart';
+import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
@@ -12,37 +13,135 @@ class IntroScreen extends StatefulWidget{
   _IntroScreenState createState() => _IntroScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen> with SingleTickerProviderStateMixin{
+class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin{
 
   final IntroBloc introBloc = sl.get<IntroBloc>();
-  AnimationController animationController;
-  Animation buttonSqueeze;
+  AnimationController kakaoController,googleController;
+  Animation kakaoAnimation,googleAnimation;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+    _kakaoInitialization();
+    _googleInitialization();
+  }
+
+  @override
+  void dispose() {
+    kakaoController.dispose();
+    googleController.dispose();
+    super.dispose();
+  }
+
+  void _kakaoInitialization() {
+    kakaoController = AnimationController(
+      duration: const Duration(milliseconds: loginButtonDuration),
       vsync: this
     );
-    buttonSqueeze = Tween(
-      begin: 320.0,
-      end: 70.0
+    kakaoAnimation = Tween(
+      begin: loginButtonBeginWidth,
+      end: loginButtonEndWidth
     ).animate(CurvedAnimation(
-      parent: animationController,
-      curve: Interval(0.0,0.250)
+      parent: kakaoController,
+      curve: Interval(loginBeginInterval,loginEndInterval)
     ));
-    animationController.addListener(() {
-      if(animationController.isCompleted) {
+    kakaoController.addListener(() {
+      if(kakaoController.isCompleted) {
         introBloc.emitEvent(IntroEventKakaoLogin());
       }
     });
   }
 
-  Future<void> _playAnimation() async{
+  void _googleInitialization() {
+    googleController = AnimationController(
+      duration: const Duration(milliseconds: loginButtonDuration),
+      vsync: this
+    );
+    googleAnimation = Tween(
+      begin: loginButtonBeginWidth,
+      end: loginButtonEndWidth
+    ).animate(CurvedAnimation(
+      parent: googleController,
+      curve: Interval(loginBeginInterval,loginEndInterval)
+    ));
+    googleController.addListener(() {
+      if(googleController.isCompleted) {
+        introBloc.emitEvent(IntroEventGoogleLogin());
+      }
+    });
+  }
+
+  Widget _buildLoginButton({
+    @required Animation animation,
+    @required AnimationController controller,
+    @required Image image,
+    @required Color buttonColor,
+    @required Color textColor,
+    @required String message
+  }) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (_,__){
+        return BlocBuilder(
+          bloc: introBloc,
+          builder: (context, IntroState state){
+            if(state.isKakaoLoginSucceeded || state.isGoogleLoginSucceeded) {
+              BlocNavigator.pushReplacementNamed(context, routeHome);
+            }
+            if(state.isKakaoLoginFailed || state.isGoogleLoginFailed) {
+              BlocSnackbar.show(context, '로그인에 실패하였습니다.');
+              introBloc.emitEvent(IntroEventStateClear());
+            }
+            return GestureDetector(
+              child: Container(
+                width: animation.value,
+                height: 60.0,
+                decoration: BoxDecoration(
+                  color: buttonColor,
+                  borderRadius: BorderRadius.circular(15.0)
+                ),
+                child: animation.value>75.0 ? Row(
+                  children: <Widget>[
+                    SizedBox(width: 20.0),
+                    animation.value<100.0 ? Container() :
+                    image,
+                    animation.value<300.0 ? Container() :
+                    Container(
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0
+                        ),
+                      ),
+                    )
+                  ],
+                ) : 
+                Container(
+                  margin: const EdgeInsets.all(15.0),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    strokeWidth: 1.0,
+                  ),
+                  width: 30.0,
+                  height: 30.0,
+                )
+              ),
+              onTap: () => _playAnimation(controller: controller)
+            );
+          }
+        );
+      }
+    );
+  }
+
+  Future<void> _playAnimation({@required AnimationController controller}) async{
     try {
-      await animationController.forward();
-    } on TickerCanceled {}
+      await controller.forward();
+    } on TickerCanceled {
+      print("애니메이션이 취소되었습니다.");
+    }
   }
 
 
@@ -68,6 +167,7 @@ class _IntroScreenState extends State<IntroScreen> with SingleTickerProviderStat
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'Chosunilbo_myungjo',
                   fontSize: 70.0
                 ),
               ),
@@ -79,59 +179,30 @@ class _IntroScreenState extends State<IntroScreen> with SingleTickerProviderStat
               height: 4.0,
             ),
             SizedBox(height: 200.0),
-            AnimatedBuilder(
-              animation: buttonSqueeze,
-              builder: (_,__){
-                return BlocBuilder(
-                  bloc: introBloc,
-                  builder: (context, IntroState state){
-                    if(state.isKakaoLoginSucceeded) {
-                      BlocNavigator.pushReplacementNamed(context, routeHome);
-                    }
-                    if(state.isKakaoLoginFailed) {
-                      BlocSnackbar.show(context, '로그인에 실패하였습니다.');
-                      introBloc.emitEvent(IntroEventStateClear());
-                    }
-                    return GestureDetector(
-                      child: Container(
-                        width: buttonSqueeze.value,
-                        height: 60.0,
-                        decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius: BorderRadius.circular(15.0)
-                        ),
-                        child: buttonSqueeze.value>75.0 ? Row(
-                          children: <Widget>[
-                            SizedBox(width: 20.0),
-                            buttonSqueeze.value<100.0 ? Container() :
-                            Image.asset('assets/images/kakao.png'),
-                            buttonSqueeze.value<300.0 ? Container() :
-                            Container(
-                              child: Text(
-                                '카카오톡으로 로그인',
-                                style: TextStyle(
-                                  color: Colors.brown,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0
-                                ),
-                              ),
-                            )
-                          ],
-                        ) : 
-                        SizedBox(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.brown),
-                            strokeWidth: 1.0,
-                          ),
-                          width: 30.0,
-                          height: 30.0,
-                        )
-                      ),
-                      onTap: () => _playAnimation()
-                    );
-                  }
-                );
-              }
+            _buildLoginButton(
+              animation: kakaoAnimation,
+              controller: kakaoController,
+              image: Image(
+                image: AssetImage('assets/images/kakao.png'),
+                width: 50.0,
+                height: 50.0,
+              ),
+              buttonColor: Colors.yellow,
+              textColor: Colors.brown,
+              message: '카카오톡으로 로그인'
+            ),
+            SizedBox(height: 20.0),
+            _buildLoginButton(
+              animation: googleAnimation,
+              controller: googleController,
+              image: Image(
+                image: AssetImage('assets/images/google.png'),
+                width: 50.0,
+                height: 30.0,
+              ),
+              buttonColor: Colors.white,
+              textColor: Colors.black,
+              message: '구글계정으로 로그인'
             )
           ],
         )

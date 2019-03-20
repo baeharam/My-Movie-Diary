@@ -13,6 +13,10 @@ class MyMovieApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: IntroScreen(),
+      theme: ThemeData(
+        fontFamily: 'Chosunilbo_myungjo',
+        splashColor: Colors.transparent
+      ),
       routes: routes,
       debugShowCheckedModeBanner: false,
     );

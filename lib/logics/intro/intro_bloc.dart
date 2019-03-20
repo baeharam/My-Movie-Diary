@@ -18,8 +18,9 @@ class IntroBloc extends BlocEventStateBase<IntroEvent,IntroState> {
     }
 
     if(event is IntroEventKakaoLogin) {
-      yield IntroState.kakaoLoginLoading();
       try {
+        KakaoLoginResult result =  await _kakaoAPI.logIn();
+        print(result.account.userPhoneNumber);
         yield IntroState.kakaoLoginSucceeded();
       } catch(exception) {
         print("카카오 로그인 실패: ${exception.toString()}");

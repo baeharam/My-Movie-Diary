@@ -5,3 +5,4 @@ abstract class IntroEvent extends BlocEvent {}
 class IntroEventStateClear extends IntroEvent {}
 
 class IntroEventKakaoLogin extends IntroEvent {}
+class IntroEventGoogleLogin extends IntroEvent {}
