@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
+    _streamController = StreamController<bool>();
     _fadeAnimationInitialization();
   }
 
@@ -30,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void _fadeAnimationInitialization() {
-    _streamController = StreamController<bool>();
     _fadeAnimationController =AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000)

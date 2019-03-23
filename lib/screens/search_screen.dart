@@ -14,12 +14,13 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   int _subscriber;
   bool _keyboardState;
   AnimationController _searchAnimationController;
-  Animation _searchAnimation;
+  Animation _liftUpAnimation,_fadeAnimation;
 
   @override
   void initState() {
     super.initState();
     _animationInitialization();
+    _keyboardListenerInitialization();
   }
 
   @override
@@ -33,15 +34,21 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   void _animationInitialization() {
     _searchAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300)
+      duration: const Duration(milliseconds: 500)
     );
-    _searchAnimation = Tween(
-      begin: 100.0,
-      end: 30.0
-    ).animate(CurvedAnimation(
+    _liftUpAnimation = Tween(begin: 150.0,end: 0.0)
+    .animate(CurvedAnimation(
       parent: _searchAnimationController,
       curve: Curves.easeOut
     ));
+    _fadeAnimation = Tween(begin: 1.0, end: 0.0)
+    .animate(CurvedAnimation(
+      parent: _searchAnimationController,
+      curve: Curves.easeIn
+    ));
+  }
+
+  void _keyboardListenerInitialization() {
     _keyboardState = _keyboardVisibility.isKeyboardVisible;
     _subscriber = _keyboardVisibility.addNewListener(
       onChange: (state){
@@ -67,30 +74,34 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
           ),
         ),
         child: AnimatedBuilder(
-          animation: _searchAnimation,
+          animation: _liftUpAnimation,
           builder: (context, widget){
             return Column(
               children: [
-                SizedBox(height: _searchAnimation.value),
-                _searchAnimation.value>30.0 ?
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        '일기를 작성하고자 하는',
-                        style: searchScreenTextStyle,
-                        textAlign: TextAlign.center
-                      ),
-                      SizedBox(height: 13.0),
-                      Text(
-                        '영화를 검색해주세요.',
-                        style: searchScreenTextStyle,
-                        textAlign: TextAlign.center
-                      )
-                    ],
+                SizedBox(height: _liftUpAnimation.value),
+                Opacity(
+                  opacity: _fadeAnimation.value,
+                  child: Container(
+                    width: double.infinity,
+                    height: _liftUpAnimation.value,
+                    child: _liftUpAnimation.value>80.0 ? Column(
+                      children: [
+                        Text(
+                          '일기를 작성하고자 하는',
+                          style: searchScreenTextStyle,
+                          textAlign: TextAlign.center
+                        ),
+                        SizedBox(height: 13.0),
+                        Text(
+                          '영화를 검색해주세요.',
+                          style: searchScreenTextStyle,
+                          textAlign: TextAlign.center
+                        )
+                      ],
+                    ) : Container(),
                   )
-                ):Container(),
-                SizedBox(height: _searchAnimation.value),
+                ),
+                SizedBox(height: 100.0),
                 Column(
                   children: [
                     Theme(
