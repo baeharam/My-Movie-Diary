@@ -119,11 +119,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                   ],
                 ) : 
                 Container(
-                  margin: const EdgeInsets.all(15.0),
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                    strokeWidth: 1.0,
-                  ),
+                  child: CircularProgressIndicator(),
                   width: 30.0,
                   height: 30.0,
                 )
