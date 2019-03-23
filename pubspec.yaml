@@ -28,6 +28,7 @@ dependencies:
   flutter_kakao_login: ^0.0.8
   flare_flutter: ^1.3.4
   keyboard_visibility: any
+  http: ^0.12.0+1
 
 dev_dependencies:
   flutter_test:

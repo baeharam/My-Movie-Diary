@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/utils/typewriter.dart';
+import 'package:mymovie/widgets/home_button.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,35 +13,39 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
 
   StreamController<bool> _streamController;
-  AnimationController _animationController;
-  Animation _animation;
+  AnimationController _fadeAnimationController;
+  Animation _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
-    _streamController = StreamController<bool>();
-    _animationController =AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000)
-    );
-    _animation = Tween(begin: 0.0,end: 1.0).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeIn
-    ));
-    _animationController.forward();
+    _fadeAnimationInitialization();
   }
 
   @override
   void dispose() {
     _streamController.close();
-    _animationController.dispose();
+    _fadeAnimationController.dispose();
     super.dispose();
+  }
+
+  void _fadeAnimationInitialization() {
+    _streamController = StreamController<bool>();
+    _fadeAnimationController =AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000)
+    );
+    _fadeAnimation = Tween(begin: 0.0,end: 1.0).animate(CurvedAnimation(
+      parent: _fadeAnimationController,
+      curve: Curves.easeIn
+    ));
+    _fadeAnimationController.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     return FadeTransition(
-      opacity: _animation,
+      opacity: _fadeAnimation,
       child: Scaffold(
         body: Container(
           width: double.infinity,
@@ -98,49 +103,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   }
                 ),
                 SizedBox(height: 200.0),
-                HomeButton(title: '나의 영화일기', onPressed: (){}),
+                HomeButton(
+                  title: '나의 영화일기', 
+                  onPressed: (){}
+                ),
                 SizedBox(height: 20.0),
                 HomeButton(
                   title: '영화일기 작성하기', 
-                  onPressed: () => Navigator.pushNamed(context, routeSearchIntro)
+                  onPressed: () => Navigator.pushNamed(context, routeSearch)
                 )
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class HomeButton extends StatelessWidget {
-
-  final String title;
-  final VoidCallback onPressed;
-
-  HomeButton({
-    @required this.title,
-    @required this.onPressed
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250.0,
-      height: 60.0,
-      child: RaisedButton(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 20.0
-          ),
-        ),
-        elevation: 5.0,
-        onPressed: onPressed,
       ),
     );
   }

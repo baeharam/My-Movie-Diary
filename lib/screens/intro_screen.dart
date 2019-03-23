@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mymovie/bloc_helpers/bloc_event_state_builder.dart';
 import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/resources/constants.dart';
-import 'package:mymovie/resources/strings.dart';
-import 'package:mymovie/utils/bloc_navigator.dart';
-import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
+import 'package:mymovie/widgets/intro_login_button.dart';
 
 class IntroScreen extends StatefulWidget{
 
@@ -15,9 +12,9 @@ class IntroScreen extends StatefulWidget{
 
 class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin{
 
-  final IntroBloc introBloc = sl.get<IntroBloc>();
-  AnimationController kakaoController,googleController;
-  Animation kakaoAnimation,googleAnimation;
+  final IntroBloc _introBloc = sl.get<IntroBloc>();
+  AnimationController _kakaoController,_googleController;
+  Animation _kakaoAnimation,_googleAnimation;
 
   @override
   void initState() {
@@ -28,117 +25,47 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
 
   @override
   void dispose() {
-    kakaoController.dispose();
-    googleController.dispose();
+    _kakaoController.dispose();
+    _googleController.dispose();
     super.dispose();
   }
 
   void _kakaoInitialization() {
-    kakaoController = AnimationController(
+    _kakaoController = AnimationController(
       duration: const Duration(milliseconds: loginButtonDuration),
       vsync: this
     );
-    kakaoAnimation = Tween(
+    _kakaoAnimation = Tween(
       begin: loginButtonBeginWidth,
       end: loginButtonEndWidth
     ).animate(CurvedAnimation(
-      parent: kakaoController,
+      parent: _kakaoController,
       curve: Interval(loginBeginInterval,loginEndInterval)
     ));
-    kakaoController.addListener(() {
-      if(kakaoController.isCompleted) {
-        introBloc.emitEvent(IntroEventKakaoLogin());
+    _kakaoController.addListener(() {
+      if(_kakaoController.isCompleted) {
+        _introBloc.emitEvent(IntroEventKakaoLogin());
       }
     });
   }
 
   void _googleInitialization() {
-    googleController = AnimationController(
+    _googleController = AnimationController(
       duration: const Duration(milliseconds: loginButtonDuration),
       vsync: this
     );
-    googleAnimation = Tween(
+    _googleAnimation = Tween(
       begin: loginButtonBeginWidth,
       end: loginButtonEndWidth
     ).animate(CurvedAnimation(
-      parent: googleController,
+      parent: _googleController,
       curve: Interval(loginBeginInterval,loginEndInterval)
     ));
-    googleController.addListener(() {
-      if(googleController.isCompleted) {
-        introBloc.emitEvent(IntroEventGoogleLogin());
+    _googleController.addListener(() {
+      if(_googleController.isCompleted) {
+        _introBloc.emitEvent(IntroEventGoogleLogin());
       }
     });
-  }
-
-  Widget _buildLoginButton({
-    @required Animation animation,
-    @required AnimationController controller,
-    @required Image image,
-    @required Color buttonColor,
-    @required Color textColor,
-    @required String message
-  }) {
-    return BlocBuilder(
-      bloc: introBloc,
-      builder: (context, IntroState state){
-        if(state.isKakaoLoginSucceeded || state.isGoogleLoginSucceeded) {
-          BlocNavigator.pushReplacementNamed(context, routeHome);
-          introBloc.emitEvent(IntroEventStateClear());
-        }
-        if(state.isKakaoLoginFailed || state.isGoogleLoginFailed) {
-          BlocSnackbar.show(context, '로그인에 실패하였습니다.');
-          introBloc.emitEvent(IntroEventStateClear());
-        }
-        return GestureDetector(
-          child: AnimatedBuilder(
-            animation: animation,
-            builder: (_,__){
-              return Container(
-                width: animation.value,
-                height: 60.0,
-                decoration: BoxDecoration(
-                  color: buttonColor,
-                  borderRadius: BorderRadius.circular(15.0)
-                ),
-                child: animation.value>75.0 ? Row(
-                  children: <Widget>[
-                    SizedBox(width: 20.0),
-                    animation.value<100.0 ? Container() :
-                    image,
-                    animation.value<300.0 ? Container() :
-                    Container(
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                          color: textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0
-                        ),
-                      ),
-                    )
-                  ],
-                ) : 
-                Container(
-                  child: CircularProgressIndicator(),
-                  width: 30.0,
-                  height: 30.0,
-                )
-              );
-            }
-          ),
-          onTap: () => _playAnimation(controller: controller)
-        );
-      }
-    );
-  }
-
-  Future<void> _playAnimation({@required AnimationController controller}) async{
-    try {
-      await controller.forward();
-    } on TickerCanceled {
-      print("애니메이션이 취소되었습니다.");
-    }
   }
 
 
@@ -175,9 +102,9 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
               height: 4.0,
             ),
             SizedBox(height: 200.0),
-            _buildLoginButton(
-              animation: kakaoAnimation,
-              controller: kakaoController,
+            LoginButton(
+              loginAnimation: _kakaoAnimation,
+              loginAnimationController: _kakaoController,
               image: Image(
                 image: AssetImage('assets/images/kakao.png'),
                 width: 50.0,
@@ -185,12 +112,13 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
               ),
               buttonColor: Colors.yellow,
               textColor: Colors.brown,
-              message: '카카오톡으로 로그인'
+              message: '카카오톡으로 로그인',
+              introBloc: _introBloc,
             ),
             SizedBox(height: 20.0),
-            _buildLoginButton(
-              animation: googleAnimation,
-              controller: googleController,
+            LoginButton(
+              loginAnimation: _googleAnimation,
+              loginAnimationController: _googleController,
               image: Image(
                 image: AssetImage('assets/images/google.png'),
                 width: 50.0,
@@ -198,7 +126,8 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
               ),
               buttonColor: Colors.white,
               textColor: Colors.black,
-              message: '구글계정으로 로그인'
+              message: '구글계정으로 로그인',
+              introBloc: _introBloc,
             )
           ],
         )

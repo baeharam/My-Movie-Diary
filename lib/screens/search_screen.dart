@@ -1,61 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:mymovie/resources/constants.dart';
 
-class SearchIntroScreen extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   @override
-  _SearchIntroScreenState createState() => _SearchIntroScreenState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _SearchIntroScreenState extends State<SearchIntroScreen> with SingleTickerProviderStateMixin{
+class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin{
 
-  final TextEditingController textEditingController =TextEditingController();
-  final KeyboardVisibilityNotification keyboardVisibility =KeyboardVisibilityNotification();
-  int subscriber;
-  bool keyboardState;
-
-  AnimationController animationController;
-  Animation animation;
+  final TextEditingController _textEditingController =TextEditingController();
+  final KeyboardVisibilityNotification _keyboardVisibility =KeyboardVisibilityNotification();
+  int _subscriber;
+  bool _keyboardState;
+  AnimationController _searchAnimationController;
+  Animation _searchAnimation;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
+    _animationInitialization();
+  }
+
+  @override
+  void dispose() {
+    _searchAnimationController.dispose();
+    _textEditingController.dispose();
+    _keyboardVisibility.removeListener(_subscriber);
+    super.dispose();
+  }
+
+  void _animationInitialization() {
+    _searchAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000)
+      duration: const Duration(milliseconds: 300)
     );
-    animation = Tween(
+    _searchAnimation = Tween(
       begin: 100.0,
-      end: 10.0
+      end: 30.0
     ).animate(CurvedAnimation(
-      parent: animationController,
+      parent: _searchAnimationController,
       curve: Curves.easeOut
     ));
-    keyboardState = keyboardVisibility.isKeyboardVisible;
-    subscriber = keyboardVisibility.addNewListener(
+    _keyboardState = _keyboardVisibility.isKeyboardVisible;
+    _subscriber = _keyboardVisibility.addNewListener(
       onChange: (state){
-        setState(() => keyboardState = state);
+        setState(() => _keyboardState = state);
       }
     );
   }
 
   @override
-  void dispose() {
-    animationController.dispose();
-    textEditingController.dispose();
-    keyboardVisibility.removeListener(subscriber);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
 
-    final TextStyle textStyle =TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 25.0,
-    );
-
-    keyboardState ? animationController.forward() :animationController.reverse();
+    _keyboardState ? _searchAnimationController.forward() :_searchAnimationController.reverse();
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -69,29 +67,30 @@ class _SearchIntroScreenState extends State<SearchIntroScreen> with SingleTicker
           ),
         ),
         child: AnimatedBuilder(
-          animation: animation,
+          animation: _searchAnimation,
           builder: (context, widget){
             return Column(
               children: [
-                SizedBox(height: animation.value),
+                SizedBox(height: _searchAnimation.value),
+                _searchAnimation.value>30.0 ?
                 Container(
                   child: Column(
                     children: [
                       Text(
                         '일기를 작성하고자 하는',
-                        style: textStyle,
+                        style: searchScreenTextStyle,
                         textAlign: TextAlign.center
                       ),
                       SizedBox(height: 13.0),
                       Text(
                         '영화를 검색해주세요.',
-                        style: textStyle,
+                        style: searchScreenTextStyle,
                         textAlign: TextAlign.center
                       )
                     ],
                   )
-                ),
-                SizedBox(height: 100.0),
+                ):Container(),
+                SizedBox(height: _searchAnimation.value),
                 Column(
                   children: [
                     Theme(
