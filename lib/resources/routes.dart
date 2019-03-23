@@ -5,5 +5,6 @@ import 'package:mymovie/screens/screens.dart';
 // Routes
 final Map<String, WidgetBuilder> routes =  {
   routeIntro: (BuildContext context) => IntroScreen(),
-  routeHome: (BuildContext context) => HomeScreen()
+  routeHome: (BuildContext context) => HomeScreen(),
+  routeSearchIntro: (BuildContext context) => SearchIntroScreen()
 };

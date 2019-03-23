@@ -79,21 +79,22 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
     @required Color textColor,
     @required String message
   }) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (_,__){
-        return BlocBuilder(
-          bloc: introBloc,
-          builder: (context, IntroState state){
-            if(state.isKakaoLoginSucceeded || state.isGoogleLoginSucceeded) {
-              BlocNavigator.pushReplacementNamed(context, routeHome);
-            }
-            if(state.isKakaoLoginFailed || state.isGoogleLoginFailed) {
-              BlocSnackbar.show(context, '로그인에 실패하였습니다.');
-              introBloc.emitEvent(IntroEventStateClear());
-            }
-            return GestureDetector(
-              child: Container(
+    return BlocBuilder(
+      bloc: introBloc,
+      builder: (context, IntroState state){
+        if(state.isKakaoLoginSucceeded || state.isGoogleLoginSucceeded) {
+          BlocNavigator.pushReplacementNamed(context, routeHome);
+          introBloc.emitEvent(IntroEventStateClear());
+        }
+        if(state.isKakaoLoginFailed || state.isGoogleLoginFailed) {
+          BlocSnackbar.show(context, '로그인에 실패하였습니다.');
+          introBloc.emitEvent(IntroEventStateClear());
+        }
+        return GestureDetector(
+          child: AnimatedBuilder(
+            animation: animation,
+            builder: (_,__){
+              return Container(
                 width: animation.value,
                 height: 60.0,
                 decoration: BoxDecoration(
@@ -123,10 +124,10 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                   width: 30.0,
                   height: 30.0,
                 )
-              ),
-              onTap: () => _playAnimation(controller: controller)
-            );
-          }
+              );
+            }
+          ),
+          onTap: () => _playAnimation(controller: controller)
         );
       }
     );
@@ -148,7 +149,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/ironman.jpg'),
+            image: AssetImage('assets/images/ironmangif.gif'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
           ),
@@ -163,7 +164,6 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Chosunilbo_myungjo',
                   fontSize: 70.0
                 ),
               ),

@@ -26,8 +26,8 @@ dependencies:
   rxdart: ^0.21.0
   get_it: ^1.0.3
   flutter_kakao_login: ^0.0.8
-  animated_text_kit: ^1.3.0
   flare_flutter: ^1.3.4
+  keyboard_visibility: any
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +54,9 @@ flutter:
     - assets/images/kakao.png
     - assets/images/google.png
     - assets/images/fantasy.jpg
-    - assets/flares/loading.flr2d
+    - assets/images/spiderman.jpg
+    - assets/images/ironmangif.gif
+    - assets/images/cinema.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
