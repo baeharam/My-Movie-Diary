@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/resources/constants.dart';
+import 'package:mymovie/widgets/fadein_scaffold.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -14,12 +15,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   int _subscriber;
   bool _keyboardState;
   AnimationController _searchAnimationController;
-  Animation _liftUpAnimation,_fadeAnimation;
+  Animation _liftUpAnimation,_fadeOutAnimation;
 
   @override
   void initState() {
     super.initState();
-    _animationInitialization();
+    _searchAnimationInitialization();
     _keyboardListenerInitialization();
   }
 
@@ -31,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     super.dispose();
   }
 
-  void _animationInitialization() {
+  void _searchAnimationInitialization() {
     _searchAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500)
@@ -41,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
       parent: _searchAnimationController,
       curve: Curves.easeOut
     ));
-    _fadeAnimation = Tween(begin: 1.0, end: 0.0)
+    _fadeOutAnimation = Tween(begin: 1.0, end: 0.0)
     .animate(CurvedAnimation(
       parent: _searchAnimationController,
       curve: Curves.easeIn
@@ -62,8 +63,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
 
     _keyboardState ? _searchAnimationController.forward() :_searchAnimationController.reverse();
 
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
+    return FadeInScaffold(
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               children: [
                 SizedBox(height: _liftUpAnimation.value),
                 Opacity(
-                  opacity: _fadeAnimation.value,
+                  opacity: _fadeOutAnimation.value,
                   child: Container(
                     width: double.infinity,
                     height: _liftUpAnimation.value,
