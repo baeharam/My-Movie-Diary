@@ -51,13 +51,15 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/images/ironman.jpg
     - assets/images/kakao.png
     - assets/images/google.png
     - assets/images/fantasy.jpg
-    - assets/images/spiderman.jpg
-    - assets/images/ironmangif.gif
     - assets/images/cinema.jpg
+
+    - assets/images/ironman.jpg
+    - assets/images/abouttime.jpg
+    - assets/images/spiderman.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

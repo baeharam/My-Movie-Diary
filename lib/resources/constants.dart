@@ -17,3 +17,10 @@ const TextStyle searchScreenTextStyle = TextStyle(
   fontSize: 25.0,
 );
 
+
+const List backgroundImageList = [
+  'assets/images/ironman.jpg',
+  'assets/images/spiderman.jpg',
+  'assets/images/abouttime.jpg'
+];
+

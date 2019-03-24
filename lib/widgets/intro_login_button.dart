@@ -78,7 +78,11 @@ class LoginButton extends StatelessWidget {
                   ],
                 ) : 
                 Container(
-                  child: CircularProgressIndicator(),
+                  margin: const EdgeInsets.all(15.0),
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
                   width: 30.0,
                   height: 30.0,
                 )
