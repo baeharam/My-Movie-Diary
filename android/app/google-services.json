@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "770510068015",
+    "firebase_url": "https://mymovie-b04a3.firebaseio.com",
+    "project_id": "mymovie-b04a3",
+    "storage_bucket": "mymovie-b04a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770510068015:android:d832cf83bc1c10ee",
+        "android_client_info": {
+          "package_name": "com.handong.mymovie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770510068015-k8tjl1kbgvf53oh6b58v983phr2vbm5a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.handong.mymovie",
+            "certificate_hash": "2dd00e7785bdf27706a1f6d40bdd47899b513285"
+          }
+        },
+        {
+          "client_id": "770510068015-gr9ucmhgn8jrbao332k30o000srqjkns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDum1F1Lly0AyjL_OfVeENJJKDUm-6acnc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770510068015-gr9ucmhgn8jrbao332k30o000srqjkns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
