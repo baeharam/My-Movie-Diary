@@ -1,11 +1,9 @@
 import 'package:mymovie/bloc_helpers/bloc_event_state.dart';
-import 'package:mymovie/logics/intro/intro_event.dart';
-import 'package:mymovie/logics/intro/intro_state.dart';
-import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+import 'package:mymovie/logics/intro/intro.dart';
 
 class IntroBloc extends BlocEventStateBase<IntroEvent,IntroState> {
 
-  static final _kakaoAPI = FlutterKakaoLogin();
+  static final _api = IntroAPI();
   
   @override
   IntroState get initialState => IntroState.initial();
@@ -19,13 +17,21 @@ class IntroBloc extends BlocEventStateBase<IntroEvent,IntroState> {
 
     if(event is IntroEventKakaoLogin) {
       try {
-        await _kakaoAPI.logIn();
-        KakaoLoginResult result = await _kakaoAPI.getUserMe();
-        print(result.account.userNickname);
+        await _api.kakaoAuthentication();
         yield IntroState.kakaoLoginSucceeded();
       } catch(exception) {
         print("카카오 로그인 실패: ${exception.toString()}");
         yield IntroState.kakaoLoginFailed();
+      }
+    }
+
+    if(event is IntroEventGoogleLogin) {
+      try {
+        await _api.googleAuthentication();
+        yield IntroState.googleLoginSucceeded();
+      } catch(exception) {
+        print("구글 로그인 실패: ${exception.toString()}");
+        yield IntroState.googleLoginFailed();
       }
     }
   }
