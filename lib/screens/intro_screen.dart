@@ -95,17 +95,17 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
       body: AnimatedBuilder(
         animation: _backgroundImageAnimation,
         builder: (context, widget){
-          return SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(backgroundImageList[_backgroundImageAnimation.value]),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
-                ),
+          return Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backgroundImageList[_backgroundImageAnimation.value]),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
               ),
+            ),
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -155,8 +155,8 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                     introBloc: _introBloc,
                   )
                 ],
-              )
-            ),
+              ),
+            )
           );
         }
       )
