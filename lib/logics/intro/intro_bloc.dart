@@ -1,7 +1,8 @@
-import 'package:mymovie/bloc_helpers/bloc_event_state.dart';
-import 'package:mymovie/logics/intro/intro.dart';
+import 'package:bloc/bloc.dart';
 
-class IntroBloc extends BlocEventStateBase<IntroEvent,IntroState> {
+import 'intro.dart';
+
+class IntroBloc extends Bloc<IntroEvent,IntroState> {
 
   static final _api = IntroAPI();
   
@@ -9,8 +10,7 @@ class IntroBloc extends BlocEventStateBase<IntroEvent,IntroState> {
   IntroState get initialState => IntroState.initial();
 
   @override
-  Stream<IntroState> eventHandler(IntroEvent event, IntroState currentState) async*{
-
+  Stream<IntroState> mapEventToState(IntroEvent event) async*{
     if(event is IntroEventStateClear) {
       yield IntroState();
     }
@@ -35,6 +35,4 @@ class IntroBloc extends BlocEventStateBase<IntroEvent,IntroState> {
       }
     }
   }
-
-
 }

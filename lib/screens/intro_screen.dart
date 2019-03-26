@@ -49,7 +49,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
     ));
     _kakaoController.addListener(() {
       if(_kakaoController.isCompleted) {
-        _introBloc.emitEvent(IntroEventKakaoLogin());
+        _introBloc.dispatch(IntroEventKakaoLogin());
       }
     });
   }
@@ -68,7 +68,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
     ));
     _googleController.addListener(() {
       if(_googleController.isCompleted) {
-        _introBloc.emitEvent(IntroEventGoogleLogin());
+        _introBloc.dispatch(IntroEventGoogleLogin());
       }
     });
   }

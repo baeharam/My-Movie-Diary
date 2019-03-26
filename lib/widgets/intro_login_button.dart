@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mymovie/bloc_helpers/bloc_event_state_builder.dart';
 import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/logics/intro/intro_bloc.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginButton extends StatelessWidget {
 
@@ -37,16 +37,16 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocBuilder<IntroEvent,IntroState>(
       bloc: introBloc,
       builder: (context, IntroState state){
         if(state.isKakaoLoginSucceeded || state.isGoogleLoginSucceeded) {
           BlocNavigator.pushReplacementNamed(context, routeHome);
-          introBloc.emitEvent(IntroEventStateClear());
+          introBloc.dispatch(IntroEventStateClear());
         }
         if(state.isKakaoLoginFailed || state.isGoogleLoginFailed) {
           BlocSnackbar.show(context, '로그인에 실패하였습니다.');
-          introBloc.emitEvent(IntroEventStateClear());
+          introBloc.dispatch(IntroEventStateClear());
         }
         return GestureDetector(
           child: AnimatedBuilder(

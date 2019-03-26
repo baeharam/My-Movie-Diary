@@ -1,6 +1,4 @@
-import 'package:mymovie/bloc_helpers/bloc_event_state.dart';
-
-class IntroState extends BlocState {
+class IntroState {
   final bool isInitial;
 
   final bool isKakaoLoginLoading;

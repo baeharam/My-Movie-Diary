@@ -12,6 +12,10 @@ void main() {
     );
   }
 
+  test('kakao intializaiton test', (){
+    
+  });
+
   testWidgets('Test for IntroScreen', (WidgetTester tester) async {
     IntroScreen introScreen = IntroScreen();
     await tester.pumpWidget(makeTestableWidget(child: introScreen));

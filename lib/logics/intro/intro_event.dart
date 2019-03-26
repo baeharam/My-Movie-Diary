@@ -1,6 +1,4 @@
-import 'package:mymovie/bloc_helpers/bloc_event_state.dart';
-
-abstract class IntroEvent extends BlocEvent {}
+abstract class IntroEvent {}
 
 class IntroEventStateClear extends IntroEvent {}
 
