@@ -1,16 +1,16 @@
 
-import 'package:meta/meta.dart';
-
 class SearchState {
   final bool isInitial;
   final bool isKeyboardOn;
+  final bool isKeyboardOff;
 
   SearchState({
-    this.isInitial,
-    this.isKeyboardOn
+    this.isInitial: false,
+    this.isKeyboardOn: false,
+    this.isKeyboardOff: false
   });
 
   factory SearchState.initial() => SearchState(isInitial: true);
-  factory SearchState.keyboardChanged({@required isKeyboardOn}) => 
-    SearchState(isKeyboardOn: isKeyboardOn);
+  factory SearchState.keyboardOn() => SearchState(isKeyboardOn: true);
+  factory SearchState.keyboardOff() => SearchState(isKeyboardOff: true);
 }

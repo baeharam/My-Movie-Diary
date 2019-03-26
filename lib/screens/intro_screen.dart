@@ -32,6 +32,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
     _kakaoController.dispose();
     _googleController.dispose();
     _backgroundImageController.dispose();
+    _introBloc.dispose();
     super.dispose();
   }
 

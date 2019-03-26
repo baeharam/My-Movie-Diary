@@ -19,7 +19,6 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
 
 
   int _subscriber;
-  bool _keyboardState;
   AnimationController _searchAnimationController;
   Animation _liftUpAnimation,_fadeOutAnimation;
 
@@ -35,6 +34,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     _searchAnimationController.dispose();
     _textEditingController.dispose();
     _keyboardVisibility.removeListener(_subscriber);
+    _searchBloc.dispose();
     super.dispose();
   }
 
@@ -56,17 +56,17 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   }
 
   void _keyboardListenerInitialization() {
-    _keyboardState = _keyboardVisibility.isKeyboardVisible;
     _subscriber = _keyboardVisibility.addNewListener(
-      onChange: (state) => _searchBloc.dispatch(SearchEventKeyboardChanged(isKeyboardOn: state))
+      onChange: (state) {
+        state 
+        ? _searchBloc.dispatch(SearchEventKeyboardOn())
+        :_searchBloc.dispatch(SearchEventKeyboardOff());
+      }
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
-    _keyboardState ? _searchAnimationController.forward() :_searchAnimationController.reverse();
-
     return FadeInScaffold(
       body: Container(
         width: double.infinity,
@@ -80,8 +80,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
         child: BlocBuilder<SearchEvent, SearchState>(
           bloc: _searchBloc,
           builder: (context, state) {
-            
-
+            if(state.isKeyboardOn) {
+              _searchAnimationController.forward();
+            }
+            if(state.isKeyboardOff) {
+              _searchAnimationController.reverse();
+            }
             return AnimatedBuilder(
               animation: _liftUpAnimation,
               builder: (context, widget){
@@ -121,9 +125,14 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                               decoration: InputDecoration(
                                 labelText: '영화',
                                 labelStyle: Theme.of(context).textTheme
-                                  .caption.copyWith(color: Colors.white)
+                                  .caption.copyWith(color: Colors.white),
                               ),
                               autofocus: false,
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white),
+                              onChanged: (text) {
+                                _searchBloc.dispatch(SearchEventTextChanged(text: text));
+                              },
                             ),
                           ),
                         ),
