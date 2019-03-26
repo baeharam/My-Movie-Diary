@@ -1,4 +1,6 @@
 
+import 'package:meta/meta.dart';
+
 class SearchState {
   final bool isInitial;
   final bool isKeyboardOn;
@@ -9,5 +11,6 @@ class SearchState {
   });
 
   factory SearchState.initial() => SearchState(isInitial: true);
-  factory SearchState.keyboardOn() => SearchState(isKeyboardOn: true);
+  factory SearchState.keyboardChanged({@required isKeyboardOn}) => 
+    SearchState(isKeyboardOn: isKeyboardOn);
 }

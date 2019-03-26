@@ -10,8 +10,8 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
 
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async*{
-    if(event is SearchEventKeyboardOn) {
-      yield SearchState.keyboardOn();
+    if(event is SearchEventKeyboardChanged) {
+      yield SearchState.keyboardChanged(isKeyboardOn: event.isKeyboardOn);
     }
   }
 }
