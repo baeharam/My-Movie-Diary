@@ -98,6 +98,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
           return SingleChildScrollView(
             child: Container(
               width: double.infinity,
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(backgroundImageList[_backgroundImageAnimation.value]),
