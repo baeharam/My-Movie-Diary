@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/logics/search/search.dart';
+import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/widgets/fadein_scaffold.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -22,6 +24,8 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   AnimationController _searchAnimationController;
   Animation _liftUpAnimation,_fadeOutAnimation;
 
+  List<MovieModel> _movieList = List<MovieModel>();
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +38,6 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     _searchAnimationController.dispose();
     _textEditingController.dispose();
     _keyboardVisibility.removeListener(_subscriber);
-    _searchBloc.dispose();
     super.dispose();
   }
 
@@ -83,8 +86,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             if(state.isKeyboardOn) {
               _searchAnimationController.forward();
             }
-            if(state.isKeyboardOff) {
+            if(state.isKeyboardOff && _movieList.isEmpty) {
               _searchAnimationController.reverse();
+              _textEditingController.clear();
+            }
+            if(state.isMovieDataFetched) {
+              _movieList = state.movieList;
             }
             return AnimatedBuilder(
               animation: _liftUpAnimation,
@@ -127,6 +134,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                                 labelStyle: Theme.of(context).textTheme
                                   .caption.copyWith(color: Colors.white),
                               ),
+                              controller: _textEditingController,
                               autofocus: false,
                               cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
@@ -142,6 +150,22 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                           color: Colors.white,
                         )
                       ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: _movieList.length,
+                        itemBuilder: (_, index) {
+                          return Column(
+                            children: <Widget>[
+                              SearchMovieForm(
+                                movie: _movieList[index]
+                              ),
+                              SizedBox(height: 50.0)
+                            ],
+                          );
+                        }
+                      )
                     )
                   ],
                 );
@@ -149,6 +173,103 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             );
           }
         ),
+      ),
+    );
+  }
+}
+
+class SearchMovieForm extends StatelessWidget {
+
+  final MovieModel movie;
+
+  SearchMovieForm({@required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Material(
+      elevation: 5.0,
+      child: Stack(
+        overflow: Overflow.visible,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width*0.7,
+            height: 150,
+          ),
+          Positioned(
+            left: 10.0,
+            child: movie.image.isNotEmpty 
+              ? CachedNetworkImage(
+                imageUrl: movie.image,
+                placeholder: (_,__) {
+                  return Container(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    ),
+                  );
+                },
+                errorWidget: (_,__,___) => Container(child:Icon(Icons.error)),
+              )
+              : Container(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text('이미지 없음')
+              ),
+          ),
+          Positioned(
+            right: 0.0,
+            height: 150.0,
+            width: MediaQuery.of(context).size.width*0.4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 10.0),
+                Text(
+                  movie.title,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  movie.director,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  movie.actor,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  movie.pubDate,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            )
+          )
+        ],
       ),
     );
   }

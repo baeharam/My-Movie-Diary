@@ -32,7 +32,8 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
     }
 
     if(event is SearchEventTextChanged) {
-      print(event.text);
+      yield SearchState.movieFetched(movieList: 
+        await _api.getMovieList(movieTitle: event.text));
     }
   }
 }

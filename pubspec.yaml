@@ -32,6 +32,8 @@ dependencies:
   keyboard_visibility: any
   http: ^0.12.0+1
   flutter_bloc: ^0.9.0
+  html: ^0.13.4+1
+  cached_network_image: ^0.7.0
 
 dev_dependencies:
   flutter_test:

@@ -9,7 +9,10 @@ const int loginButtonDuration = 1500;
 const double loginBeginInterval = 0.0;
 const double loginEndInterval = 0.250;
 
-const String naverMovieSearchUrl = 'https://openapi.naver.com/v1/search/movie.json';
+const String naverMovieHosthUrl = 'openapi.naver.com';
+const String naverMovieAPIUrl = '/v1/search/movie.json';
+const String naverAPIClientID = 'of6amSIPekcLSUPuzL9x';
+const String naverAPIClientSecret = '7aBjhtIGe8';
 
 const TextStyle searchScreenTextStyle = TextStyle(
   color: Colors.white,
