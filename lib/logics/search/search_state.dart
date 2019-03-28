@@ -10,13 +10,19 @@ class SearchState {
   final bool isMovieDataFetched;
   final List<MovieModel> movieList;
 
+  final bool isMovieClicked;
+  final MovieModel clickedMovie;
+
   SearchState({
     this.isInitial: false,
     this.isKeyboardOn: false,
     this.isKeyboardOff: false,
 
     this.isMovieDataFetched: false,
-    this.movieList: const []
+    this.movieList: const [],
+
+    this.isMovieClicked: false,
+    this.clickedMovie
   });
 
   factory SearchState.initial() => SearchState(isInitial: true);
@@ -27,6 +33,13 @@ class SearchState {
     return SearchState(
       isMovieDataFetched: true,
       movieList: movieList
+    );
+  }
+
+  factory SearchState.movieClicked({@required MovieModel movie}) {
+    return SearchState(
+      isMovieClicked: true,
+      clickedMovie: movie
     );
   }
 }

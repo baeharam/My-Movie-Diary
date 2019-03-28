@@ -4,7 +4,10 @@ class FadeInScaffold extends StatefulWidget {
 
   final Widget body;
 
-  FadeInScaffold({@required this.body});
+  const FadeInScaffold({
+    Key key,
+    @required this.body
+  }) : super(key: key);
 
   @override
   _FadeInScaffoldState createState() => _FadeInScaffoldState();

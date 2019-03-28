@@ -18,6 +18,7 @@ class LoginButton extends StatelessWidget {
 
 
   LoginButton({
+    Key key,
     @required this.loginAnimationController,
     @required this.loginAnimation,
     @required this.image,
@@ -25,7 +26,7 @@ class LoginButton extends StatelessWidget {
     @required this.textColor,
     @required this.message,
     @required this.introBloc
-  });
+  }) : super(key: key);
 
   Future<void> _playAnimation({@required AnimationController controller}) async{
     try {

@@ -1,14 +1,14 @@
 import 'package:meta/meta.dart';
 
 class MovieModel {
-  String image;
-  String title;
-  String pubDate;
-  String director;
-  String actor;
-  String userRating;
+  final String image;
+  final String title;
+  final String pubDate;
+  final String director;
+  final String actor;
+  final String userRating;
 
-  MovieModel({
+  const MovieModel({
     @required this.image,
     @required this.title,
     @required this.director,

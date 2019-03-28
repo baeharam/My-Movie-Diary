@@ -6,9 +6,10 @@ class HomeButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   HomeButton({
+    Key key,
     @required this.title,
     @required this.onPressed
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
