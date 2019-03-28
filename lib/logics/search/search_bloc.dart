@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:mymovie/models/movie_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'search.dart';
 
@@ -32,12 +33,23 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
     }
 
     if(event is SearchEventTextChanged) {
-      yield SearchState.movieFetched(movieList: 
-        await _api.getMovieList(movieTitle: event.text));
+      try {
+        List<MovieModel> movieList = await _api.getMovieList(movieTitle: event.text);
+        yield SearchState.movieAPICallSucceeded(movieList: movieList);
+      } catch(exception) {
+        print('영화 API 호출 실패: ${exception.toString()}');
+        yield SearchState.movieAPICallFailed();
+      }
     }
 
     if(event is SearchEventMovieClick) {
-      _api.getMoreInfoOfMovie(movie: event.movie);
+      try {
+        MovieModel movie = await _api.getMoreInfoOfMovie(movie: event.movie);
+        yield SearchState.movieCrawlSucceeded(movie: movie);
+      } catch(exception) {
+        print('영화 크롤링 실패: ${exception.toString()}');
+        yield SearchState.movieCrawlFailed();
+      }
     }
   }
 }

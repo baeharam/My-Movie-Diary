@@ -8,6 +8,12 @@ class BlocNavigator {
     });
   }
 
+  static void push(BuildContext context, MaterialPageRoute route) {
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Navigator.of(context).push(route);
+    });
+  }
+
   static void pushNamed(BuildContext context, String pageName) {
     WidgetsBinding.instance.addPostFrameCallback((_){
       Navigator.of(context).pushNamed(pageName);

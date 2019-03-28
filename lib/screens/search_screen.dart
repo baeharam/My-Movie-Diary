@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/screens/movie_screen.dart';
+import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/widgets/fadein_scaffold.dart';
 import 'package:mymovie/widgets/search_movie_form.dart';
@@ -94,8 +96,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               _searchAnimationController.reverse();
               _textEditingController.clear();
             }
-            if(state.isMovieDataFetched) {
+            if(state.isMovieAPICallSucceeded) {
               _movieList = state.movieList;
+            }
+            if(state.isMovieCrawlSucceeded) {
+              BlocNavigator.push(context, 
+                MaterialPageRoute(builder: (_)=>MovieScreen(movie: state.clickedMovie)));
             }
             return AnimatedBuilder(
               animation: _liftUpAnimation,

@@ -7,10 +7,14 @@ class SearchState {
   final bool isKeyboardOn;
   final bool isKeyboardOff;
 
-  final bool isMovieDataFetched;
+  final bool isMovieAPICallLoading;
+  final bool isMovieAPICallSucceeded;
+  final bool isMovieAPICallFailed;
   final List<MovieModel> movieList;
 
-  final bool isMovieClicked;
+  final bool isMovieCrawlLoading;
+  final bool isMovieCrawlSucceeded;
+  final bool isMOvieCrawlFailed;
   final MovieModel clickedMovie;
 
   SearchState({
@@ -18,10 +22,14 @@ class SearchState {
     this.isKeyboardOn: false,
     this.isKeyboardOff: false,
 
-    this.isMovieDataFetched: false,
+    this.isMovieAPICallLoading: false,
+    this.isMovieAPICallSucceeded: false,
+    this.isMovieAPICallFailed: false,
     this.movieList: const [],
 
-    this.isMovieClicked: false,
+    this.isMovieCrawlLoading: false,
+    this.isMovieCrawlSucceeded: false,
+    this.isMOvieCrawlFailed: false,
     this.clickedMovie
   });
 
@@ -29,17 +37,21 @@ class SearchState {
   factory SearchState.keyboardOn() => SearchState(isKeyboardOn: true);
   factory SearchState.keyboardOff() => SearchState(isKeyboardOff: true);
 
-  factory SearchState.movieFetched({@required List<MovieModel> movieList}) {
+  factory SearchState.movieAPICallLoading() => SearchState(isMovieAPICallLoading: true);
+  factory SearchState.movieAPICallSucceeded({@required List<MovieModel> movieList}) {
     return SearchState(
-      isMovieDataFetched: true,
+      isMovieAPICallSucceeded: true,
       movieList: movieList
     );
   }
+  factory SearchState.movieAPICallFailed() => SearchState(isMovieAPICallFailed: true);
 
-  factory SearchState.movieClicked({@required MovieModel movie}) {
+  factory SearchState.movieCrawlLoading() => SearchState(isMovieCrawlLoading: true);
+  factory SearchState.movieCrawlSucceeded({@required MovieModel movie}) {
     return SearchState(
-      isMovieClicked: true,
+      isMovieCrawlSucceeded: true,
       clickedMovie: movie
     );
   }
+  factory SearchState.movieCrawlFailed() => SearchState(isMOvieCrawlFailed: true);
 }

@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 class MovieModel {
   final String link;
   final String movieCode;
