@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymovie/resources/constants.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart';
 
@@ -22,6 +21,7 @@ class SearchAPI {
       });
 
       Map jsonData = json.decode(response.body);
+      print(jsonData);
       List<MovieModel> movieList = List<MovieModel>();
       for(Map movieData in jsonData['items']) {
         movieList.add(MovieModel.fromJson(movieData));
@@ -29,6 +29,30 @@ class SearchAPI {
       return movieList;
     }
     return [];
+  }
+
+  Future<MovieModel> getMoreInfoOfMovie({@required MovieModel movie}) async {
+    http.Response mainPageResponse = await http.get(movie.link);
+    http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
+
+    movie.description = _getMovieDescription(mainPageResponse);
+    movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
+
+    print(movie.toString());
+
+    return movie;
+  }
+
+  String _getMovieDescription(http.Response response) {
+    Document document = parser.parse(response.body);
+    var description = document.getElementsByClassName(movieDescriptionClass);
+    return description[0].text;
+  }
+
+  String _getRealPhoto(http.Response response) {
+    Document document = parser.parse(response.body);
+    var image = document.getElementsByTagName('img');
+    return image[0].attributes['src'];
   }
 
 

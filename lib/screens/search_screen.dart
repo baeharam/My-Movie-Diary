@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
-import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/widgets/fadein_scaffold.dart';
 import 'package:mymovie/widgets/search_movie_form.dart';
@@ -18,6 +17,11 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   final SearchBloc _searchBloc = sl.get<SearchBloc>(); 
   final TextEditingController _textEditingController =TextEditingController();
   final KeyboardVisibilityNotification _keyboardVisibility =KeyboardVisibilityNotification();
+  static const TextStyle searchScreenTextStyle = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    fontSize: 25.0,
+  );
 
 
   int _subscriber;
@@ -158,7 +162,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         itemBuilder: (_, index) {
                           return Column(
                             children: <Widget>[
-                              SearchMovieForm(movie: _movieList[index]),
+                              SearchMovieForm(
+                                movie: _movieList[index],
+                                searchBloc: _searchBloc,
+                              ),
                               SizedBox(height: 50.0)
                             ],
                           );

@@ -38,15 +38,15 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
 
   void _kakaoInitialization() {
     _kakaoController = AnimationController(
-      duration: const Duration(milliseconds: loginButtonDuration),
+      duration: const Duration(milliseconds: 1500),
       vsync: this
     );
     _kakaoAnimation = Tween(
-      begin: loginButtonBeginWidth,
-      end: loginButtonEndWidth
+      begin: 300,
+      end: 70.0
     ).animate(CurvedAnimation(
       parent: _kakaoController,
-      curve: Interval(loginBeginInterval,loginEndInterval)
+      curve: Interval(0.0,0.250)
     ));
     _kakaoController.addListener(() {
       if(_kakaoController.isCompleted) {
@@ -57,15 +57,15 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
 
   void _googleInitialization() {
     _googleController = AnimationController(
-      duration: const Duration(milliseconds: loginButtonDuration),
+      duration: const Duration(milliseconds: 1500),
       vsync: this
     );
     _googleAnimation = Tween(
-      begin: loginButtonBeginWidth,
-      end: loginButtonEndWidth
+      begin: 300.0,
+      end: 70.0
     ).animate(CurvedAnimation(
       parent: _googleController,
-      curve: Interval(loginBeginInterval,loginEndInterval)
+      curve: Interval(0.0,0.250)
     ));
     _googleController.addListener(() {
       if(_googleController.isCompleted) {
@@ -81,7 +81,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
     );
     _backgroundImageAnimation = IntTween(
       begin: 0,
-      end: backgroundImageList.length-1
+      end: introBackgroundImageList.length-1
     ).animate(CurvedAnimation(
       parent: _backgroundImageController,
       curve: Curves.linearToEaseOut
@@ -101,7 +101,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(backgroundImageList[_backgroundImageAnimation.value]),
+                image: AssetImage(introBackgroundImageList[_backgroundImageAnimation.value]),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
               ),
