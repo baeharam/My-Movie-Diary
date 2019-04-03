@@ -21,7 +21,6 @@ class SearchAPI {
       });
 
       Map jsonData = json.decode(response.body);
-      print(jsonData);
       List<MovieModel> movieList = List<MovieModel>();
       for(Map movieData in jsonData['items']) {
         movieList.add(MovieModel.fromJson(movieData));
@@ -34,11 +33,11 @@ class SearchAPI {
   Future<MovieModel> getMoreInfoOfMovie({@required MovieModel movie}) async {
     http.Response mainPageResponse = await http.get(movie.link);
     http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
+    http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');
 
     movie.description = _getMovieDescription(mainPageResponse);
     movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
-
-    print(movie.toString());
+    movie.subImages = _getSubPhotos(subPhotosResponse);
 
     return movie;
   }
@@ -46,13 +45,24 @@ class SearchAPI {
   String _getMovieDescription(http.Response response) {
     Document document = parser.parse(response.body);
     var description = document.getElementsByClassName(movieDescriptionClass);
-    return description[0].text;
+    return description.isNotEmpty ? description[0].text.replaceAll(RegExp(r"\s\s+"), ' ') : '';
   }
 
   String _getRealPhoto(http.Response response) {
     Document document = parser.parse(response.body);
     var image = document.getElementsByTagName('img');
-    return image[0].attributes['src'];
+    return image.isNotEmpty ? image[0].attributes['src']: '';
+  }
+
+  List<String> _getSubPhotos(http.Response response) {
+    Document document = parser.parse(response.body);
+    List<Element> subPhotoElements = document.getElementsByClassName(movieSubPhotosClass);
+    List<String> subImages = [];
+    subPhotoElements[0].getElementsByTagName('img').forEach((element){
+      subImages.add(element.attributes['src'].split('?')[0]);
+    });
+    print(subImages[0]);
+    return subImages;
   }
 
 

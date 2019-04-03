@@ -33,17 +33,20 @@ class SearchMovieForm extends StatelessWidget {
             Positioned(
               left: 10.0,
               child: movie.thumbnail.isNotEmpty 
-                ? CachedNetworkImage(
-                  imageUrl: movie.thumbnail,
-                  placeholder: (_,__) {
-                    return Container(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                      ),
-                    );
-                  },
-                  errorWidget: (_,__,___) => Container(child:Icon(Icons.error)),
+                ? Hero(
+                    tag: movie.movieCode,
+                    child: CachedNetworkImage(
+                    imageUrl: movie.thumbnail,
+                    placeholder: (_,__) {
+                      return Container(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        ),
+                      );
+                    },
+                    errorWidget: (_,__,___) => Container(child:Icon(Icons.error)),
+                  )
                 )
                 : Container(
                   padding: const EdgeInsets.only(left: 20.0),

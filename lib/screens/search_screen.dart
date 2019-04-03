@@ -100,6 +100,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               _movieList = state.movieList;
             }
             if(state.isMovieCrawlSucceeded) {
+              _searchBloc.dispatch(SearchEventStateClear());
               BlocNavigator.push(context, 
                 MaterialPageRoute(builder: (_)=>MovieScreen(movie: state.clickedMovie)));
             }
@@ -168,9 +169,25 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         itemBuilder: (_, index) {
                           return Column(
                             children: <Widget>[
-                              SearchMovieForm(
-                                movie: _movieList[index],
-                                searchBloc: _searchBloc,
+                              BlocBuilder(
+                                bloc: _searchBloc,
+                                builder: (context,SearchState state){
+                                  if(state.isMovieCrawlLoading && 
+                                    _movieList[index].movieCode==state.clickedMovieCode) {
+                                    return Container(
+                                      height: 100.0,
+                                      alignment: Alignment.center,
+                                      margin: const EdgeInsets.all(30.0),
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                                      )
+                                    );
+                                  }
+                                  return SearchMovieForm(
+                                    movie: _movieList[index],
+                                    searchBloc: _searchBloc,
+                                  );
+                                }
                               ),
                               SizedBox(height: 50.0)
                             ],

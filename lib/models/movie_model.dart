@@ -30,7 +30,8 @@ class MovieModel {
   factory MovieModel.fromJson(Map<String,dynamic> json) {
     String movieTitle = (json['title'] as String)
       .replaceAll('<b>', '')
-      .replaceAll('</b>', '');
+      .replaceAll('</b>', '')
+      .replaceAll('&amp;', '&');
     String movieDirector = (json['director'] as String)
       .split('|')[0];
     String movieActor = (json['actor'] as String)

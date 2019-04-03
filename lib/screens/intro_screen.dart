@@ -42,7 +42,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
       vsync: this
     );
     _kakaoAnimation = Tween(
-      begin: 300,
+      begin: 300.0,
       end: 70.0
     ).animate(CurvedAnimation(
       parent: _kakaoController,

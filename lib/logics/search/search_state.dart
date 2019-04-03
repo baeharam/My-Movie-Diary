@@ -15,6 +15,8 @@ class SearchState {
   final bool isMovieCrawlLoading;
   final bool isMovieCrawlSucceeded;
   final bool isMOvieCrawlFailed;
+  
+  final String clickedMovieCode;
   final MovieModel clickedMovie;
 
   SearchState({
@@ -30,6 +32,8 @@ class SearchState {
     this.isMovieCrawlLoading: false,
     this.isMovieCrawlSucceeded: false,
     this.isMOvieCrawlFailed: false,
+
+    this.clickedMovieCode: '',
     this.clickedMovie
   });
 
@@ -46,7 +50,12 @@ class SearchState {
   }
   factory SearchState.movieAPICallFailed() => SearchState(isMovieAPICallFailed: true);
 
-  factory SearchState.movieCrawlLoading() => SearchState(isMovieCrawlLoading: true);
+  factory SearchState.movieCrawlLoading({@required String movieCode}) {
+    return SearchState(
+      isMovieCrawlLoading: true,
+      clickedMovieCode: movieCode
+    );
+  }
   factory SearchState.movieCrawlSucceeded({@required MovieModel movie}) {
     return SearchState(
       isMovieCrawlSucceeded: true,

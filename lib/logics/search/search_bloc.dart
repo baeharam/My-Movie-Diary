@@ -25,6 +25,11 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
 
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async*{
+
+    if(event is SearchEventStateClear) {
+      yield SearchState();
+    }
+
     if(event is SearchEventKeyboardOn) {
       yield SearchState.keyboardOn();
     }
@@ -44,6 +49,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
 
     if(event is SearchEventMovieClick) {
       try {
+        yield SearchState.movieCrawlLoading(movieCode: event.movie.movieCode);
         MovieModel movie = await _api.getMoreInfoOfMovie(movie: event.movie);
         yield SearchState.movieCrawlSucceeded(movie: movie);
       } catch(exception) {
