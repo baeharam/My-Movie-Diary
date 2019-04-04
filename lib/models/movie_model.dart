@@ -44,7 +44,9 @@ class MovieModel {
       .replaceAll('</b>', '')
       .replaceAll('&amp;', '&');
     String movieDirector = (json['director'] as String)
-      .split('|')[0];
+      .split('|')[0]
+      .replaceAll('<b>', '')
+      .replaceAll('</b>', '');
     String movieActor = (json['actor'] as String)
       .split('|')[0];
     String movieCode = (json['link'] as String)

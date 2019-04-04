@@ -18,7 +18,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
     });
     final Observable<SearchEvent> debounceStream = originalStream.where((event){
       return (event is SearchEventTextChanged);
-    }).debounce(const Duration(milliseconds: 500));
+    }).debounce(const Duration(milliseconds: 300));
     
     return nonDebounceStream.mergeWith([debounceStream]);
   }
