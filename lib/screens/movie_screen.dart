@@ -1,15 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/strings.dart';
-import 'package:mymovie/widgets/custom_progress_indicator.dart';
+import 'package:mymovie/screens/sub/movie_actor_list.dart';
+import 'package:mymovie/screens/sub/movie_main_photo.dart';
+import 'package:mymovie/screens/sub/movie_stillcut_list.dart';
 import 'package:mymovie/widgets/white_line.dart';
 
 class MovieScreen extends StatefulWidget {
 
   final MovieModel movie;
 
-  MovieScreen({@required this.movie});
+  const MovieScreen({Key key, @required this.movie}) : super(key: key);
 
   @override
   _MovieScreenState createState() => _MovieScreenState();
@@ -25,31 +26,7 @@ class _MovieScreenState extends State<MovieScreen> {
           height: MediaQuery.of(context).size.height*3,
           child: Column(
             children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Hero(
-                    tag: widget.movie.movieCode,
-                    child: CachedNetworkImage(
-                      imageUrl: widget.movie.realPhoto,
-                      placeholder: (_,__) => CustomProgressIndicator(color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height*0.9,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black
-                        ]
-                      )
-                    ),
-                  )
-                ]
-              ),
+              MovieMainPhoto(movie: widget.movie),
               MovieSectionTitle(title: widget.movie.title),
               Container(
                 color: Colors.black,
@@ -81,60 +58,15 @@ class _MovieScreenState extends State<MovieScreen> {
               SizedBox(height: 20.0),
               WhiteLine(),
               SizedBox(height: 20.0),
+              MovieSectionTitle(title: movieScreenActor),
+              MovieActorList(actors: widget.movie.actors),
+              SizedBox(height: 20.0),
+              WhiteLine(),
+              SizedBox(height: 20.0),
               MovieSectionTitle(title: movieScreenPhoto),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: widget.movie.subImages.length,
-                  itemBuilder: (context, index){
-                    return Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      child: GestureDetector(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => MoviePhotoViewer(imageUrl: widget.movie.subImages[index])
-                        )),
-                        child: Hero(
-                          tag: widget.movie.subImages[index],
-                          child: CachedNetworkImage(
-                            imageUrl: widget.movie.subImages[index],
-                            placeholder: (_,__) => Container(
-                              margin: EdgeInsets.all(50.0),
-                              child: CustomProgressIndicator(color: Colors.white)
-                            ),
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                ),
-              )
+              MovieStillCutList(movie: widget.movie)
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class MoviePhotoViewer extends StatelessWidget {
-
-  final String imageUrl;
-
-  MoviePhotoViewer({@required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      alignment: Alignment.center,
-      child: Hero(
-        tag: imageUrl,
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
         ),
       ),
     );
@@ -144,7 +76,7 @@ class MoviePhotoViewer extends StatelessWidget {
 class MovieSectionTitle extends StatelessWidget {
 
   final String title;
-  MovieSectionTitle({@required this.title});
+  const MovieSectionTitle({Key key, @required this.title}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

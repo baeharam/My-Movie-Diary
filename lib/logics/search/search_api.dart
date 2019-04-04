@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
+import 'package:mymovie/models/actor_model.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymovie/resources/constants.dart';
@@ -34,10 +35,13 @@ class SearchAPI {
     http.Response mainPageResponse = await http.get(movie.link);
     http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
     http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');
+    http.Response actorResponse = await http.get(movieActorUrl+movie.movieCode);
 
     movie.description = _getMovieDescription(mainPageResponse);
     movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
     movie.subImages = _getSubPhotos(subPhotosResponse);
+    movie.actors = _getActors(actorResponse);
+    
 
     return movie;
   }
@@ -61,18 +65,16 @@ class SearchAPI {
     subPhotoElements[0].getElementsByTagName('img').forEach((element){
       subImages.add(element.attributes['src'].split('?')[0]);
     });
-    print(subImages[0]);
     return subImages;
   }
 
-
-  // Future<void> getMovieInfo(String movieTitle) async {
-  //   String moviePageUrl = jsonData['items'][1]['link'];
-
-
-  //   http.Response response2 = await http.get(moviePageUrl);
-  //   Document parsingHtml = parser.parse(response2.body);
-  //   var description =parsingHtml.getElementsByClassName('con_tx');
-  //   print(description[0].text);
-  // }
+  List<ActorModel> _getActors(http.Response response) {
+    Document document = parser.parse(response.body);
+    List<Element> actorElements = document.getElementsByClassName(movieActorAreaClass)[0].children;
+    List<ActorModel> actors = List<ActorModel>();
+    for(Element actorElement in actorElements) {
+      actors.add(ActorModel.fromElement(actorElement));
+    }
+    return actors;
+  }
 }

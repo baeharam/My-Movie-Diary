@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+import 'package:mymovie/models/actor_model.dart';
+
 class MovieModel {
   final String link;
   final String movieCode;
@@ -11,21 +14,29 @@ class MovieModel {
   String description;
   String realPhoto;
   List<String> subImages;
+  List<ActorModel> actors;
 
   MovieModel._({
-    this.link,
-    this.movieCode,
-    this.thumbnail,
-    this.title,
-    this.director,
-    this.actor,
-    this.userRating,
-    this.pubDate,
+    @required this.link,
+    @required this.movieCode,
+    @required this.thumbnail,
+    @required this.title,
+    @required this.director,
+    @required this.actor,
+    @required this.userRating,
+    @required this.pubDate,
 
     this.description,
     this.realPhoto,
-    this.subImages
-  });
+    this.subImages,
+    this.actors
+  }) : assert(link!=null && link.isNotEmpty),
+       assert(movieCode!=null && movieCode.isNotEmpty),
+       assert(thumbnail!=null && thumbnail.isNotEmpty),
+       assert(title!=null && title.isNotEmpty),
+       assert(director!=null && director.isNotEmpty),
+       assert(actor!=null && actor.isNotEmpty),
+       assert(userRating!=null && userRating.isNotEmpty);
 
   factory MovieModel.fromJson(Map<String,dynamic> json) {
     String movieTitle = (json['title'] as String)

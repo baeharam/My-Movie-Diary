@@ -10,7 +10,8 @@ const String movieDescriptionClass = 'con_tx';
 const String movieRealPhotoUrl = 'https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=';
 const String movieSubPhotosUrl = 'https://movie.naver.com/movie/bi/mi/photo.nhn?code=';
 const String movieSubPhotosClass = 'gallery_group';
-
+const String movieActorUrl = 'https://movie.naver.com/movie/bi/mi/detail.nhn?code=';
+const String movieActorAreaClass = ':lst_people > li';
 
 // Intro Screen
 const List introBackgroundImageList = [
