@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mymovie/resources/strings.dart';
+import 'package:mymovie/screens/sub/home_button.dart';
 import 'package:mymovie/utils/typewriter.dart';
-import 'package:mymovie/widgets/home_button.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

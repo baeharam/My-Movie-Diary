@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymovie/resources/routes.dart';
-import 'package:mymovie/screens/intro_screen.dart';
+import 'package:mymovie/screens/main/intro_screen.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
 void main() {

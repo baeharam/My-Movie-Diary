@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/resources/constants.dart';
+import 'package:mymovie/screens/sub/intro_login_button.dart';
 import 'package:mymovie/utils/service_locator.dart';
-import 'package:mymovie/widgets/intro_login_button.dart';
 
 class IntroScreen extends StatefulWidget{
 

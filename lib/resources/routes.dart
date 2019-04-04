@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymovie/resources/strings.dart';
-import 'package:mymovie/screens/screens.dart';
+import 'package:mymovie/screens/main/screens.dart';
 
 // Routes
 final Map<String, WidgetBuilder> routes =  {
