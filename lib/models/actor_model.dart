@@ -1,4 +1,6 @@
 import 'package:html/dom.dart';
+import 'package:mymovie/resources/constants.dart';
+import 'package:mymovie/resources/strings.dart';
 
 class ActorModel {
   String name;
@@ -13,29 +15,30 @@ class ActorModel {
     this.level,
     this.role,
     this.philmography
-  }) : assert(name!=null && name.isNotEmpty),
-       assert(thumbnail!=null && thumbnail.isNotEmpty),
+  }) : assert(name!=null),
+       assert(thumbnail!=null),
        assert(level!=null),
-       assert(role!=null && role.isNotEmpty),
-       assert(philmography!=null && philmography.isNotEmpty);
+       assert(role!=null),
+       assert(philmography!=null);
 
   factory ActorModel.fromElement(Element element) {
     String thumbnail = element
-      .getElementsByClassName('p_thumb')[0]
-      .getElementsByTagName('a')[0]
-      .getElementsByTagName('img')[0].attributes['src'];
+      .getElementsByClassName(movieActorThumbnailClass)[0]
+      .getElementsByTagName(aTag)[0]
+      .getElementsByTagName(imgTag)[0].attributes[srcAttributes];
     String name = element
-      .getElementsByClassName('p_info')[0]
-      .getElementsByTagName('a')[0].attributes['title'];
+      .getElementsByClassName(movieActorInfoClass)[0]
+      .getElementsByTagName(aTag)[0].attributes[titleAttributes];
     ACTOR_LEVEL level = element
-      .getElementsByClassName('p_info')[0]
-      .getElementsByClassName('p_part')[0].text=='주연' ? 
+      .getElementsByClassName(movieActorInfoClass)[0]
+      .getElementsByClassName(movieActorPartClass)[0].text==mainActor ? 
       ACTOR_LEVEL.LEADING : ACTOR_LEVEL.SUPPORTING;
-    String role = element
-      .getElementsByClassName('pe_cmt')[0]
-      .getElementsByTagName('span')[0].text;
+
+    List<Element> roleElementList = element.getElementsByClassName(movieActorRoleClass);
+    String role = roleElementList.isEmpty ? '' : roleElementList[0].getElementsByTagName(spanTag)[0].text;
     List<String> philmography = List<String>();
-    for(Element product in element.getElementsByClassName('mv_product')[0].getElementsByTagName('a')) {
+    for(Element product in element.getElementsByClassName(movieActorPhilmographyClass)[0]
+        .getElementsByTagName(aTag)) {
       philmography.add(product.text);
     }
 

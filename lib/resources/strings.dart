@@ -11,3 +11,6 @@ const String movieScreenPhoto = '스틸컷';
 // Database
 const String dbName = 'movie_db';
 const String movieTable = 'movie_table';
+
+// ETC
+const String mainActor = '주연';

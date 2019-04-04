@@ -30,13 +30,13 @@ class MovieModel {
     this.realPhoto,
     this.subImages,
     this.actors
-  }) : assert(link!=null && link.isNotEmpty),
-       assert(movieCode!=null && movieCode.isNotEmpty),
-       assert(thumbnail!=null && thumbnail.isNotEmpty),
-       assert(title!=null && title.isNotEmpty),
-       assert(director!=null && director.isNotEmpty),
-       assert(actor!=null && actor.isNotEmpty),
-       assert(userRating!=null && userRating.isNotEmpty);
+  }) : assert(link!=null),
+       assert(movieCode!=null),
+       assert(thumbnail!=null),
+       assert(title!=null),
+       assert(director!=null),
+       assert(actor!=null),
+       assert(userRating!=null);
 
   factory MovieModel.fromJson(Map<String,dynamic> json) {
     String movieTitle = (json['title'] as String)

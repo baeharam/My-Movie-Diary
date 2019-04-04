@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/widgets/custom_progress_indicator.dart';
 
-/// [영화의 스틸컷 제공]
 class MovieStillCutList extends StatelessWidget {
+  /// [영화의 스틸컷 제공]
 
   final MovieModel movie;
 
