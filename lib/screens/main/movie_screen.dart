@@ -24,7 +24,7 @@ class _MovieScreenState extends State<MovieScreen> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.black,
-          height: MediaQuery.of(context).size.height*3,
+          height: MediaQuery.of(context).size.height*2.5,
           child: Column(
             children: [
               MovieMainPhoto(movie: widget.movie),
@@ -45,16 +45,23 @@ class _MovieScreenState extends State<MovieScreen> {
               SizedBox(height: 20.0),
               WhiteLine(),
               MovieSectionTitle(title: movieScreenSynopsis),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                color: Colors.black,
-                child: Text(
-                  widget.movie.description,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    height: 1.3
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => MovieMoreDescription(description: widget.movie.description)
+                )),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  color: Colors.black,
+                  child: Text(
+                    widget.movie.description,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      height: 1.3
+                    ),
+                    maxLines: 7,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
@@ -69,6 +76,35 @@ class _MovieScreenState extends State<MovieScreen> {
               MovieSectionTitle(title: movieScreenPhoto),
               MovieStillCutList(movie: widget.movie)
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MovieMoreDescription extends StatelessWidget {
+
+  final String description;
+
+  const MovieMoreDescription({Key key, @required this.description}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.only(top: 50.0,left: 10.0,right: 10.0),
+          alignment: Alignment.center,
+          color: Colors.black,
+          child: Text(
+            description,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+              height: 1.5
+            ),
           ),
         ),
       ),
