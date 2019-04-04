@@ -44,7 +44,7 @@ class _MovieScreenState extends State<MovieScreen> {
               MovieUserRating(movie: widget.movie),
               SizedBox(height: 20.0),
               WhiteLine(),
-              MovieSectionTitle(title: movieScreenSynopsis),
+              MovieSectionTitle(title: stringMovieSynopsis),
               GestureDetector(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => MovieMoreDescription(description: widget.movie.description)
@@ -68,12 +68,12 @@ class _MovieScreenState extends State<MovieScreen> {
               SizedBox(height: 20.0),
               WhiteLine(),
               SizedBox(height: 20.0),
-              MovieSectionTitle(title: movieScreenActor),
+              MovieSectionTitle(title: stringMovieActor),
               MovieActorList(actors: widget.movie.actors),
               SizedBox(height: 20.0),
               WhiteLine(),
               SizedBox(height: 20.0),
-              MovieSectionTitle(title: movieScreenPhoto),
+              MovieSectionTitle(title: stringMovieStillCut),
               MovieStillCutList(movie: widget.movie)
             ],
           ),

@@ -30,6 +30,9 @@ const String movieActorRoleClass = 'pe_cmt';
 const String movieActorPhilmographyClass = 'mv_product';
 
 // Intro Screen
+const String kakaoImage = 'assets/images/kakao.png';
+const String googleImage = 'assets/images/google.png';
+
 const List introBackgroundImageList = [
   'assets/images/ironman.jpg',
   'assets/images/spiderman.jpg',

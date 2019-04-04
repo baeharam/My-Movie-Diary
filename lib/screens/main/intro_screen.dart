@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/resources/constants.dart';
+import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/intro_login_button.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
@@ -132,13 +133,13 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                     loginAnimation: _kakaoAnimation,
                     loginAnimationController: _kakaoController,
                     image: Image(
-                      image: AssetImage('assets/images/kakao.png'),
+                      image: AssetImage(kakaoImage),
                       width: 50.0,
                       height: 50.0,
                     ),
                     buttonColor: Colors.yellow,
                     textColor: Colors.brown,
-                    message: '카카오톡으로 로그인',
+                    message: stringLoginKakao,
                     introBloc: _introBloc,
                   ),
                   SizedBox(height: 20.0),
@@ -146,13 +147,13 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                     loginAnimation: _googleAnimation,
                     loginAnimationController: _googleController,
                     image: Image(
-                      image: AssetImage('assets/images/google.png'),
+                      image: AssetImage(googleImage),
                       width: 50.0,
                       height: 30.0,
                     ),
                     buttonColor: Colors.white,
                     textColor: Colors.black,
-                    message: '구글계정으로 로그인',
+                    message: stringLoginGoogle,
                     introBloc: _introBloc,
                   )
                 ],
