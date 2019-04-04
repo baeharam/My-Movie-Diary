@@ -4,6 +4,7 @@ import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/movie_actor_list.dart';
 import 'package:mymovie/screens/sub/movie_main_photo.dart';
 import 'package:mymovie/screens/sub/movie_stillcut_list.dart';
+import 'package:mymovie/screens/sub/movie_user_rating.dart';
 import 'package:mymovie/widgets/white_line.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -39,6 +40,8 @@ class _MovieScreenState extends State<MovieScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 20.0),
+              MovieUserRating(movie: widget.movie),
               SizedBox(height: 20.0),
               WhiteLine(),
               MovieSectionTitle(title: movieScreenSynopsis),
