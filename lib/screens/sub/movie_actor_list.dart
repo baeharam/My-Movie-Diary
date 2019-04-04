@@ -24,6 +24,7 @@ class MovieActorList extends StatelessWidget {
         itemBuilder: (context, index) {
           return Container(
             height: 250.0,
+            width: 111.0,
             color: Colors.white,
             margin: const EdgeInsets.only(right: 20.0),
             child: Column(
@@ -31,7 +32,7 @@ class MovieActorList extends StatelessWidget {
                 CachedNetworkImage(
                   imageUrl: actors[index].thumbnail,
                   placeholder: (_,__) => Container(
-                    margin: const EdgeInsets.all(50.0),
+                    margin: const EdgeInsets.all(30.0),
                     child: CustomProgressIndicator(color: Colors.black),
                   ),
                 ),

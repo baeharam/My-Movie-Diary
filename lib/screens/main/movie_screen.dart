@@ -94,7 +94,8 @@ class MovieMoreDescription extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 50.0,left: 10.0,right: 10.0,bottom: 50.0),
+          height: MediaQuery.of(context).size.height*1.2,
+          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
           alignment: Alignment.center,
           color: Colors.black,
           child: Text(
