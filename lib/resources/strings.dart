@@ -11,6 +11,7 @@ const String stringLoginGoogle = '구글계정으로 로그인';
 const String stringMovieSynopsis = '줄거리';
 const String stringMovieActor = '배우';
 const String stringMovieStillCut = '스틸컷';
+const String stringMovieTrailer = '예고편';
 
 // Database
 const String dbName = 'movie_db';
