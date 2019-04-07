@@ -12,36 +12,34 @@ class MovieStillCutList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: movie.subImages.length,
-          itemBuilder: (context, index){
-            return Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: GestureDetector(
-                onTap: () => Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => MovieStillcutViewer(imageUrl: movie.subImages[index])
-                )),
-                child: Hero(
-                  tag: movie.subImages[index],
-                  child: CachedNetworkImage(
-                    imageUrl: movie.subImages[index],
-                    placeholder: (_,__) => Container(
-                      margin: EdgeInsets.all(50.0),
-                      child: CustomProgressIndicator(color: Colors.white)
-                    ),
-                    fit: BoxFit.contain,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height*0.35,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: movie.subImages.length,
+        itemBuilder: (context, index){
+          return Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(
+                builder: (context) => MovieStillcutViewer(imageUrl: movie.subImages[index])
+              )),
+              child: Hero(
+                tag: movie.subImages[index],
+                child: CachedNetworkImage(
+                  imageUrl: movie.subImages[index],
+                  placeholder: (_,__) => Container(
+                    margin: EdgeInsets.all(50.0),
+                    child: CustomProgressIndicator(color: Colors.white)
                   ),
                 ),
               ),
-            );
-          }
-        ),
+            ),
+          );
+        }
       ),
     );
   }
