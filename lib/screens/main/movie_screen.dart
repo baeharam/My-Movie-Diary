@@ -56,6 +56,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 )),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  height: MediaQuery.of(context).size.height*0.28,
                   color: Colors.black,
                   child: Text(
                     widget.movie.description,
