@@ -189,7 +189,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                                   );
                                 }
                               ),
-                              SizedBox(height: 50.0)
+                              SizedBox(height: 30.0)
                             ],
                           );
                         }
