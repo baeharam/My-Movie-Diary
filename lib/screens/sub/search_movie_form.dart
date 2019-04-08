@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/screens/sub/movie_user_rating.dart';
 
 class SearchMovieForm extends StatelessWidget {
 
@@ -22,16 +23,18 @@ class SearchMovieForm extends StatelessWidget {
       child: Material(
         elevation: 5.0,
         child: Stack(
-          overflow: Overflow.visible,
           alignment: Alignment.center,
           children: [
             Container(
-              color: Colors.white,
               width: MediaQuery.of(context).size.width*0.7,
               height: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.white
+              ),
             ),
             Positioned(
-              left: 10.0,
+              left: 0.0,
               child: movie.thumbnail.isNotEmpty 
                 ? Hero(
                     tag: movie.movieCode,
@@ -72,6 +75,8 @@ class SearchMovieForm extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  SizedBox(height: 10.0),
+                  MovieUserRating(movie: movie),
                   SizedBox(height: 10.0),
                   Text(
                     movie.director,
