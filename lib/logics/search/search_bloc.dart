@@ -5,7 +5,7 @@ import 'search.dart';
 
 class SearchBloc extends Bloc<SearchEvent,SearchState> {
 
-  static final _api = SearchAPI();
+  static final SearchAPI _api = SearchAPI();
   
   @override
   SearchState get initialState => SearchState.initial();

@@ -12,6 +12,7 @@ import 'package:html/dom.dart';
 
 class SearchAPI {
 
+
   Future<List<MovieModel>> getMovieList({@required String movieTitle}) async {
     debugPrint("Call getMovieList()");
 

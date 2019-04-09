@@ -4,7 +4,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/screens/main/movie_screen.dart';
-import 'package:mymovie/screens/sub/search_movie_form.dart';
+import 'package:mymovie/screens/sub/search_sub.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/widgets/fadein_scaffold.dart';
@@ -17,19 +17,12 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin{
 
   final SearchBloc _searchBloc = sl.get<SearchBloc>(); 
-  final TextEditingController _textEditingController =TextEditingController();
-  final KeyboardVisibilityNotification _keyboardVisibility =KeyboardVisibilityNotification();
-  static const TextStyle searchScreenTextStyle = TextStyle(
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-    fontSize: 25.0,
-  );
+  final TextEditingController _searchBarController =TextEditingController();
+  final KeyboardVisibilityNotification _keyboardVisibility = KeyboardVisibilityNotification();
 
-
-  int _subscriber;
+  int _keyboardSubscriber;
   AnimationController _searchAnimationController;
   Animation _liftUpAnimation,_fadeOutAnimation;
-
   List<MovieModel> _movieList = List<MovieModel>();
 
   @override
@@ -42,8 +35,8 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     _searchAnimationController.dispose();
-    _textEditingController.dispose();
-    _keyboardVisibility.removeListener(_subscriber);
+    _searchBarController.dispose();
+    _keyboardVisibility.removeListener(_keyboardSubscriber);
     super.dispose();
   }
 
@@ -65,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   }
 
   void _keyboardListenerInitialization() {
-    _subscriber = _keyboardVisibility.addNewListener(
+    _keyboardSubscriber = _keyboardVisibility.addNewListener(
       onChange: (state) {
         state 
         ? _searchBloc.dispatch(SearchEventKeyboardOn())
@@ -94,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             }
             if(state.isKeyboardOff && _movieList.isEmpty) {
               _searchAnimationController.reverse();
-              _textEditingController.clear();
+              _searchBarController.clear();
             }
             if(state.isMovieAPICallSucceeded) {
               _movieList = state.movieList;
@@ -110,90 +103,27 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                 return Column(
                   children: [
                     SizedBox(height: _liftUpAnimation.value),
-                    Opacity(
-                      opacity: _fadeOutAnimation.value,
-                      child: Container(
-                        width: double.infinity,
-                        height: _liftUpAnimation.value,
-                        child: _liftUpAnimation.value>80.0 ? Column(
-                          children: [
-                            Text(
-                              '일기를 작성하고자 하는',
-                              style: searchScreenTextStyle,
-                              textAlign: TextAlign.center
-                            ),
-                            SizedBox(height: 13.0),
-                            Text(
-                              '영화를 검색해주세요.',
-                              style: searchScreenTextStyle,
-                              textAlign: TextAlign.center
-                            )
-                          ],
-                        ) : Container(),
-                      )
+                    SearchMessage(
+                      fadeOutAnimation: _fadeOutAnimation,
+                      liftUpAnimation: _liftUpAnimation
                     ),
                     SizedBox(height: 100.0),
                     Column(
                       children: [
-                        Theme(
-                          data: Theme.of(context).copyWith(primaryColor: Colors.white),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width*0.9,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: '영화',
-                                labelStyle: Theme.of(context).textTheme
-                                  .caption.copyWith(color: Colors.white),
-                              ),
-                              controller: _textEditingController,
-                              autofocus: false,
-                              cursorColor: Colors.white,
-                              style: TextStyle(color: Colors.white),
-                              onChanged: (text) {
-                                _searchBloc.dispatch(SearchEventTextChanged(text: text));
-                              },
-                            ),
-                          ),
+                        SearchBar(
+                          searchBarController: _searchBarController,
+                          searchBloc: _searchBloc,
                         ),
                         Container(
                           height: 3.0,
                           width: MediaQuery.of(context).size.width*0.9,
                           color: Colors.white,
+                        ),
+                        SearchResultForm(
+                          movieList: _movieList,
+                          searchBloc: _searchBloc,
                         )
                       ],
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: _movieList.length,
-                        itemBuilder: (_, index) {
-                          return Column(
-                            children: <Widget>[
-                              BlocBuilder(
-                                bloc: _searchBloc,
-                                builder: (context,SearchState state){
-                                  if(state.isMovieCrawlLoading && 
-                                    _movieList[index].movieCode==state.clickedMovieCode) {
-                                    return Container(
-                                      height: 100.0,
-                                      alignment: Alignment.center,
-                                      margin: const EdgeInsets.all(30.0),
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                                      )
-                                    );
-                                  }
-                                  return SearchMovieForm(
-                                    movie: _movieList[index],
-                                    searchBloc: _searchBloc,
-                                  );
-                                }
-                              ),
-                              SizedBox(height: 30.0)
-                            ],
-                          );
-                        }
-                      )
                     )
                   ],
                 );
@@ -205,4 +135,3 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     );
   }
 }
-
