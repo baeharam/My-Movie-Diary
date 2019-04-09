@@ -50,7 +50,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   void _searchAnimationInitialization() {
     _searchAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500)
+      duration: const Duration(milliseconds: 300)
     );
     _liftUpAnimation = Tween(begin: 150.0,end: 0.0)
     .animate(CurvedAnimation(
