@@ -38,6 +38,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
     }
 
     if(event is SearchEventTextChanged) {
+      yield SearchState.movieAPICallLoading();
       try {
         List<MovieModel> movieList = await _api.getMovieList(movieTitle: event.text);
         yield SearchState.movieAPICallSucceeded(movieList: movieList);

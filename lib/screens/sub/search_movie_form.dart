@@ -22,6 +22,17 @@ class SearchMovieForm extends StatelessWidget {
     return BlocBuilder<SearchEvent,SearchState>(
       bloc: searchBloc,
       builder: (context, state){
+        if(state.isMovieCrawlLoading && 
+          movie.movieCode==state.clickedMovieCode) {
+          return Container(
+            height: 100.0,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.all(30.0),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+            )
+          );
+        }
         return GestureDetector(
           onTap: () =>
             (state.isMovieCrawlLoading && state.clickedMovieCode!=movie.movieCode)

@@ -118,12 +118,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                           height: 3.0,
                           width: MediaQuery.of(context).size.width*0.9,
                           color: Colors.white,
-                        ),
-                        SearchResultForm(
-                          movieList: _movieList,
-                          searchBloc: _searchBloc,
                         )
                       ],
+                    ),
+                    SearchResultForm(
+                      movieList: _movieList,
+                      searchBloc: _searchBloc,
                     )
                   ],
                 );

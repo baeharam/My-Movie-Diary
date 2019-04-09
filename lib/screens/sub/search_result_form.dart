@@ -17,38 +17,21 @@ class SearchResultForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocBuilder<SearchEvent,SearchState>(
-        bloc: searchBloc,
-        builder: (context, state){
-          if(state.isMovieAPICallLoading) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text(
-                '영화를 찾고 있습니다...',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0
-                ),
-              )
-            );
-          }
-          ListView.builder(
+
+    return BlocBuilder<SearchEvent,SearchState>(
+      bloc: searchBloc,
+      builder: (context,state){
+        if(state.isMovieAPICallLoading) {
+          return SearchProcessingMessage(message: '영화를 찾고 있습니다...');
+        }
+        if(state.isMovieAPICallSucceeded && movieList.isEmpty) {
+          return SearchProcessingMessage(message: '찾으시는 영화가 없습니다.');
+        }
+        return Expanded(
+          child: ListView.builder(
             scrollDirection: Axis.vertical,
             itemCount: movieList.length,
             itemBuilder: (_, index) {
-              if(state.isMovieCrawlLoading && 
-                movieList[index].movieCode==state.clickedMovieCode) {
-                return Container(
-                  height: 100.0,
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.all(30.0),
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.white),
-                  )
-                );
-              }
               return Column(
                 children: <Widget>[
                   SearchMovieForm(
@@ -59,8 +42,31 @@ class SearchResultForm extends StatelessWidget {
                 ],
               );
             }
-          );
-        }
+          ),
+        );
+      }
+    );
+  }
+}
+
+class SearchProcessingMessage extends StatelessWidget {
+
+  final String message;
+
+  const SearchProcessingMessage({Key key, @required this.message}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.only(top: 100.0),
+      child: Text(
+        message,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20.0
+        ),
       )
     );
   }
