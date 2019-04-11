@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/movie_actor_list.dart';
+import 'package:mymovie/screens/sub/movie_description.dart';
 import 'package:mymovie/screens/sub/movie_main_photo.dart';
-import 'package:mymovie/screens/sub/movie_more_description.dart';
 import 'package:mymovie/screens/sub/movie_stillcut_list.dart';
 import 'package:mymovie/screens/sub/movie_user_rating.dart';
 import 'package:mymovie/widgets/white_line.dart';
@@ -27,7 +27,6 @@ class _MovieScreenState extends State<MovieScreen> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.black,
-          height: MediaQuery.of(context).size.height*2.3,
           child: Column(
             children: [
               MovieMainPhoto(movie: widget.movie),
@@ -48,27 +47,7 @@ class _MovieScreenState extends State<MovieScreen> {
               SizedBox(height: 20.0),
               WhiteLine(),
               MovieSectionTitle(title: stringMovieSynopsis),
-              GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => MovieMoreDescription(description: widget.movie.description)
-                )),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  height: MediaQuery.of(context).size.height*0.28,
-                  color: Colors.black,
-                  child: Text(
-                    widget.movie.description,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                      height: 1.3
-                    ),
-                    maxLines: 7,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
+              MovieDescription(description: widget.movie.description),
               SizedBox(height: 20.0),
               WhiteLine(),
               SizedBox(height: 20.0),
