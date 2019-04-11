@@ -36,20 +36,25 @@ class MovieDescription extends StatelessWidget {
                   fontSize: 20.0,
                   height: 1.3
                 ),
-                maxLines: 7,
-                overflow: TextOverflow.ellipsis,
+                maxLines: state.isMoreButtonClicked ? null : 7,
+                overflow: state.isMoreButtonClicked ? null : TextOverflow.ellipsis,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: Text(
-                state.isMoreButtonClicked ? '접기' : '더보기',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.0
+            GestureDetector(
+              child: Container(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: Text(
+                  state.isMoreButtonClicked ? '접어두기' : '더보기',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0
+                  ),
                 ),
               ),
+              onTap: () => state.isMoreButtonClicked 
+              ? sl.get<MovieBloc>().dispatch(MovieEventFoldButtonClicked())
+              : sl.get<MovieBloc>().dispatch(MovieEventMoreButtonClicked()),
             )
           ],
         );
