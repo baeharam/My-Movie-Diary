@@ -51,7 +51,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
     if(event is SearchEventMovieClick) {
       try {
         yield SearchState.movieCrawlLoading(movieCode: event.movie.movieCode);
-        MovieModel movie = await _api.getMoreInfoOfMovie(movie: event.movie);
+        MovieModel movie = await _api.getMoreInfoByIsolate(event.movie);
         yield SearchState.movieCrawlSucceeded(movie: movie);
       } catch(exception) {
         print('영화 크롤링 실패: ${exception.toString()}');

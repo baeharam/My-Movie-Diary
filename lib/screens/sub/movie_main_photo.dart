@@ -12,17 +12,20 @@ class MovieMainPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
       children: [
         Hero(
           tag: movie.movieCode,
           child: CachedNetworkImage(
             imageUrl: movie.realPhoto,
-            placeholder: (_,__) => CustomProgressIndicator(color: Colors.white),
+            placeholder: (_,__) => Container(
+              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2),
+              child: CustomProgressIndicator(color: Colors.white)
+            ),
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height*0.9,
+          height: MediaQuery.of(context).size.height*0.8,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,

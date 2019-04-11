@@ -10,11 +10,77 @@ import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart';
 
 
+/// [Isolate 계산을 위한 글로벌 정의]
+
+Future<MovieModel> getMoreInfoOfMovie(MovieModel movie) async {
+    debugPrint("영화의 총체적인 정보 가져오는 중...");
+
+    http.Response mainPageResponse = await http.get(movie.link);
+    http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
+    http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');
+    http.Response actorResponse = await http.get(movieActorUrl+movie.movieCode);
+
+    movie.description = _getMovieDescription(mainPageResponse);
+    movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
+    movie.subImages = _getSubPhotos(subPhotosResponse);
+    movie.actors = _getActors(actorResponse);
+    
+
+    return movie;
+  }
+
+  String _getMovieDescription(http.Response response) {
+    debugPrint("영화 줄거리 가져오는 중...");
+
+    Document document = parser.parse(response.body);
+    var description = document.getElementsByClassName(movieDescriptionClass);
+    return description.isNotEmpty ? description[0].text.replaceAll(RegExp(r"\s\s+"), ' ') : '';
+  }
+
+  String _getRealPhoto(http.Response response) {
+    debugPrint("영화 포스터 가져오는 중...");
+
+    Document document = parser.parse(response.body);
+    var image = document.getElementsByTagName(imgTag);
+    return image.isNotEmpty ? image[0].attributes[srcAttributes]: '';
+  }
+
+  List<String> _getSubPhotos(http.Response response) {
+    debugPrint("영화 스틸컷 가져오는 중...");
+
+    Document document = parser.parse(response.body);
+    List<Element> subPhotoElements = document.getElementsByClassName(movieSubPhotosClass);
+    List<String> subImages = [];
+    subPhotoElements[0].getElementsByTagName(imgTag).forEach((element){
+      subImages.add(element.attributes[srcAttributes].split('?')[0]);
+    });
+    return subImages;
+  }
+
+  List<ActorModel> _getActors(http.Response response) {
+    debugPrint("영화배우 가져오는 중...");
+
+    Document document = parser.parse(response.body);
+    List<Element> actorElements = document.getElementsByClassName(movieActorAreaClass)[0].children;
+    List<ActorModel> actors = List<ActorModel>();
+    for(Element actorElement in actorElements) {
+      actors.add(ActorModel.fromElement(actorElement));
+    }
+    return actors;
+  }
+
+
 class SearchAPI {
+
+  Future<MovieModel> getMoreInfoByIsolate(MovieModel movie) async{
+    debugPrint('멀티쓰레드로 영화의 총체적인 정보 가져오는 중...');
+
+    return await compute(getMoreInfoOfMovie, movie);
+  }
 
 
   Future<List<MovieModel>> getMovieList({@required String movieTitle}) async {
-    debugPrint("Call getMovieList()");
+    debugPrint("영화목록 가져오는 중...");
 
     if(movieTitle.isNotEmpty) {
       var queryParams = {'query':movieTitle };
@@ -33,62 +99,5 @@ class SearchAPI {
       return movieList;
     }
     return [];
-  }
-
-  Future<MovieModel> getMoreInfoOfMovie({@required MovieModel movie}) async {
-    debugPrint("Call getMoreInfoOfMovie()");
-
-    http.Response mainPageResponse = await http.get(movie.link);
-    http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
-    http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');
-    http.Response actorResponse = await http.get(movieActorUrl+movie.movieCode);
-
-    movie.description = _getMovieDescription(mainPageResponse);
-    movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
-    movie.subImages = _getSubPhotos(subPhotosResponse);
-    movie.actors = _getActors(actorResponse);
-    
-
-    return movie;
-  }
-
-  String _getMovieDescription(http.Response response) {
-    debugPrint("Call _getMovieDescription()");
-
-    Document document = parser.parse(response.body);
-    var description = document.getElementsByClassName(movieDescriptionClass);
-    return description.isNotEmpty ? description[0].text.replaceAll(RegExp(r"\s\s+"), ' ') : '';
-  }
-
-  String _getRealPhoto(http.Response response) {
-    debugPrint("Call _getRealPhoto()");
-
-    Document document = parser.parse(response.body);
-    var image = document.getElementsByTagName(imgTag);
-    return image.isNotEmpty ? image[0].attributes[srcAttributes]: '';
-  }
-
-  List<String> _getSubPhotos(http.Response response) {
-    debugPrint("Call _getSubPhotos()");
-
-    Document document = parser.parse(response.body);
-    List<Element> subPhotoElements = document.getElementsByClassName(movieSubPhotosClass);
-    List<String> subImages = [];
-    subPhotoElements[0].getElementsByTagName(imgTag).forEach((element){
-      subImages.add(element.attributes[srcAttributes].split('?')[0]);
-    });
-    return subImages;
-  }
-
-  List<ActorModel> _getActors(http.Response response) {
-    debugPrint("Call _getActors()");
-
-    Document document = parser.parse(response.body);
-    List<Element> actorElements = document.getElementsByClassName(movieActorAreaClass)[0].children;
-    List<ActorModel> actors = List<ActorModel>();
-    for(Element actorElement in actorElements) {
-      actors.add(ActorModel.fromElement(actorElement));
-    }
-    return actors;
   }
 }

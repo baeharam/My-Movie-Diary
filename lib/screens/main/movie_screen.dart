@@ -27,7 +27,7 @@ class _MovieScreenState extends State<MovieScreen> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.black,
-          height: MediaQuery.of(context).size.height*2.5,
+          height: MediaQuery.of(context).size.height*2.3,
           child: Column(
             children: [
               MovieMainPhoto(movie: widget.movie),
