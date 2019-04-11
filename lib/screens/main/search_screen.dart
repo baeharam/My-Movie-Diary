@@ -6,6 +6,7 @@ import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/screens/main/movie_screen.dart';
 import 'package:mymovie/screens/sub/search_sub.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
+import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/widgets/fadein_scaffold.dart';
 
@@ -69,6 +70,8 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    OrientationFixer.fixPortrait();
+
     return FadeInScaffold(
       body: Container(
         width: double.infinity,

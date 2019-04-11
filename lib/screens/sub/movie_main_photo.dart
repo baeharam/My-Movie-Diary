@@ -12,7 +12,6 @@ class MovieMainPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.topCenter,
       children: [
         Hero(
           tag: movie.movieCode,
@@ -25,14 +24,16 @@ class MovieMainPhoto extends StatelessWidget {
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height*0.8,
+          height: MediaQuery.of(context).size.height*0.9,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Colors.black
+                Colors.black.withOpacity(0.6),
+                Colors.black.withOpacity(0.7),
+                Colors.black,
               ]
             )
           ),

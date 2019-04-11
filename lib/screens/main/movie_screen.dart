@@ -7,6 +7,7 @@ import 'package:mymovie/screens/sub/movie_description.dart';
 import 'package:mymovie/screens/sub/movie_main_photo.dart';
 import 'package:mymovie/screens/sub/movie_stillcut_list.dart';
 import 'package:mymovie/screens/sub/movie_user_rating.dart';
+import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/widgets/white_line.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -23,6 +24,8 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
+    OrientationFixer.fixPortrait();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

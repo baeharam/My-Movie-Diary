@@ -4,6 +4,7 @@ import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/intro_login_button.dart';
+import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
 class IntroScreen extends StatefulWidget{
@@ -93,6 +94,8 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    OrientationFixer.fixPortrait();
+
     return Scaffold(
       body: AnimatedBuilder(
         animation: _backgroundImageAnimation,

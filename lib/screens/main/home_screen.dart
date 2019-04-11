@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/home_button.dart';
+import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/typewriter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    OrientationFixer.fixPortrait();
+
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Scaffold(
