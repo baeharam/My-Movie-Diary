@@ -15,6 +15,7 @@ class MovieModel {
   String realPhoto;
   List<String> subImages;
   List<ActorModel> actors;
+  List<String> tailerList;
 
   MovieModel._({
     @required this.link,
@@ -29,7 +30,8 @@ class MovieModel {
     this.description,
     this.realPhoto,
     this.subImages,
-    this.actors
+    this.actors,
+    this.tailerList
   }) : assert(link!=null),
        assert(movieCode!=null),
        assert(thumbnail!=null),

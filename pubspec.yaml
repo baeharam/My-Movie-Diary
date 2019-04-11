@@ -25,6 +25,7 @@ dependencies:
   cached_network_image: ^0.7.0
   auto_size_text: ^1.1.1
   sqflite: ^1.1.0
+  flutter_inappbrowser: 0.6.0
 
 
 dev_dependencies:

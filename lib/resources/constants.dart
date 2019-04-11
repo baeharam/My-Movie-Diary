@@ -13,14 +13,17 @@ const String imgTag = 'img';
 const String spanTag = 'span';
 const String srcAttributes = 'src';
 const String titleAttributes = 'title';
+const String hrefAttributes = 'href';
 
 // Naver Movie Crawling
+const String movieBasicUrl = 'https://movie.naver.com';
 const String movieRealPhotoUrl = 'https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=';
 const String movieSubPhotosUrl = 'https://movie.naver.com/movie/bi/mi/photo.nhn?code=';
 const String movieActorUrl = 'https://movie.naver.com/movie/bi/mi/detail.nhn?code=';
 
 const String movieDescriptionClass = 'con_tx';
 const String movieSubPhotosClass = 'gallery_group';
+const String movieTrailerClass = 'video_thumb';
 
 const String movieActorAreaClass = 'lst_people';
 const String movieActorThumbnailClass = 'p_thumb';

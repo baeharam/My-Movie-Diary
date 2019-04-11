@@ -23,7 +23,7 @@ Future<MovieModel> getMoreInfoOfMovie(MovieModel movie) async {
   movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
   movie.subImages = _getSubPhotos(subPhotosResponse);
   movie.actors = _getActors(actorResponse);
-  
+  movie.tailerList = _getMovieTrailerLinkList(mainPageResponse);
 
   return movie;
 }
@@ -34,6 +34,19 @@ String _getMovieDescription(http.Response response) {
   Document document = parser.parse(response.body);
   var description = document.getElementsByClassName(movieDescriptionClass);
   return description.isNotEmpty ? description[0].text.replaceAll(RegExp(r"\s\s+"), ' ') : '';
+}
+
+List<String> _getMovieTrailerLinkList(http.Response response) {
+  debugPrint("영화 예고편 링크 가져오는 중...");
+
+  Document document = parser.parse(response.body);
+  var trailer = document.getElementsByClassName(movieTrailerClass);
+  if(trailer.isEmpty) return [];
+
+  List<Element> linkElement = trailer[0].getElementsByTagName(aTag);
+  List<String> trailerLinkList = List<String>();
+  linkElement.forEach((e) => trailerLinkList.add(movieBasicUrl+e.attributes[hrefAttributes]));
+  return trailerLinkList;
 }
 
 String _getRealPhoto(http.Response response) {

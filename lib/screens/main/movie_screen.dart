@@ -6,6 +6,7 @@ import 'package:mymovie/screens/sub/movie_actor_list.dart';
 import 'package:mymovie/screens/sub/movie_description.dart';
 import 'package:mymovie/screens/sub/movie_main_photo.dart';
 import 'package:mymovie/screens/sub/movie_stillcut_list.dart';
+import 'package:mymovie/screens/sub/movie_trailer_list.dart';
 import 'package:mymovie/screens/sub/movie_user_rating.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/widgets/white_line.dart';
@@ -61,6 +62,11 @@ class _MovieScreenState extends State<MovieScreen> {
               SizedBox(height: 20.0),
               MovieSectionTitle(title: stringMovieStillCut),
               MovieStillCutList(movie: widget.movie),
+              SizedBox(height: 20.0),
+              WhiteLine(),
+              SizedBox(height: 20.0),
+              MovieSectionTitle(title: stringMovieTrailer),
+              MovieTrailerList(movie: widget.movie)
             ],
           ),
         ),
