@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,23 +110,25 @@ class SearchMovieContents extends StatelessWidget {
           SizedBox(height: 10.0),
           SearchUserRating(movie: movie),
           SizedBox(height: 10.0),
-          Text(
+          AutoSizeText(
             movie.director,
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
-              fontSize: 15.0
             ),
+            minFontSize: 10.0,
+            maxLines: 1,
           ),
           SizedBox(height: 10.0),
-          Text(
+          AutoSizeText(
             movie.actor,
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
-              fontSize: 15.0
             ),
             textAlign: TextAlign.center,
+            maxLines: 1,
+            minFontSize: 10.0,
           ),
           SizedBox(height: 10.0),
           Text(

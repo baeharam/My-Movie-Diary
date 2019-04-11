@@ -21,6 +21,9 @@ class SearchResultForm extends StatelessWidget {
     return BlocBuilder<SearchEvent,SearchState>(
       bloc: searchBloc,
       builder: (context,state){
+        if(state.isKeyboardOn){
+          return SearchProcessingMessage(message: '영화를 검색해주세요.');
+        }
         if(state.isMovieAPICallLoading) {
           return SearchProcessingMessage(message: '영화를 찾고 있습니다...');
         }

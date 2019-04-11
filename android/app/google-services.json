@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "770510068015-k8tjl1kbgvf53oh6b58v983phr2vbm5a.apps.googleusercontent.com",
+          "client_id": "770510068015-bb7c871tnmce6u2sq1sf8e0uv9rnot67.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.handong.mymovie",
@@ -33,20 +33,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "770510068015-gr9ucmhgn8jrbao332k30o000srqjkns.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
