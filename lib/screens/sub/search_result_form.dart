@@ -4,7 +4,7 @@ import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/screens/sub/search_movie_form.dart';
 
-class SearchResultForm extends StatelessWidget {
+class SearchResultForm extends StatefulWidget {
 
   final List<MovieModel> movieList;
   final SearchBloc searchBloc;
@@ -16,10 +16,24 @@ class SearchResultForm extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _SearchResultFormState createState() => _SearchResultFormState();
+}
+
+class _SearchResultFormState extends State<SearchResultForm> {
+
+  final FixedExtentScrollController _controller = FixedExtentScrollController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return BlocBuilder<SearchEvent,SearchState>(
-      bloc: searchBloc,
+      bloc: widget.searchBloc,
       builder: (context,state){
         if(state.isKeyboardOn){
           return SearchProcessingMessage(message: '영화를 검색해주세요.');
@@ -27,25 +41,25 @@ class SearchResultForm extends StatelessWidget {
         if(state.isMovieAPICallLoading) {
           return SearchProcessingMessage(message: '영화를 찾고 있습니다...');
         }
-        if(state.isMovieAPICallSucceeded && movieList.isEmpty) {
+        if(state.isMovieAPICallSucceeded && widget.movieList.isEmpty) {
           return SearchProcessingMessage(message: '찾으시는 영화가 없습니다.');
         }
         return Expanded(
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: movieList.length,
-            itemBuilder: (_, index) {
-              return Column(
+          child: ListWheelScrollView(
+            controller: _controller,
+            physics: FixedExtentScrollPhysics(),
+            itemExtent: 60.0,
+            children: List.generate(widget.movieList.length, (index)
+              => Column(
                 children: <Widget>[
                   SearchMovieForm(
-                    movie: movieList[index],
-                    searchBloc: searchBloc,
+                    movie: widget.movieList[index],
+                    searchBloc: widget.searchBloc,
                   ),
                   SizedBox(height: 30.0)
                 ],
-              );
-            }
-          ),
+              ))
+          )
         );
       }
     );
