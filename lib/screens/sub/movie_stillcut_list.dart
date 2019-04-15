@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/widgets/custom_progress_indicator.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MovieStillCutList extends StatefulWidget {
   /// [영화의 스틸컷 제공]
@@ -16,45 +17,28 @@ class MovieStillCutList extends StatefulWidget {
 
 class _MovieStillCutListState extends State<MovieStillCutList> {
 
-  PageController _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: 1);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height*0.35,
-      child: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        controller: _pageController,
-        itemCount: widget.movie.subImages.length,
-        itemBuilder: (context, index){
+      child: CarouselSlider(
+        autoPlay: true,
+        autoPlayInterval: const Duration(milliseconds: 500),
+        enlargeCenterPage: true,
+        items: widget.movie.subImages.map((imageUrl){
           return Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 20.0),
             child: GestureDetector(
               onTap: () => Navigator.push(context, MaterialPageRoute(
-                builder: (context) => MovieStillcutViewer(
-                  movie: widget.movie,
-                  currentIndex: index,
-                  originalController: _pageController)
+                builder: (context) => MovieStillcutViewer(imageUrl: imageUrl)
               )),
               child: Hero(
-                tag: widget.movie.subImages[index],
+                tag: imageUrl,
                 child: CachedNetworkImage(
-                  imageUrl: widget.movie.subImages[index],
+                  imageUrl: imageUrl,
                   placeholder: (_,__) => Container(
                     margin: EdgeInsets.all(50.0),
                     child: CustomProgressIndicator(color: Colors.white)
@@ -62,39 +46,22 @@ class _MovieStillCutListState extends State<MovieStillCutList> {
                 ),
               ),
             ),
-          );
-        }
+          );}
+        ).toList()
       ),
     );
   }
 }
 
-class MovieStillcutViewer extends StatefulWidget {
+class MovieStillcutViewer extends StatelessWidget {
 
-  final MovieModel movie;
-  final int currentIndex;
-  final PageController originalController;
+  final String imageUrl;
 
+  const MovieStillcutViewer({Key key, this.imageUrl}) : super(key: key);
 
-  const MovieStillcutViewer({
-    Key key, 
-    @required this.movie, 
-    @required this.currentIndex,
-    @required this.originalController
-  }) : assert(movie!=null),
-       assert(currentIndex!=null),
-       assert(originalController!=null),
-       super(key: key);
 
   @override
-  _MovieStillcutViewerState createState() => _MovieStillcutViewerState();
-}
-
-class _MovieStillcutViewerState extends State<MovieStillcutViewer> {
-  
-  PageController _pageController;
-
-  Widget _buildPhotoPage(String imageUrl) {
+  Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       child: Hero(
@@ -108,29 +75,6 @@ class _MovieStillcutViewerState extends State<MovieStillcutViewer> {
           }
         ),
       ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: widget.currentIndex);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return PageView(
-      children: List.generate(widget.movie.subImages.length, 
-        (index)=>_buildPhotoPage(widget.movie.subImages[index])),
-      controller: _pageController,
-      scrollDirection: Axis.horizontal,
-      onPageChanged: (page) => widget.originalController.jumpToPage(page)
     );
   }
 }
