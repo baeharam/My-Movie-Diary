@@ -18,7 +18,10 @@ class MovieMainPhoto extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: movie.realPhoto,
             placeholder: (_,__) => Container(
-              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2),
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height/2,
+                left: MediaQuery.of(context).size.width/2
+              ),
               child: CustomProgressIndicator(color: Colors.white)
             ),
           ),
@@ -31,9 +34,8 @@ class MovieMainPhoto extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Colors.black.withOpacity(0.6),
-                Colors.black.withOpacity(0.7),
-                Colors.black,
+                Colors.black.withOpacity(0.3),
+                Colors.black.withOpacity(0.99),
               ]
             )
           ),

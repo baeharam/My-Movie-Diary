@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
@@ -45,12 +46,11 @@ class _SearchResultFormState extends State<SearchResultForm> {
           return SearchProcessingMessage(message: '찾으시는 영화가 없습니다.');
         }
         return Expanded(
-          child: ListWheelScrollView(
-            controller: _controller,
-            physics: FixedExtentScrollPhysics(),
-            itemExtent: 60.0,
-            children: List.generate(widget.movieList.length, (index)
-              => Column(
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: widget.movieList.length,
+            itemBuilder: (_, index) {
+              return Column(
                 children: <Widget>[
                   SearchMovieForm(
                     movie: widget.movieList[index],
@@ -58,8 +58,9 @@ class _SearchResultFormState extends State<SearchResultForm> {
                   ),
                   SizedBox(height: 30.0)
                 ],
-              ))
-          )
+              );
+            }
+          ),
         );
       }
     );

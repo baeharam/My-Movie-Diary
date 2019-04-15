@@ -6,7 +6,7 @@ import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/screens/sub/search_user_rating.dart';
 
-class SearchMovieForm extends StatelessWidget {
+class SearchMovieForm extends StatefulWidget {
 
   final MovieModel movie;
   final SearchBloc searchBloc;
@@ -18,13 +18,18 @@ class SearchMovieForm extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _SearchMovieFormState createState() => _SearchMovieFormState();
+}
+
+class _SearchMovieFormState extends State<SearchMovieForm> {
+  @override
   Widget build(BuildContext context) {
 
     return BlocBuilder<SearchEvent,SearchState>(
-      bloc: searchBloc,
+      bloc: widget.searchBloc,
       builder: (context, state){
         if(state.isMovieCrawlLoading && 
-          movie.movieCode==state.clickedMovieCode) {
+          widget.movie.movieCode==state.clickedMovieCode) {
           return Container(
             height: 100.0,
             alignment: Alignment.center,
@@ -36,9 +41,9 @@ class SearchMovieForm extends StatelessWidget {
         }
         return GestureDetector(
           onTap: () =>
-            (state.isMovieCrawlLoading && state.clickedMovieCode!=movie.movieCode)
+            (state.isMovieCrawlLoading && state.clickedMovieCode!=widget.movie.movieCode)
             ? null 
-            : searchBloc.dispatch(SearchEventMovieClick(movie: movie))
+            : widget.searchBloc.dispatch(SearchEventMovieClick(movie: widget.movie))
           ,
           child: Container(
             width: MediaQuery.of(context).size.width*0.75,
@@ -49,11 +54,11 @@ class SearchMovieForm extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(width: 10.0),
-                  movie.thumbnail.isNotEmpty 
+                  widget.movie.thumbnail.isNotEmpty 
                   ? Hero(
-                      tag: movie.movieCode,
+                      tag: widget.movie.movieCode,
                       child: CachedNetworkImage(
-                      imageUrl: movie.thumbnail,
+                      imageUrl: widget.movie.thumbnail,
                       placeholder: (_,__) {
                         return Container(
                           padding: const EdgeInsets.only(left: 20.0),
@@ -70,7 +75,7 @@ class SearchMovieForm extends StatelessWidget {
                     child: Text('이미지 없음')
                   ),
                   SizedBox(width: 10.0),
-                  SearchMovieContents(movie: movie)
+                  SearchMovieContents(movie: widget.movie)
                 ],
               ),
             ),

@@ -28,47 +28,64 @@ class _MovieScreenState extends State<MovieScreen> {
     OrientationFixer.fixPortrait();
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.black,
-          child: Column(
-            children: [
-              MovieMainPhoto(movie: widget.movie),
-              MovieSectionTitle(title: widget.movie.title),
-              Container(
-                color: Colors.black,
-                child: Text(
-                  '('+widget.movie.pubDate+')',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0
-                  ),
-                ),
+      body: Container(
+        color: Colors.black,
+        child: CustomScrollView(
+          scrollDirection: Axis.vertical,
+          slivers: [
+            SliverAppBar(
+              expandedHeight: MediaQuery.of(context).size.height*0.8,
+              flexibleSpace: FlexibleSpaceBar(
+                background: MovieMainPhoto(movie: widget.movie),
               ),
-              SizedBox(height: 20.0),
-              MovieUserRating(movie: widget.movie),
-              SizedBox(height: 20.0),
-              WhiteLine(),
-              MovieSectionTitle(title: stringMovieSynopsis),
-              MovieDescription(description: widget.movie.description),
-              SizedBox(height: 20.0),
-              WhiteLine(),
-              SizedBox(height: 20.0),
-              MovieSectionTitle(title: stringMovieActor),
-              MovieActorList(actors: widget.movie.actors),
-              SizedBox(height: 20.0),
-              WhiteLine(),
-              SizedBox(height: 20.0),
-              MovieSectionTitle(title: stringMovieStillCut),
-              MovieStillCutList(movie: widget.movie),
-              SizedBox(height: 20.0),
-              WhiteLine(),
-              SizedBox(height: 20.0),
-              MovieSectionTitle(title: stringMovieTrailer),
-              MovieTrailerList(movie: widget.movie)
-            ],
-          ),
+              backgroundColor: Colors.black,
+              leading: Container(),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MovieSectionTitle(title: widget.movie.title),
+                      Container(
+                        color: Colors.black,
+                        child: Text(
+                          '('+widget.movie.pubDate+')',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      MovieUserRating(movie: widget.movie),
+                      SizedBox(height: 20.0),
+                      WhiteLine(),
+                      MovieSectionTitle(title: stringMovieSynopsis),
+                      MovieDescription(description: widget.movie.description),
+                      SizedBox(height: 20.0),
+                      WhiteLine(),
+                      SizedBox(height: 20.0),
+                      MovieSectionTitle(title: stringMovieActor),
+                      MovieActorList(actors: widget.movie.actors),
+                      SizedBox(height: 20.0),
+                      WhiteLine(),
+                      SizedBox(height: 20.0),
+                      MovieSectionTitle(title: stringMovieStillCut),
+                      MovieStillCutList(movie: widget.movie),
+                      SizedBox(height: 20.0),
+                      WhiteLine(),
+                      SizedBox(height: 20.0),
+                      MovieSectionTitle(title: stringMovieTrailer),
+                      MovieTrailerList(movie: widget.movie)
+                    ]
+                  )
+                ]
+              ),
+            )
+          ],
         ),
       ),
     );
