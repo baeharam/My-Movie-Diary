@@ -69,7 +69,7 @@ class _MovieScreenState extends State<MovieScreen> {
                       WhiteLine(),
                       SizedBox(height: 20.0),
                       MovieSectionTitle(title: stringMovieActor),
-                      MovieActorList(actors: widget.movie.actors),
+                      MovieActorList(actors: widget.movie.actorList),
                       SizedBox(height: 20.0),
                       WhiteLine(),
                       SizedBox(height: 20.0),

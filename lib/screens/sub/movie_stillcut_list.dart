@@ -19,7 +19,7 @@ class MovieStillCutList extends StatelessWidget {
         autoPlay: true,
         autoPlayInterval: const Duration(milliseconds: 3000),
         enlargeCenterPage: true,
-        items: movie.subImages.map((imageUrl){
+        items: movie.stillcutList.map((imageUrl){
           return Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,

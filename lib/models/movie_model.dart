@@ -7,37 +7,37 @@ class MovieModel {
   final String thumbnail;
   final String title;
   final String pubDate;
-  final String director;
-  final String actor;
+  final String mainDirector;
+  final String mainActor;
   final String userRating;
 
   String description;
-  String realPhoto;
-  List<String> subImages;
-  List<ActorModel> actors;
-  List<String> tailerList;
+  String mainPhoto;
+  List<String> stillcutList;
+  List<ActorModel> actorList;
+  List<String> trailerList;
 
   MovieModel._({
     @required this.link,
     @required this.movieCode,
     @required this.thumbnail,
     @required this.title,
-    @required this.director,
-    @required this.actor,
+    @required this.mainDirector,
+    @required this.mainActor,
     @required this.userRating,
     @required this.pubDate,
 
     this.description,
-    this.realPhoto,
-    this.subImages,
-    this.actors,
-    this.tailerList
+    this.mainPhoto,
+    this.stillcutList,
+    this.actorList,
+    this.trailerList
   }) : assert(link!=null),
        assert(movieCode!=null),
        assert(thumbnail!=null),
        assert(title!=null),
-       assert(director!=null),
-       assert(actor!=null),
+       assert(mainDirector!=null),
+       assert(mainActor!=null),
        assert(userRating!=null);
 
   factory MovieModel.fromJson(Map<String,dynamic> json) {
@@ -60,8 +60,8 @@ class MovieModel {
       movieCode: movieCode,
       thumbnail: json['image'] as String,
       title: movieTitle,
-      director: movieDirector,
-      actor: movieActor,
+      mainDirector: movieDirector,
+      mainActor: movieActor,
       userRating: json['userRating'] as String,
       pubDate: json['pubDate'] as String
     );
@@ -74,12 +74,12 @@ class MovieModel {
       'movieCode: $movieCode\n'
       'thumbnail: $thumbnail\n'
       'title: $title\n'
-      'director: $director\n'
-      'actor: $actor\n'
+      'director: $mainDirector\n'
+      'actor: $mainActor\n'
       'userRating: $userRating\n'
       'pubDate: $pubDate\n'
       'description: $description\n'
-      'realPhoto: $realPhoto\n';
+      'realPhoto: $mainPhoto\n';
     return result;
   }
 }

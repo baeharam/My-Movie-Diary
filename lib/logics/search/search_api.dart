@@ -22,10 +22,10 @@ class SearchAPI {
     http.Response actorResponse = await http.get(movieActorUrl+movie.movieCode);
 
     movie.description = _getMovieDescription(mainPageResponse);
-    movie.realPhoto = _getRealPhoto(realPhotoPageResponse);
-    movie.subImages = _getSubPhotos(subPhotosResponse);
-    movie.actors = _getActors(actorResponse);
-    movie.tailerList = _getMovieTrailerLinkList(mainPageResponse);
+    movie.mainPhoto = _getRealPhoto(realPhotoPageResponse);
+    movie.stillcutList = _getSubPhotos(subPhotosResponse);
+    movie.actorList = _getActors(actorResponse);
+    movie.trailerList = _getMovieTrailerLinkList(mainPageResponse);
 
     return movie;
   }

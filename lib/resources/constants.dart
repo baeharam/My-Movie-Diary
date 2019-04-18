@@ -32,6 +32,43 @@ const String movieActorPartClass = 'p_part';
 const String movieActorRoleClass = 'pe_cmt';
 const String movieActorPhilmographyClass = 'mv_product';
 
+// Database - Sqflite
+const String databaseName = 'movie_db';
+const String tableMovie = 'movie_table';
+const String tableStillcut = 'stillcut_table';
+const String tableActor = 'actor_table';
+const String tableTrailer = 'trailer_table';
+
+// Table - movie_table
+const String movieColID = 'movie_id';
+const String movieColLink = 'movie_link';
+const String movieColCode = 'movie_code';
+const String movieColThumnail = 'movie_thumbnail';
+const String movieColTitle = 'movie_title';
+const String movieColPubdate = 'movie_pubdate';
+const String movieColMainDirector = 'movie_main_director';
+const String movieColMainActor = 'movie_main_actor';
+const String movieColUserRating = 'movie_user_rating';
+const String movieDescription = 'movie_description';
+const String movieMainPhoto = 'movie_main_photo';
+
+// Table - stillcut_table
+const String stillcutColID = 'stillcut_id';
+const String stillcutColCode = 'stillcut_code';
+const String stillcutColPhoto = 'stillcut_photo';
+
+// Table - actor_table
+const String actorColID = 'actor_id';
+const String actorColCode = 'actor_code';
+const String actorColThumbnail = 'actor_thumbnail';
+const String actorColLevel = 'actor_level';
+const String actorColRole = 'actor_role';
+
+// Table - trailer_table
+const String trailerColID = 'trailer_id';
+const String trailerColCode = 'trailer_code';
+const String trailerColVideo = 'trailer_video';
+
 // Intro Screen
 const String kakaoImage = 'assets/images/kakao.png';
 const String googleImage = 'assets/images/google.png';

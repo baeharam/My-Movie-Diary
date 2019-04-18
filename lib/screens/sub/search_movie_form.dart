@@ -116,7 +116,7 @@ class SearchMovieContents extends StatelessWidget {
           SearchUserRating(movie: movie),
           SizedBox(height: 10.0),
           AutoSizeText(
-            movie.director,
+            movie.mainDirector,
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class SearchMovieContents extends StatelessWidget {
           ),
           SizedBox(height: 10.0),
           AutoSizeText(
-            movie.actor,
+            movie.mainActor,
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,

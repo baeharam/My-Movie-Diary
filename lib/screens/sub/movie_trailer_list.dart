@@ -51,10 +51,10 @@ class _MovieTrailerListState extends State<MovieTrailerList> {
           child: PageView.builder(
             scrollDirection: Axis.horizontal,
             controller: _trailerController,
-            itemCount: widget.movie.tailerList.length,
+            itemCount: widget.movie.trailerList.length,
             itemBuilder: (context, index){
               return InAppWebView(
-                initialUrl: widget.movie.tailerList[index],
+                initialUrl: widget.movie.trailerList[index],
                 onProgressChanged: (_,progress) => setState(()=>_progress=progress/100),
               );
             }

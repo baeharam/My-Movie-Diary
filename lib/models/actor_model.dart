@@ -3,23 +3,24 @@ import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
 
 class ActorModel {
+
+  static const String actorLevelLeading = 'leading';
+  static const String actorLevelSupporting = 'supporting';
+
   String name;
   String thumbnail;
-  ACTOR_LEVEL level;
+  String level;
   String role;
-  List<String> philmography;
 
   ActorModel({
     this.name,
     this.thumbnail,
     this.level,
     this.role,
-    this.philmography
   }) : assert(name!=null),
        assert(thumbnail!=null),
        assert(level!=null),
-       assert(role!=null),
-       assert(philmography!=null);
+       assert(role!=null);
 
   factory ActorModel.fromElement(Element element) {
     String thumbnail = element
@@ -29,25 +30,19 @@ class ActorModel {
     String name = element
       .getElementsByClassName(movieActorInfoClass)[0]
       .getElementsByTagName(aTag)[0].attributes[titleAttributes];
-    ACTOR_LEVEL level = element
+    String level = element
       .getElementsByClassName(movieActorInfoClass)[0]
       .getElementsByClassName(movieActorPartClass)[0].text==mainActor ? 
-      ACTOR_LEVEL.LEADING : ACTOR_LEVEL.SUPPORTING;
+      actorLevelLeading : actorLevelSupporting;
 
     List<Element> roleElementList = element.getElementsByClassName(movieActorRoleClass);
     String role = roleElementList.isEmpty ? '' : roleElementList[0].getElementsByTagName(spanTag)[0].text;
-    List<String> philmography = List<String>();
-    for(Element product in element.getElementsByClassName(movieActorPhilmographyClass)[0]
-        .getElementsByTagName(aTag)) {
-      philmography.add(product.text);
-    }
 
     return ActorModel(
       thumbnail: thumbnail,
       name: name,
       level: level,
       role: role,
-      philmography: philmography
     );
   }
 
@@ -57,13 +52,7 @@ class ActorModel {
       'name: $name\n'
       'thumbnial: $thumbnail\n'
       'level: $level\n'
-      'role: $role\n'
-      'philmography: ${philmography.toString()}';
+      'role: $role\n';
     
   }
-}
-
-enum ACTOR_LEVEL {
-  LEADING,
-  SUPPORTING
 }

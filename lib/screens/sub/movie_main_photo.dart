@@ -16,7 +16,7 @@ class MovieMainPhoto extends StatelessWidget {
         Hero(
           tag: movie.movieCode,
           child: CachedNetworkImage(
-            imageUrl: movie.realPhoto,
+            imageUrl: movie.mainPhoto,
             placeholder: (_,__) => Container(
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height/2,
