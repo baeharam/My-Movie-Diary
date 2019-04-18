@@ -12,6 +12,7 @@ class MovieActorList extends StatelessWidget {
   const MovieActorList({Key key, @required this.actors}) : super(key: key);
 
   
+  // TODO: 배우 디자인 수정..
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +26,6 @@ class MovieActorList extends StatelessWidget {
           return Container(
             height: 250.0,
             width: 111.0,
-            color: Colors.white,
             margin: const EdgeInsets.only(right: 20.0),
             child: Column(
               children: [
@@ -41,13 +41,13 @@ class MovieActorList extends StatelessWidget {
                   width: 111.0,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(top: 10.0),
-                  color: Colors.black.withOpacity(0.9),
+                  color: Colors.white,
                   child: Column(
                     children: [
                       AutoSizeText(
                         actors[index].name,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 1,
@@ -56,7 +56,7 @@ class MovieActorList extends StatelessWidget {
                       AutoSizeText(
                         actors[index].role,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold
                         ),
                         maxLines: 1,

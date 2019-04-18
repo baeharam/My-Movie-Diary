@@ -4,18 +4,11 @@ import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/widgets/custom_progress_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class MovieStillCutList extends StatefulWidget {
-  /// [영화의 스틸컷 제공]
+class MovieStillCutList extends StatelessWidget {
 
   final MovieModel movie;
 
-  const MovieStillCutList({Key key, @required this.movie}) : super(key: key);
-
-  @override
-  _MovieStillCutListState createState() => _MovieStillCutListState();
-}
-
-class _MovieStillCutListState extends State<MovieStillCutList> {
+  const MovieStillCutList({Key key, this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +17,9 @@ class _MovieStillCutListState extends State<MovieStillCutList> {
       height: MediaQuery.of(context).size.height*0.35,
       child: CarouselSlider(
         autoPlay: true,
-        autoPlayInterval: const Duration(milliseconds: 500),
+        autoPlayInterval: const Duration(milliseconds: 3000),
         enlargeCenterPage: true,
-        items: widget.movie.subImages.map((imageUrl){
+        items: movie.subImages.map((imageUrl){
           return Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
