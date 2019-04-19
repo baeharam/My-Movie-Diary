@@ -32,7 +32,7 @@ const String movieActorPartClass = 'p_part';
 const String movieActorRoleClass = 'pe_cmt';
 const String movieActorPhilmographyClass = 'mv_product';
 
-// Database - Sqflite
+// Database Overview
 const String databaseName = 'movie_db';
 const String tableMovie = 'movie_table';
 const String tableStillcut = 'stillcut_table';
@@ -68,6 +68,31 @@ const String actorColRole = 'actor_role';
 const String trailerColID = 'trailer_id';
 const String trailerColCode = 'trailer_code';
 const String trailerColVideo = 'trailer_video';
+
+// SQL
+const String sqlCreateMovieTable = 
+  'CREATE TABLE $tableMovie ('
+  '$movieColID INTEGER PRIMARY KEY,'
+  '$movieColLink TEXT, $movieColCode TEXT,'
+  '$movieColTitle TEXT, $movieColThumnail TEXT,'
+  '$movieColMainActor TEXT, $movieColMainDirector TEXT,'
+  '$movieColPubdate TEXT, $movieColUserRating TEXT)';
+
+const String sqlCreateStillcutTable = 
+  'CREATE TABLE $tableStillcut ('
+  '$stillcutColID INTEGER PRIMARY KEY, '
+  '$stillcutColCode TEXT, $stillcutColPhoto TEXT)';
+
+const String sqlCreateActorTable =
+  'CREATE TABLE $tableActor ('
+  '$actorColID INTEGER PRIMARY KEY, '
+  '$actorColCode TEXT, $actorColLevel TEXT,'
+  '$actorColRole TEXT, $actorColThumbnail TEXT)';
+
+const String sqlCreateTrailerTable =
+  'CREATE TABLE $tableTrailer ('
+  '$trailerColID INTEGER PRIMARY KEY,'
+  '$trailerColCode TEXT, $trailerColVideo TEXT)';
 
 // Intro Screen
 const String kakaoImage = 'assets/images/kakao.png';
