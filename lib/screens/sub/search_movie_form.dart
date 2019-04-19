@@ -106,7 +106,6 @@ class SearchMovieContents extends StatelessWidget {
             movie.title,
             style: TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.bold,
               fontSize: 20.0
             ),
             maxLines: 1,
@@ -119,7 +118,6 @@ class SearchMovieContents extends StatelessWidget {
             movie.mainDirector,
             style: TextStyle(
               color: Colors.grey,
-              fontWeight: FontWeight.bold,
             ),
             minFontSize: 10.0,
             maxLines: 1,
@@ -129,7 +127,6 @@ class SearchMovieContents extends StatelessWidget {
             movie.mainActor,
             style: TextStyle(
               color: Colors.grey,
-              fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
             maxLines: 1,
@@ -140,7 +137,6 @@ class SearchMovieContents extends StatelessWidget {
             movie.pubDate,
             style: TextStyle(
               color: Colors.grey,
-              fontWeight: FontWeight.bold,
               fontSize: 15.0
             ),
             textAlign: TextAlign.center,

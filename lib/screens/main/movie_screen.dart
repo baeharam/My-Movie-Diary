@@ -54,7 +54,6 @@ class _MovieScreenState extends State<MovieScreen> {
                           '('+widget.movie.pubDate+')',
                           style: TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
                             fontSize: 25.0
                           ),
                         ),
@@ -105,7 +104,6 @@ class MovieSectionTitle extends StatelessWidget {
         title,
         style: TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.bold,
         ),
         maxLines: 1,
         minFontSize: 25.0,

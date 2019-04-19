@@ -25,7 +25,6 @@ class MovieDescription extends StatelessWidget {
               text: description,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.8),
-                fontWeight: FontWeight.bold,
                 fontSize: 20.0,
                 height: 1.3
               )
@@ -60,7 +59,6 @@ class MovieDescription extends StatelessWidget {
                       state.isMoreButtonClicked ? '접어두기' : '더보기',
                       style: TextStyle(
                         color: Colors.grey,
-                        fontWeight: FontWeight.bold,
                         fontSize: 15.0
                       ),
                     ),

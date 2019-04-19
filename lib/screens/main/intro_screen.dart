@@ -120,7 +120,6 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                       '영화일기',
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
                         fontSize: 70.0
                       ),
                     ),

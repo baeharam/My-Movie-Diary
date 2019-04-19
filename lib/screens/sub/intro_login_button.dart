@@ -71,7 +71,6 @@ class LoginButton extends StatelessWidget {
                         message,
                         style: TextStyle(
                           color: textColor,
-                          fontWeight: FontWeight.bold,
                           fontSize: 20.0
                         ),
                       ),

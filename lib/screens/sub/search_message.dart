@@ -5,7 +5,6 @@ class SearchMessage extends StatelessWidget {
 
   static const TextStyle searchScreenTextStyle = TextStyle(
     color: Colors.white,
-    fontWeight: FontWeight.bold,
     fontSize: 25.0,
   );
 

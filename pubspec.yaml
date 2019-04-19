@@ -50,3 +50,6 @@ flutter:
   - family: Chosunilbo_myungjo
     fonts:
       - asset: assets/fonts/chosun.ttf
+  - family: hanna
+    fonts:
+      - asset: assets/fonts/hanna.ttf

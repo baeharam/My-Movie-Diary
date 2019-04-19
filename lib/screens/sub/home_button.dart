@@ -23,8 +23,7 @@ class HomeButton extends StatelessWidget {
           title,
           style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 20.0
+            fontSize: 22.0
           ),
         ),
         elevation: 5.0,

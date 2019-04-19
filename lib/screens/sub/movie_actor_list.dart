@@ -48,7 +48,6 @@ class MovieActorList extends StatelessWidget {
                         actors[index].name,
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
                         ),
                         maxLines: 1,
                       ),
@@ -57,7 +56,6 @@ class MovieActorList extends StatelessWidget {
                         actors[index].role,
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold
                         ),
                         maxLines: 1,
                         minFontSize: 10.0,
