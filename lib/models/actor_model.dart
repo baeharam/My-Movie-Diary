@@ -22,6 +22,15 @@ class ActorModel {
        assert(level!=null),
        assert(role!=null);
 
+  factory ActorModel.fromMap(Map map) {
+    return ActorModel(
+      name: map[actorColName],
+      thumbnail: map[actorColThumbnail],
+      level: map[actorColLevel],
+      role: map[actorColRole]
+    );
+  }
+
   factory ActorModel.fromElement(Element element) {
     String thumbnail = element
       .getElementsByClassName(movieActorThumbnailClass)[0]

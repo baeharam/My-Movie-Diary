@@ -28,12 +28,10 @@ class _SearchMovieFormState extends State<SearchMovieForm> {
     return BlocBuilder<SearchEvent,SearchState>(
       bloc: widget.searchBloc,
       builder: (context, state){
-        if(state.isMovieCrawlLoading && 
-          widget.movie.movieCode==state.clickedMovieCode) {
+        if(state.isMovieCrawlLoading && widget.movie.movieCode==state.clickedMovieCode) {
           return Container(
-            height: 100.0,
+            height: MediaQuery.of(context).size.height*0.28,
             alignment: Alignment.center,
-            margin: const EdgeInsets.all(30.0),
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(Colors.white),
             )

@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:mymovie/models/actor_model.dart';
+import 'package:mymovie/resources/constants.dart';
 
 class MovieModel {
   final String link;
@@ -64,6 +65,39 @@ class MovieModel {
       mainActor: movieActor,
       userRating: json['userRating'] as String,
       pubDate: json['pubDate'] as String
+    );
+  }
+
+  factory MovieModel.fromLocalDB({
+    @required Map<String,dynamic> movieDefault,
+    @required List<Map<String,dynamic>> movieStillcutList,
+    @required List<Map<String,dynamic>> movieActorList,
+    @required List<Map<String,dynamic>> movieTrailerList
+  }) {
+
+    List<String> _stillCutList = List<String>();
+    movieStillcutList.forEach((map) => _stillCutList.add(map[stillcutColPhoto]));
+
+    List<ActorModel> _actorList = List<ActorModel>();
+    movieActorList.forEach((map) => _actorList.add(ActorModel.fromMap(map)));
+
+    List<String> _trailerList = List<String>();
+    movieTrailerList.forEach((map) => _trailerList.add(map[trailerColVideo]));
+
+    return MovieModel._(
+      link: movieDefault[movieColLink],
+      movieCode: movieDefault[movieColCode],
+      thumbnail: movieDefault[movieColThumnail],
+      title: movieDefault[movieColTitle],
+      mainDirector: movieDefault[movieColMainDirector],
+      mainActor: movieDefault[movieColMainActor],
+      userRating: movieDefault[movieColUserRating],
+      pubDate: movieDefault[movieColPubdate],
+      description: movieDefault[movieColDescription],
+      mainPhoto: movieDefault[movieColMainPhoto],
+      stillcutList: _stillCutList,
+      actorList: _actorList,
+      trailerList: _trailerList
     );
   }
 

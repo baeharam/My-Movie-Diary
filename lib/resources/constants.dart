@@ -49,8 +49,8 @@ const String movieColPubdate = 'movie_pubdate';
 const String movieColMainDirector = 'movie_main_director';
 const String movieColMainActor = 'movie_main_actor';
 const String movieColUserRating = 'movie_user_rating';
-const String movieDescription = 'movie_description';
-const String movieMainPhoto = 'movie_main_photo';
+const String movieColDescription = 'movie_description';
+const String movieColMainPhoto = 'movie_main_photo';
 
 // Table - stillcut_table
 const String stillcutColID = 'stillcut_id';
@@ -60,6 +60,7 @@ const String stillcutColPhoto = 'stillcut_photo';
 // Table - actor_table
 const String actorColID = 'actor_id';
 const String actorColCode = 'actor_code';
+const String actorColName = 'actor_name';
 const String actorColThumbnail = 'actor_thumbnail';
 const String actorColLevel = 'actor_level';
 const String actorColRole = 'actor_role';
@@ -69,14 +70,15 @@ const String trailerColID = 'trailer_id';
 const String trailerColCode = 'trailer_code';
 const String trailerColVideo = 'trailer_video';
 
-// SQL
+// CREATE SQL
 const String sqlCreateMovieTable = 
   'CREATE TABLE $tableMovie ('
   '$movieColID INTEGER PRIMARY KEY,'
   '$movieColLink TEXT, $movieColCode TEXT,'
   '$movieColTitle TEXT, $movieColThumnail TEXT,'
   '$movieColMainActor TEXT, $movieColMainDirector TEXT,'
-  '$movieColPubdate TEXT, $movieColUserRating TEXT)';
+  '$movieColPubdate TEXT, $movieColUserRating TEXT,'
+  '$movieColDescription TEXT, $movieColMainPhoto TEXT)';
 
 const String sqlCreateStillcutTable = 
   'CREATE TABLE $tableStillcut ('
@@ -86,13 +88,20 @@ const String sqlCreateStillcutTable =
 const String sqlCreateActorTable =
   'CREATE TABLE $tableActor ('
   '$actorColID INTEGER PRIMARY KEY, '
-  '$actorColCode TEXT, $actorColLevel TEXT,'
+  '$actorColCode TEXT, $actorColName TEXT,' 
+  '$actorColLevel TEXT,'
   '$actorColRole TEXT, $actorColThumbnail TEXT)';
 
 const String sqlCreateTrailerTable =
   'CREATE TABLE $tableTrailer ('
   '$trailerColID INTEGER PRIMARY KEY,'
   '$trailerColCode TEXT, $trailerColVideo TEXT)';
+
+// READ SQL
+const String sqlReadMovieTable = 'SELECT * FROM $tableMovie';
+const String sqlReadMovieStillcutTable = 'SELECT * FROM $tableStillcut';
+const String sqlReadMovieActorTable = 'SELECT * FROM $tableActor';
+const String sqlReadMovieTrailer = 'SELECT * FROM $tableTrailer';
 
 // Intro Screen
 const String kakaoImage = 'assets/images/kakao.png';
