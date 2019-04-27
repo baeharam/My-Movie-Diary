@@ -14,7 +14,7 @@ class SearchAPI {
 
   static Database _db;
 
-  Future<void> dbInitialization() async => _db = await DatabaseHelper.instance.database;
+  Future<void> _dbInitialization() async => _db = await DatabaseHelper.instance.database;
 
   Future<void> _storeMovieDefaultInfo(MovieModel movie) async {
     debugPrint('로컬 DB에 기본정보 저장중...');
@@ -113,6 +113,7 @@ class SearchAPI {
   Future<MovieModel> getMoreInfoOfMovie(MovieModel movie) async {
     debugPrint("영화의 총체적인 정보 가져오는 중...");
 
+    await _dbInitialization();
     if(await _isLocalDBExist(movie)) {
       return await _getMovieFromLocalDB(movie);
     }

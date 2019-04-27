@@ -50,7 +50,6 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
 
     if(event is SearchEventMovieClick) {
       try {
-        await _api.dbInitialization();
         yield SearchState.movieCrawlLoading(movieCode: event.movie.movieCode);
         MovieModel movie = await _api.getMoreInfoOfMovie(event.movie);
         yield SearchState.movieCrawlSucceeded(movie: movie);
