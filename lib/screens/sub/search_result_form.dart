@@ -9,11 +9,13 @@ class SearchResultForm extends StatefulWidget {
 
   final List<MovieModel> movieList;
   final SearchBloc searchBloc;
+  final TextEditingController searchBarController;
 
   const SearchResultForm({
     Key key, 
     @required this.movieList,
-    @required this.searchBloc
+    @required this.searchBloc,
+    @required this.searchBarController
   }) : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class _SearchResultFormState extends State<SearchResultForm> {
     return BlocBuilder<SearchEvent,SearchState>(
       bloc: widget.searchBloc,
       builder: (context,state){
-        if(state.isKeyboardOn){
+        if(state.isKeyboardOn || widget.searchBarController.text.isEmpty){
           return SearchProcessingMessage(message: '영화를 검색해주세요.');
         }
         if(state.isMovieAPICallLoading) {

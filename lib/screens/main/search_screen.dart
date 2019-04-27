@@ -127,6 +127,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                     SearchResultForm(
                       movieList: _movieList,
                       searchBloc: _searchBloc,
+                      searchBarController: _searchBarController,
                     )
                   ],
                 );

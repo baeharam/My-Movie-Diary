@@ -23,7 +23,7 @@ class SearchBar extends StatelessWidget {
           decoration: InputDecoration(
             labelText: '영화',
             labelStyle: Theme.of(context).textTheme
-              .caption.copyWith(color: Colors.white),
+              .caption.copyWith(color: Colors.grey),
           ),
           controller: searchBarController,
           autofocus: false,
