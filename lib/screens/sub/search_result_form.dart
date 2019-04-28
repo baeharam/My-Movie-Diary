@@ -38,7 +38,7 @@ class _SearchResultFormState extends State<SearchResultForm> {
     return BlocBuilder<SearchEvent,SearchState>(
       bloc: widget.searchBloc,
       builder: (context,state){
-        if(state.isKeyboardOn || widget.searchBarController.text.isEmpty){
+        if((state.isKeyboardOn&&widget.movieList.isEmpty) || widget.searchBarController.text.isEmpty){
           return SearchProcessingMessage(message: '영화를 검색해주세요.');
         }
         if(state.isMovieAPICallLoading) {
