@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/strings.dart';
+import 'package:mymovie/screens/main/diary_screen.dart';
 import 'package:mymovie/screens/sub/movie_actor_list.dart';
 import 'package:mymovie/screens/sub/movie_description.dart';
 import 'package:mymovie/screens/sub/movie_main_photo.dart';
@@ -87,6 +89,15 @@ class _MovieScreenState extends State<MovieScreen> {
           ],
         ),
       ),
+      floatingActionButton:  FloatingActionButton.extended(
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => DiaryScreen(movie: widget.movie)
+        )),
+        icon: Icon(Icons.edit),
+        label: Text('일기쓰기'),
+        heroTag: 'diary',
+        backgroundColor: Colors.deepPurple,
+      )
     );
   }
 }

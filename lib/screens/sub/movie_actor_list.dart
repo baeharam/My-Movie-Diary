@@ -11,8 +11,6 @@ class MovieActorList extends StatelessWidget {
 
   const MovieActorList({Key key, @required this.actors}) : super(key: key);
 
-  
-  // TODO: 배우 디자인 수정..
   @override
   Widget build(BuildContext context) {
     return Container(
