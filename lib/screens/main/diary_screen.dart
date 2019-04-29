@@ -18,6 +18,15 @@ class DiaryScreen extends StatefulWidget {
 class _DiaryScreenState extends State<DiaryScreen> {
 
   final DiaryBloc _diaryBloc = sl.get<DiaryBloc>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _feelingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _feelingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   return SmoothStarRating(
                     borderColor: Colors.grey,
                     color: Colors.red,
-                    rating: state.value,
+                    rating: state.star,
                     allowHalfRating: true,
                     size: 40.0,
                     onRatingChanged: (value) => 
@@ -60,6 +69,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   ),
                   maxLines: 1,
                   cursorColor: Colors.white,
+                  controller: _titleController,
+                  onChanged: (title) => 
+                        _diaryBloc.dispatch(DiaryEventTitleChange(title: title)),
                 ),
               ),
               Theme(
@@ -80,11 +92,32 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   cursorColor: Colors.white,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
+                  controller: _feelingController,
+                  onChanged: (feeling) => 
+                    _diaryBloc.dispatch(DiaryEventFeelingChange(feeling: feeling)),
                 ),
               )
             ],
           ),
         ),
+        floatingActionButton: BlocBuilder<DiaryEvent,DiaryState>(
+          bloc: _diaryBloc,
+          builder: (context, state){
+            if(state.star==0.0 || state.feeling.isEmpty || state.title.isEmpty){
+              return Container();
+            }
+            return FloatingActionButton.extended(
+              backgroundColor: Colors.blueGrey,
+              icon: Icon(Icons.save, color: Colors.black),
+              label: Text(
+                '다썼어요!',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: (){},
+            );
+          }
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
