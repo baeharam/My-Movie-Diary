@@ -13,6 +13,7 @@ class LoginButton extends StatelessWidget {
   final Image image;
   final Color buttonColor;
   final Color textColor;
+  final Color loadingColor;
   final String message;
   final IntroBloc introBloc;
 
@@ -24,6 +25,7 @@ class LoginButton extends StatelessWidget {
     @required this.image,
     @required this.buttonColor,
     @required this.textColor,
+    @required this.loadingColor,
     @required this.message,
     @required this.introBloc
   }) : super(key: key);
@@ -41,11 +43,11 @@ class LoginButton extends StatelessWidget {
     return BlocBuilder<IntroEvent,IntroState>(
       bloc: introBloc,
       builder: (context, IntroState state){
-        if(state.isKakaoLoginSucceeded || state.isGoogleLoginSucceeded) {
+        if(state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded) {
           BlocNavigator.pushReplacementNamed(context, routeHome);
           introBloc.dispatch(IntroEventStateClear());
         }
-        if(state.isKakaoLoginFailed || state.isGoogleLoginFailed) {
+        if(state.isFacebookLoginFailed || state.isGoogleLoginFailed) {
           BlocSnackbar.show(context, '로그인에 실패하였습니다.');
           introBloc.dispatch(IntroEventStateClear());
         }
@@ -81,7 +83,7 @@ class LoginButton extends StatelessWidget {
                   margin: const EdgeInsets.all(15.0),
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    valueColor: AlwaysStoppedAnimation<Color>(loadingColor),
                   ),
                   width: 30.0,
                   height: 30.0,

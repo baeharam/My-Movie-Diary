@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 
 import 'intro.dart';
 
@@ -12,16 +13,16 @@ class IntroBloc extends Bloc<IntroEvent,IntroState> {
   @override
   Stream<IntroState> mapEventToState(IntroEvent event) async*{
     if(event is IntroEventStateClear) {
-      yield IntroState();
+      yield IntroState.initial();
     }
 
-    if(event is IntroEventKakaoLogin) {
+    if(event is IntroEventFacebookLogin) {
       try {
-        await _api.kakaoAuthentication();
-        yield IntroState.kakaoLoginSucceeded();
+        await _api.facebookAuthentication();
+        yield IntroState.facebookLoginSucceeded();
       } catch(exception) {
-        print("카카오 로그인 실패: ${exception.toString()}");
-        yield IntroState.kakaoLoginFailed();
+        debugPrint("페이스북 로그인 실패: ${exception.toString()}");
+        yield IntroState.facebookLoginFailed();
       }
     }
 
@@ -30,7 +31,7 @@ class IntroBloc extends Bloc<IntroEvent,IntroState> {
         await _api.googleAuthentication();
         yield IntroState.googleLoginSucceeded();
       } catch(exception) {
-        print("구글 로그인 실패: ${exception.toString()}");
+        debugPrint("구글 로그인 실패: ${exception.toString()}");
         yield IntroState.googleLoginFailed();
       }
     }

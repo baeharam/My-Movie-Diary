@@ -4,7 +4,7 @@ const String routeHome = '/home';
 const String routeSearch = '/search';
 
 // Intro Screen
-const String stringLoginKakao = '카카오톡으로 로그인';
+const String stringLoginFacebook = '페이스북으로 로그인';
 const String stringLoginGoogle = '구글계정으로 로그인';
 
 // Movie Screen

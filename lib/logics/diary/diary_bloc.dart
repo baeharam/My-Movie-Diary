@@ -12,7 +12,7 @@ class DiaryBloc extends Bloc<DiaryEvent,DiaryState> {
   Stream<DiaryState> mapEventToState(DiaryEvent event) async*{
 
     if(event is DiaryEventStateClear) {
-      yield DiaryState();
+      yield DiaryState.initial();
     }
 
     if(event is DiaryEventStarClick) {

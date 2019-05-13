@@ -1,0 +1,4 @@
+
+class CurrentUser {
+  String uid;
+}

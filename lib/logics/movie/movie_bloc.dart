@@ -10,7 +10,7 @@ class MovieBloc extends Bloc<MovieEvent,MovieState> {
   @override
   Stream<MovieState> mapEventToState(MovieEvent event) async*{
     if(event is MovieEventStateClear) {
-      yield MovieState();
+      yield MovieState.initial();
     }
 
     if(event is MovieEventMoreButtonClicked) {

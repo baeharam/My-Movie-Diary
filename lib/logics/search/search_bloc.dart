@@ -27,7 +27,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState> {
   Stream<SearchState> mapEventToState(SearchEvent event) async*{
 
     if(event is SearchEventStateClear) {
-      yield SearchState();
+      yield SearchState.initial();
     }
 
     if(event is SearchEventKeyboardOn) {

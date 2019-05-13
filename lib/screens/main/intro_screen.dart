@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mymovie/logics/intro/intro.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/intro_login_button.dart';
@@ -16,43 +17,43 @@ class IntroScreen extends StatefulWidget{
 class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin{
 
   final IntroBloc _introBloc = sl.get<IntroBloc>();
-  AnimationController _kakaoController,_googleController;
+  AnimationController _facebookController,_googleController;
   AnimationController _backgroundImageController;
-  Animation _kakaoAnimation,_googleAnimation;
+  Animation _facebookAnimation,_googleAnimation;
   Animation _backgroundImageAnimation;
 
   @override
   void initState() {
     super.initState();
-    _kakaoInitialization();
+    _facebookInitialization();
     _googleInitialization();
     _backgroundInitialization();
   }
 
   @override
   void dispose() {
-    _kakaoController.dispose();
+    _facebookController.dispose();
     _googleController.dispose();
     _backgroundImageController.dispose();
     _introBloc.dispose();
     super.dispose();
   }
 
-  void _kakaoInitialization() {
-    _kakaoController = AnimationController(
+  void _facebookInitialization() {
+    _facebookController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this
     );
-    _kakaoAnimation = Tween(
+    _facebookAnimation = Tween(
       begin: 300.0,
       end: 70.0
     ).animate(CurvedAnimation(
-      parent: _kakaoController,
+      parent: _facebookController,
       curve: Interval(0.0,0.250)
     ));
-    _kakaoController.addListener(() {
-      if(_kakaoController.isCompleted) {
-        _introBloc.dispatch(IntroEventKakaoLogin());
+    _facebookController.addListener(() {
+      if(_facebookController.isCompleted) {
+        _introBloc.dispatch(IntroEventFacebookLogin());
       }
     });
   }
@@ -132,16 +133,17 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                   ),
                   SizedBox(height: 200.0),
                   LoginButton(
-                    loginAnimation: _kakaoAnimation,
-                    loginAnimationController: _kakaoController,
+                    loginAnimation: _facebookAnimation,
+                    loginAnimationController: _facebookController,
                     image: Image(
-                      image: AssetImage(kakaoImage),
+                      image: AssetImage(facebookImage),
                       width: 50.0,
-                      height: 50.0,
+                      height: 50.0
                     ),
-                    buttonColor: Colors.yellow,
-                    textColor: Colors.brown,
-                    message: stringLoginKakao,
+                    buttonColor: facebookLogoColor,
+                    textColor: Colors.white,
+                    loadingColor: Colors.white,
+                    message: stringLoginFacebook,
                     introBloc: _introBloc,
                   ),
                   SizedBox(height: 20.0),
@@ -155,6 +157,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                     ),
                     buttonColor: Colors.white,
                     textColor: Colors.black,
+                    loadingColor: Colors.black,
                     message: stringLoginGoogle,
                     introBloc: _introBloc,
                   )

@@ -14,7 +14,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   rxdart: ^0.21.0
   get_it: ^1.0.3
-  flutter_kakao_login: ^0.0.8
   google_sign_in: 3.2.4
   firebase_auth: 0.7.0
   cloud_firestore: 0.8.2+3
@@ -28,6 +27,7 @@ dependencies:
   flutter_inappbrowser: 0.6.0
   carousel_slider: ^1.3.0
   smooth_star_rating: ^1.0.2
+  flutter_facebook_login: 1.2.0
 
 
 dev_dependencies:
@@ -39,7 +39,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/kakao.png
+    - assets/images/facebook.png
     - assets/images/google.png
     - assets/images/fantasy.jpg
     - assets/images/cinema.jpg

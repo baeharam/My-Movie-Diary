@@ -2,5 +2,5 @@ abstract class IntroEvent {}
 
 class IntroEventStateClear extends IntroEvent {}
 
-class IntroEventKakaoLogin extends IntroEvent {}
+class IntroEventFacebookLogin extends IntroEvent {}
 class IntroEventGoogleLogin extends IntroEvent {}

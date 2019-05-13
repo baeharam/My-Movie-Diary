@@ -1,5 +1,4 @@
 // API Management
-const String kakaoAppKey = '0e7261bd0a60680fc4e711a7b3e230a4';
 const String naverMovieHosthUrl = 'openapi.naver.com';
 const String naverMovieAPIUrl = '/v1/search/movie.json';
 const String naverAPIClientID = 'of6amSIPekcLSUPuzL9x';
@@ -104,7 +103,7 @@ const String sqlReadMovieActorTable = 'SELECT * FROM $tableActor';
 const String sqlReadMovieTrailer = 'SELECT * FROM $tableTrailer';
 
 // Intro Screen
-const String kakaoImage = 'assets/images/kakao.png';
+const String facebookImage = 'assets/images/facebook.png';
 const String googleImage = 'assets/images/google.png';
 
 const List introBackgroundImageList = [
@@ -112,4 +111,3 @@ const List introBackgroundImageList = [
   'assets/images/spiderman.jpg',
   'assets/images/abouttime.jpg'
 ];
-
