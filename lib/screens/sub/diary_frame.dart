@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/diary/diary.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
-import 'package:mymovie/screens/main/diary_screen.dart';
+import 'package:mymovie/screens/main/diary_edit_screen.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 

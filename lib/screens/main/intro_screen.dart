@@ -25,6 +25,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    _introBloc.dispatch(IntroEventStateClear());
     _facebookInitialization();
     _googleInitialization();
     _backgroundInitialization();
@@ -135,6 +136,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                   LoginButton(
                     loginAnimation: _facebookAnimation,
                     loginAnimationController: _facebookController,
+                    otherAnimationController: _googleController,
                     image: Image(
                       image: AssetImage(facebookImage),
                       width: 50.0,
@@ -150,6 +152,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
                   LoginButton(
                     loginAnimation: _googleAnimation,
                     loginAnimationController: _googleController,
+                    otherAnimationController: _facebookController,
                     image: Image(
                       image: AssetImage(googleImage),
                       width: 50.0,

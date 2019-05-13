@@ -26,6 +26,13 @@ class BlocNavigator {
     });
   }
 
+  static void pushNamedAndRemoveUntilWithRoute(
+    BuildContext context, MaterialPageRoute route, String remainPageName) {
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Navigator.of(context).pushAndRemoveUntil(route, ModalRoute.withName(remainPageName));
+    });
+  }
+
   static void pushNamedAndRemoveAll(BuildContext context, String pageName){
     WidgetsBinding.instance.addPostFrameCallback((_){
       Navigator.of(context).pushNamedAndRemoveUntil(pageName, (_)=>false);

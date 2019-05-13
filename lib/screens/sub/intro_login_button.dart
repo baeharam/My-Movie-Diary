@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginButton extends StatelessWidget {
 
   final AnimationController loginAnimationController;
+  final AnimationController otherAnimationController;
   final Animation loginAnimation;
   final Image image;
   final Color buttonColor;
@@ -21,6 +22,7 @@ class LoginButton extends StatelessWidget {
   LoginButton({
     Key key,
     @required this.loginAnimationController,
+    @required this.otherAnimationController,
     @required this.loginAnimation,
     @required this.image,
     @required this.buttonColor,
@@ -45,11 +47,9 @@ class LoginButton extends StatelessWidget {
       builder: (context, IntroState state){
         if(state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded) {
           BlocNavigator.pushReplacementNamed(context, routeHome);
-          introBloc.dispatch(IntroEventStateClear());
         }
         if(state.isFacebookLoginFailed || state.isGoogleLoginFailed) {
           BlocSnackbar.show(context, '로그인에 실패하였습니다.');
-          introBloc.dispatch(IntroEventStateClear());
         }
         return GestureDetector(
           child: AnimatedBuilder(
@@ -91,7 +91,8 @@ class LoginButton extends StatelessWidget {
               );
             }
           ),
-          onTap: () => _playAnimation(controller: loginAnimationController)
+          onTap: () => otherAnimationController.isAnimating ? null
+            : _playAnimation(controller: loginAnimationController)
         );
       }
     );

@@ -3,22 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/diary/diary.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/resources/strings.dart';
+import 'package:mymovie/screens/main/diary_result_screen.dart';
 import 'package:mymovie/screens/sub/diary_frame.dart';
+import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class DiaryScreen extends StatefulWidget {
+class DiaryEditScreen extends StatefulWidget {
 
   final MovieModel movie;
 
-  const DiaryScreen({Key key, @required this.movie}) : super(key: key);
+  const DiaryEditScreen({Key key, @required this.movie}) : super(key: key);
 
   @override
-  _DiaryScreenState createState() => _DiaryScreenState();
+  _DiaryEditScreenState createState() => _DiaryEditScreenState();
 }
 
-class _DiaryScreenState extends State<DiaryScreen> {
+class _DiaryEditScreenState extends State<DiaryEditScreen> {
 
   @override
   void initState() {
@@ -36,7 +39,14 @@ class _DiaryScreenState extends State<DiaryScreen> {
         child: BlocBuilder<DiaryEvent,DiaryState>(
           bloc: sl.get<DiaryBloc>(),
           builder: (context, state){ 
-            if(state.isDiaryCompleteLoading) {
+            if(state.isDiaryCompleteSucceeded) {
+              BlocNavigator.pushNamedAndRemoveUntilWithRoute(
+                context, 
+                MaterialPageRoute(builder: (_) => DiaryResultScreen(diaryModel: state.diaryModel)), 
+                routeHome
+              );
+            }
+            if(state.isDiaryCompleteLoading || state.isDiaryCompleteSucceeded){
               return SpinKitWave(
                 color: Colors.white,
                 size: 50.0,

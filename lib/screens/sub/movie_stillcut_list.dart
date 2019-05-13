@@ -7,8 +7,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 class MovieStillCutList extends StatelessWidget {
 
   final MovieModel movie;
+  final bool isAutoPlay;
 
-  const MovieStillCutList({Key key, this.movie}) : super(key: key);
+  const MovieStillCutList({Key key, this.movie, this.isAutoPlay: true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class MovieStillCutList extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height*0.35,
       child: CarouselSlider(
-        autoPlay: true,
+        autoPlay: isAutoPlay,
         autoPlayInterval: const Duration(milliseconds: 3000),
         enlargeCenterPage: true,
         items: movie.stillcutList.map((imageUrl){

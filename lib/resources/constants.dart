@@ -107,6 +107,7 @@ const String fMovieDiaryCol = 'movie_diary';
 const String fDiaryTitleField = 'diary_title';
 const String fDiaryContentsField = 'diary_contents';
 const String fDiaryRatingField = 'diary_rating';
+const String fDiaryImageField = 'diary_image';
 
 // Intro Screen
 const String facebookImage = 'assets/images/facebook.png';
