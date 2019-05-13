@@ -102,6 +102,12 @@ const String sqlReadMovieStillcutTable = 'SELECT * FROM $tableStillcut';
 const String sqlReadMovieActorTable = 'SELECT * FROM $tableActor';
 const String sqlReadMovieTrailer = 'SELECT * FROM $tableTrailer';
 
+// Cloud Firestore
+const String fMovieDiaryCol = 'movie_diary';
+const String fDiaryTitleField = 'diary_title';
+const String fDiaryContentsField = 'diary_contents';
+const String fDiaryRatingField = 'diary_rating';
+
 // Intro Screen
 const String facebookImage = 'assets/images/facebook.png';
 const String googleImage = 'assets/images/google.png';

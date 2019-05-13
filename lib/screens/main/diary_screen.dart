@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/diary/diary.dart';
+import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/screens/sub/diary_frame.dart';
+import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DiaryScreen extends StatefulWidget {
 
@@ -17,15 +20,10 @@ class DiaryScreen extends StatefulWidget {
 
 class _DiaryScreenState extends State<DiaryScreen> {
 
-  final DiaryBloc _diaryBloc = sl.get<DiaryBloc>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _feelingController = TextEditingController();
-
   @override
-  void dispose() {
-    _titleController.dispose();
-    _feelingController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    sl.get<DiaryBloc>().dispatch(DiaryEventStateClear());
   }
 
   @override
@@ -35,89 +33,39 @@ class _DiaryScreenState extends State<DiaryScreen> {
         color: Colors.black,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ListView(
-          children: [
-              SizedBox(height: 60.0),
-              BlocBuilder<DiaryEvent,DiaryState>(
-                bloc: _diaryBloc,
-                builder: (context,state){
-                  return SmoothStarRating(
-                    borderColor: Colors.grey,
-                    color: Colors.red,
-                    rating: state.star,
-                    allowHalfRating: true,
-                    size: 40.0,
-                    onRatingChanged: (value) => 
-                      _diaryBloc.dispatch(DiaryEventStarClick(value: value)),
-                  );
-                }
-              ),
-              SizedBox(height: 20.0),
-              Theme(
-                data: Theme.of(context).copyWith(primaryColor: Colors.transparent),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: '제목',
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 40.0
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40.0
-                  ),
-                  maxLines: 1,
-                  cursorColor: Colors.white,
-                  controller: _titleController,
-                  onChanged: (title) => 
-                        _diaryBloc.dispatch(DiaryEventTitleChange(title: title)),
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(primaryColor: Colors.transparent),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: '느낀점',
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 30.0
-                    ),
-                  ),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    height: 1.2
-                  ),
-                  cursorColor: Colors.white,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  controller: _feelingController,
-                  onChanged: (feeling) => 
-                    _diaryBloc.dispatch(DiaryEventFeelingChange(feeling: feeling)),
-                ),
-              )
-            ],
-          ),
-        ),
-        floatingActionButton: BlocBuilder<DiaryEvent,DiaryState>(
-          bloc: _diaryBloc,
-          builder: (context, state){
-            if(state.star==0.0 || state.feeling.isEmpty || state.title.isEmpty){
-              return Container();
+        child: BlocBuilder<DiaryEvent,DiaryState>(
+          bloc: sl.get<DiaryBloc>(),
+          builder: (context, state){ 
+            if(state.isDiaryCompleteLoading) {
+              return SpinKitWave(
+                color: Colors.white,
+                size: 50.0,
+              );
             }
-            return FloatingActionButton.extended(
-              backgroundColor: Colors.blueGrey,
-              icon: Icon(Icons.save, color: Colors.black),
-              label: Text(
-                '다썼어요!',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: (){},
-            );
+            if(state.isDiaryCompleteFailed) {
+              BlocSnackbar.show(context,'일기를 저장하는데 실패했습니다.');
+            }
+            return DiaryFrame(movie: widget.movie);
           }
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        )
+      )
+    );
+  }
+}
+
+class DiaryCompleteButton extends StatelessWidget {
+
+  final DiaryModel diaryModel;
+
+  const DiaryCompleteButton({Key key, @required this.diaryModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        child: Icon(Icons.check,color: Colors.white,size: 50.0),
+      ),
+      onTap: () => sl.get<DiaryBloc>().dispatch(DiaryEventComplete(diaryModel: diaryModel)),
     );
   }
 }
