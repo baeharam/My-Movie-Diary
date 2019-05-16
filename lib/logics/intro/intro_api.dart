@@ -47,15 +47,16 @@ class IntroAPI {
     List<DiaryModel> diaryList = List<DiaryModel>();
     var diary = await _db.query(tableDiary,
       columns: [diaryColCode,diaryColTitle,diaryColContents,diaryColRating]);
-    diary.forEach((map) async{
-      MovieModel movie = await _fetchMovie(diary[0][diaryColCode]);
+    
+    for(var map in diary) {
+      MovieModel movie = await _fetchMovie(map[diaryColCode]);
       diaryList.add(DiaryModel(
         title: map[diaryColTitle],
         contents: map[diaryColContents],
         rating: map[diaryColRating],
         movie: movie
       ));
-    });
+    }
     _storeIntoCurrentUser(diaryList: diaryList);
   }
 
@@ -68,7 +69,8 @@ class IntroAPI {
       .document(sl.get<CurrentUser>().uid)
       .collection(fMovieDiarySubCol)
       .getDocuments();
-    diarySnapshot.documents.forEach((diary) async{
+
+    for(var diary in diarySnapshot.documents) {
       MovieModel movie = await _fetchMovie(diary.data[fDiaryCodeField]);
       diaryList.add(DiaryModel(
         title: diary.data[fDiaryTitleField],
@@ -76,9 +78,11 @@ class IntroAPI {
         rating: diary.data[fDiaryRatingField],
         movie: movie
       ));
-    });
+    }
+    _storeIntoCurrentUser(diaryList: diaryList);
   }
 
+  // TODO: 영화 데이터 가져올 때, 로컬에 없을 경우 처리해야함
   Future<bool> _isExistInLocal({@required String movieCode}) async {
     debugPrint('$movieCode가 로컬에 존재하는지 확인 중...');
 
@@ -123,10 +127,10 @@ class IntroAPI {
       .document(sl.get<CurrentUser>().uid).get();
     SharedPreferences sf = await SharedPreferences.getInstance();
 
-    int serverTime = firestoreTimeSnapshot.data==null ? -1 : firestoreTimeSnapshot.data[fRecentUpdatedTimeField];
+    int serverTime = firestoreTimeSnapshot.data==null ? 0 : firestoreTimeSnapshot.data[fRecentUpdatedTimeField];
     int localTime = sf.getInt(sfRecentUpdatedTime) ?? -1;
 
-    if(localTime <= serverTime) {
+    if(localTime < serverTime) {
       return false;
     } else {
       return true;

@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mymovie/logics/global/current_user.dart';
+import 'package:mymovie/models/intro_message_model.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/home_button.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
+import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/utils/typewriter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,12 +20,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   StreamController<bool> _streamController;
   AnimationController _fadeAnimationController;
   Animation _fadeAnimation;
+  IntroMessageModel _introMessageModel;
 
   @override
   void initState() {
     super.initState();
     _streamController = StreamController<bool>();
     _fadeAnimationInitialization();
+    _getRandomDiary();
   }
 
   @override
@@ -29,6 +35,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _streamController.close();
     _fadeAnimationController.dispose();
     super.dispose();
+  }
+
+  void _getRandomDiary() {
+    if(sl.get<CurrentUser>().diary.isEmpty) {
+      _introMessageModel = IntroMessageModel(
+        diaryTitle: '일기를 작성하세용!',
+        movieTitle: '개발자',
+        pubDate: '2019'
+      );
+    } else {
+      _introMessageModel = IntroMessageModel.fromDiary(
+        diary: sl.get<CurrentUser>().diary[
+          Random().nextInt(sl.get<CurrentUser>().diary.length)
+        ]
+      );
+    }
   }
 
   void _fadeAnimationInitialization() {
@@ -67,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 SizedBox(
                   width: 250.0,
                   child: TypeWriter(
-                    text: ['우주는 황홀했다.'],
+                    text: [_introMessageModel.diaryTitle],
                     textStyle: TextStyle(
                       color: Colors.white,
                       fontSize: 30.0,
@@ -92,7 +114,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       return  SizedBox(
                         height: 25.0,
                         child: TypeWriter(
-                          text: ['인터스텔라, 2014'],
+                          text: ['${_introMessageModel.movieTitle},' 
+                            '${_introMessageModel.pubDate}'],
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
