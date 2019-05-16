@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mymovie/logics/diary/diary.dart';
+import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/screens/main/diary_edit_screen.dart';
@@ -20,7 +20,7 @@ class DiaryFrame extends StatefulWidget {
 
 class _DiaryFrameState extends State<DiaryFrame> {
 
-  final DiaryBloc _diaryBloc = sl.get<DiaryBloc>();
+  final DiaryEditBloc _diaryBloc = sl.get<DiaryEditBloc>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _feelingController = TextEditingController();
 
@@ -38,7 +38,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
     return ListView(
       children: [
           SizedBox(height: 60.0),
-          BlocBuilder<DiaryEvent,DiaryState>(
+          BlocBuilder<DiaryEditEvent,DiaryEditState>(
             bloc: _diaryBloc,
             builder: (context,state){
               if(state.star>0.0) {
@@ -53,7 +53,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
                     allowHalfRating: true,
                     size: 40.0,
                     onRatingChanged: (value) => 
-                      _diaryBloc.dispatch(DiaryEventStarClick(value: value)),
+                      _diaryBloc.dispatch(DiaryEditEventStarClick(value: value)),
                   ),
                   Spacer(),
                   (state.star==0.0 || 
@@ -91,7 +91,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
               cursorColor: Colors.white,
               controller: _titleController,
               onChanged: (title) => 
-                    _diaryBloc.dispatch(DiaryEventTitleChange(title: title)),
+                    _diaryBloc.dispatch(DiaryEditEventTitleChange(title: title)),
             ),
           ),
           Theme(
@@ -114,7 +114,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
               maxLines: null,
               controller: _feelingController,
               onChanged: (feeling) => 
-                _diaryBloc.dispatch(DiaryEventFeelingChange(feeling: feeling)),
+                _diaryBloc.dispatch(DiaryEditEventFeelingChange(feeling: feeling)),
             ),
           )
         ],

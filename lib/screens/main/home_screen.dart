@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 SizedBox(height: 200.0),
                 HomeButton(
                   title: '나의 영화일기', 
-                  onPressed: (){}
+                  onPressed: () => Navigator.pushNamed(context, routeDiaryList)
                 ),
                 SizedBox(height: 20.0),
                 HomeButton(

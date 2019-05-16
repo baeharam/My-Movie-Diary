@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:mymovie/models/diary_model.dart';
 
-class DiaryState {
+class DiaryEditState {
   final bool isInitial;
 
   final bool isStarClicked;
@@ -21,7 +21,7 @@ class DiaryState {
   final DiaryModel diaryModel;
   final bool isDiaryCompleteFailed;
 
-  const DiaryState({
+  const DiaryEditState({
     this.isInitial: false,
 
     this.isStarClicked: false,
@@ -43,13 +43,13 @@ class DiaryState {
   });
 
 
-  factory DiaryState.initial() => DiaryState(isInitial: true);
-  factory DiaryState.completeLoading() => DiaryState(isDiaryCompleteLoading: true);
-  factory DiaryState.completeSucceeded({@required DiaryModel diaryModel}) => 
-    DiaryState(isDiaryCompleteSucceeded: true,diaryModel: diaryModel);
-  factory DiaryState.completeFailed() => DiaryState(isDiaryCompleteFailed: true);   
+  factory DiaryEditState.initial() => DiaryEditState(isInitial: true);
+  factory DiaryEditState.completeLoading() => DiaryEditState(isDiaryCompleteLoading: true);
+  factory DiaryEditState.completeSucceeded({@required DiaryModel diaryModel}) => 
+    DiaryEditState(isDiaryCompleteSucceeded: true,diaryModel: diaryModel);
+  factory DiaryEditState.completeFailed() => DiaryEditState(isDiaryCompleteFailed: true);   
 
-  DiaryState copyWith({
+  DiaryEditState copyWith({
     double star,
     bool isStarClicked,
     String title,
@@ -59,7 +59,7 @@ class DiaryState {
     bool isKeyboardOn,
     bool isKeyboardOff
   }) {
-    return DiaryState(
+    return DiaryEditState(
       star: star ?? this.star,
       isStarClicked: isStarClicked ?? this.isStarClicked,
       title: title ?? this.title,

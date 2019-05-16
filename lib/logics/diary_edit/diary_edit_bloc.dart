@@ -1,55 +1,55 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mymovie/logics/diary/diary.dart';
+import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 
-class DiaryBloc extends Bloc<DiaryEvent,DiaryState> {
+class DiaryEditBloc extends Bloc<DiaryEditEvent,DiaryEditState> {
 
-  static final DiaryAPI _diaryAPI = DiaryAPI();
-
-  @override
-  DiaryState get initialState => DiaryState.initial();
+  static final DiaryEditAPI _diaryAPI = DiaryEditAPI();
 
   @override
-  Stream<DiaryState> mapEventToState(DiaryEvent event) async*{
+  DiaryEditState get initialState => DiaryEditState.initial();
 
-    if(event is DiaryEventStateClear) {
-      yield DiaryState.initial();
+  @override
+  Stream<DiaryEditState> mapEventToState(DiaryEditEvent event) async*{
+
+    if(event is DiaryEditEventStateClear) {
+      yield DiaryEditState.initial();
     }
 
-    if(event is DiaryEventComplete) {
-      yield DiaryState.completeLoading();
+    if(event is DiaryEditEventComplete) {
+      yield DiaryEditState.completeLoading();
       try {
         _diaryAPI.setTime();
         await _diaryAPI.storeIntoFirestore(diaryModel: event.diaryModel);
         await _diaryAPI.storeIntoLocal(diaryModel: event.diaryModel);
         _diaryAPI.storeIntoCurrentUser(diaryModel: event.diaryModel);
-        yield DiaryState.completeSucceeded(diaryModel: event.diaryModel);
+        yield DiaryEditState.completeSucceeded(diaryModel: event.diaryModel);
       } catch(exception){
         debugPrint('일기 Firestore에 저장 실패: ${exception.toString()}');
-        yield DiaryState.completeFailed();
+        yield DiaryEditState.completeFailed();
       }
     }
 
-    if(event is DiaryEventKeyboardOn) {
+    if(event is DiaryEditEventKeyboardOn) {
       yield currentState.copyWith(isKeyboardOn: true,isKeyboardOff: false);
     }
-    if(event is DiaryEventKeyboardOff) {
+    if(event is DiaryEditEventKeyboardOff) {
       yield currentState.copyWith(isKeyboardOff: true,isKeyboardOn: false);
     }
 
-    if(event is DiaryEventStarClick) {
+    if(event is DiaryEditEventStarClick) {
       yield currentState.copyWith(star: event.value);
     }
 
-    if(event is DiaryEventTitleChange) {
+    if(event is DiaryEditEventTitleChange) {
       yield currentState.copyWith(
         title: event.title,
         isTitleNotEmpty: true
       );
     }
 
-    if(event is DiaryEventFeelingChange) {
+    if(event is DiaryEditEventFeelingChange) {
       yield currentState.copyWith(
         feeling: event.feeling,
         isFeelingNotEmpty: true

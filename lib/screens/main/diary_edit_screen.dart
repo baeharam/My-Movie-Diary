@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mymovie/logics/diary/diary.dart';
+import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/strings.dart';
@@ -26,7 +26,7 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
   @override
   void initState() {
     super.initState();
-    sl.get<DiaryBloc>().dispatch(DiaryEventStateClear());
+    sl.get<DiaryEditBloc>().dispatch(DiaryEditEventStateClear());
   }
 
   @override
@@ -36,8 +36,8 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
         color: Colors.black,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: BlocBuilder<DiaryEvent,DiaryState>(
-          bloc: sl.get<DiaryBloc>(),
+        child: BlocBuilder<DiaryEditEvent,DiaryEditState>(
+          bloc: sl.get<DiaryEditBloc>(),
           builder: (context, state){ 
             if(state.isDiaryCompleteSucceeded) {
               BlocNavigator.pushNamedAndRemoveUntilWithRoute(
@@ -75,7 +75,7 @@ class DiaryCompleteButton extends StatelessWidget {
       child: Container(
         child: Icon(Icons.check,color: Colors.white,size: 50.0),
       ),
-      onTap: () => sl.get<DiaryBloc>().dispatch(DiaryEventComplete(diaryModel: diaryModel)),
+      onTap: () => sl.get<DiaryEditBloc>().dispatch(DiaryEditEventComplete(diaryModel: diaryModel)),
     );
   }
 }

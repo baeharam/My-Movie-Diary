@@ -2,6 +2,7 @@
 const String routeIntro = '/intro';
 const String routeHome = '/home';
 const String routeSearch = '/search';
+const String routeDiaryList = '/diary_list';
 
 // Intro Screen
 const String stringLoginFacebook = '페이스북으로 로그인';

@@ -7,4 +7,5 @@ final Map<String, WidgetBuilder> routes =  {
   routeIntro: (BuildContext context) => IntroScreen(),
   routeHome: (BuildContext context) => HomeScreen(),
   routeSearch: (BuildContext context) => SearchScreen(),
+  routeDiaryList: (BuildContext context) => DiaryListScreen()
 };

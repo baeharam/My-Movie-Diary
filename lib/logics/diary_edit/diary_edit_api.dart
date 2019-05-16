@@ -10,7 +10,7 @@ import 'package:mymovie/utils/service_locator.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DiaryAPI {
+class DiaryEditAPI {
   final Firestore _firestore = Firestore.instance;
   DateTime _now;
 
