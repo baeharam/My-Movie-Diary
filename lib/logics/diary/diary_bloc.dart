@@ -20,7 +20,10 @@ class DiaryBloc extends Bloc<DiaryEvent,DiaryState> {
     if(event is DiaryEventComplete) {
       yield DiaryState.completeLoading();
       try {
-        await _diaryAPI.completeDiary(diaryModel: event.diaryModel);
+        _diaryAPI.setTime();
+        await _diaryAPI.storeIntoFirestore(diaryModel: event.diaryModel);
+        await _diaryAPI.storeIntoLocal(diaryModel: event.diaryModel);
+        _diaryAPI.storeIntoCurrentUser(diaryModel: event.diaryModel);
         yield DiaryState.completeSucceeded(diaryModel: event.diaryModel);
       } catch(exception){
         debugPrint('일기 Firestore에 저장 실패: ${exception.toString()}');

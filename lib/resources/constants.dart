@@ -37,6 +37,7 @@ const String tableMovie = 'movie_table';
 const String tableStillcut = 'stillcut_table';
 const String tableActor = 'actor_table';
 const String tableTrailer = 'trailer_table';
+const String tableDiary = 'diary_table';
 
 // Table - movie_table
 const String movieColID = 'movie_id';
@@ -69,6 +70,13 @@ const String trailerColID = 'trailer_id';
 const String trailerColCode = 'trailer_code';
 const String trailerColVideo = 'trailer_video';
 
+// Table - diary_table
+const String diaryColID = 'diary_id';
+const String diaryColCode = 'diary_code';
+const String diaryColTitle = 'diary_title';
+const String diaryColContents = 'diary_contents';
+const String diaryColRating = 'diary_rating';
+
 // CREATE SQL
 const String sqlCreateMovieTable = 
   'CREATE TABLE $tableMovie ('
@@ -96,18 +104,32 @@ const String sqlCreateTrailerTable =
   '$trailerColID INTEGER PRIMARY KEY,'
   '$trailerColCode TEXT, $trailerColVideo TEXT)';
 
+const String sqlCreateDiaryTable =
+  'CREATE TABLE $tableDiary ('
+  '$diaryColID INTEGER PRIMARY KEY,'
+  '$diaryColCode TEXT, $diaryColTitle TEXT,'
+  '$diaryColContents TEXT, $diaryColRating REAL)';
+
 // READ SQL
 const String sqlReadMovieTable = 'SELECT * FROM $tableMovie';
 const String sqlReadMovieStillcutTable = 'SELECT * FROM $tableStillcut';
 const String sqlReadMovieActorTable = 'SELECT * FROM $tableActor';
 const String sqlReadMovieTrailer = 'SELECT * FROM $tableTrailer';
 
-// Cloud Firestore
+// Cloud Firestore - diary document
 const String fMovieDiaryCol = 'movie_diary';
+const String fMovieDiarySubCol = 'movie_diary_sub';
 const String fDiaryTitleField = 'diary_title';
 const String fDiaryContentsField = 'diary_contents';
 const String fDiaryRatingField = 'diary_rating';
 const String fDiaryImageField = 'diary_image';
+const String fDiaryCodeField = 'diary_code';
+
+// Cloud Firestore - user document
+const String fRecentUpdatedTimeField = 'recent_updated';
+
+// SharedPreferences
+const String sfRecentUpdatedTime = 'recent_updated';
 
 // Intro Screen
 const String facebookImage = 'assets/images/facebook.png';

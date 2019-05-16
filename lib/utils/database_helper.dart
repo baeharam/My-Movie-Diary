@@ -31,5 +31,6 @@ class DatabaseHelper {
     await db.execute(sqlCreateStillcutTable);
     await db.execute(sqlCreateActorTable);
     await db.execute(sqlCreateTrailerTable);
+    await db.execute(sqlCreateDiaryTable);
   }
 }
