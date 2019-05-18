@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/intro/intro.dart';
-import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
-import 'package:mymovie/screens/sub/intro_login_button.dart';
+import 'package:mymovie/screens/sub/intro_body.dart';
+import 'package:mymovie/utils/bloc_navigator.dart';
+import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
@@ -99,74 +101,22 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
     OrientationFixer.fixPortrait();
 
     return Scaffold(
-      body: AnimatedBuilder(
-        animation: _backgroundImageAnimation,
-        builder: (context, widget){
-          return Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(introBackgroundImageList[_backgroundImageAnimation.value]),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 180.0),
-                    child: Text(
-                      '영화일기',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 70.0
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  Container(
-                    color: Colors.white,
-                    width: 200.0,
-                    height: 4.0,
-                  ),
-                  SizedBox(height: 200.0),
-                  LoginButton(
-                    loginAnimation: _facebookAnimation,
-                    loginAnimationController: _facebookController,
-                    otherAnimationController: _googleController,
-                    image: Image(
-                      image: AssetImage(facebookImage),
-                      width: 50.0,
-                      height: 50.0
-                    ),
-                    buttonColor: facebookLogoColor,
-                    textColor: Colors.white,
-                    loadingColor: Colors.white,
-                    message: stringLoginFacebook,
-                    introBloc: _introBloc,
-                  ),
-                  SizedBox(height: 20.0),
-                  LoginButton(
-                    loginAnimation: _googleAnimation,
-                    loginAnimationController: _googleController,
-                    otherAnimationController: _facebookController,
-                    image: Image(
-                      image: AssetImage(googleImage),
-                      width: 50.0,
-                      height: 30.0,
-                    ),
-                    buttonColor: Colors.white,
-                    textColor: Colors.black,
-                    loadingColor: Colors.black,
-                    message: stringLoginGoogle,
-                    introBloc: _introBloc,
-                  )
-                ],
-              ),
-            )
+      body: BlocBuilder<IntroEvent,IntroState>(
+        bloc: _introBloc,
+        builder: (context, state){
+          if(state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded) {
+            BlocNavigator.pushReplacementNamed(context, routeHome);
+          }
+          if(state.isFacebookLoginFailed || state.isGoogleLoginFailed) {
+            BlocSnackbar.show(context, '로그인에 실패하였습니다.');
+          }
+          return IntroBody(
+            backgroundImageAnimation: _backgroundImageAnimation,
+            facebookAnimation: _facebookAnimation,
+            googleAnimation: _googleAnimation,
+            facebookController: _facebookController,
+            googleController: _googleController,
+            introBloc: _introBloc,
           );
         }
       )
