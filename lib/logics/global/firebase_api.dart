@@ -40,8 +40,8 @@ class FirebaseAPI {
       fMovieUserRatingField: movie.userRating,
       fMovieDescriptionField: movie.description,
       fMovieMainPhotoField: movie.mainPhoto,
-      fMovieStillcutListField: FieldValue.arrayUnion(movie.stillcutList),
-      fMovieTrailerListField: FieldValue.arrayUnion(movie.trailerList)
+      fMovieStillcutListField: movie.stillcutList,
+      fMovieTrailerListField: movie.trailerList
     });
 
     for(ActorModel actor in movie.actorList) {
@@ -79,7 +79,7 @@ class FirebaseAPI {
       fDiaryMovieMainPhotoField: diaryModel.movieMainPhoto,
       fDiaryMovieCodeField: diaryModel.movieCode,
       fDiaryMoviePubDateField: diaryModel.moviePubDate,
-      fDiaryMovieStillcutListField: FieldValue.arrayUnion(diaryModel.movieStillCutList),
+      fDiaryMovieStillcutListField: diaryModel.movieStillCutList,
       fDiaryMovieTitleField: diaryModel.movieTitle
     });
 

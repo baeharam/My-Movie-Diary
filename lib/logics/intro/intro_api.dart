@@ -18,8 +18,8 @@ class IntroAPI {
 
   Future<void> _dataInitialization() async {
     await sl.get<FirebaseAPI>().setUID();
-    //await sl.get<DatabaseAPI>().initialization();
-    //sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<DatabaseAPI>().getAllDiary());
+    await sl.get<DatabaseAPI>().initialization();
+    sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<DatabaseAPI>().getAllDiary());
   }
 
   Future<void> facebookAuthentication() async {

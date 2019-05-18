@@ -44,19 +44,28 @@ class MovieModel {
   String get docName => this.movieCode+"-"+this.title;
   
   factory MovieModel.fromMap(Map<String,dynamic> map) {
+    List<String> stillcutList = List<String>();
+    for(dynamic stillcutLink in map[fMovieStillcutListField]){
+      stillcutList.add(stillcutLink as String);
+    }
+    List<String> trailerList = List<String>();
+    for(dynamic trailerLink in map[fMovieTrailerListField]){
+      trailerList.add(trailerLink as String);
+    }
+
     return MovieModel._(
-      link: map[fMovieLinkField],
-      movieCode: map[fMovieCodeField],
-      thumbnail: map[fMovieThumbnailField],
-      title: map[fMovieTitleField],
-      mainDirector: map[fMovieMainDirectorField],
-      mainActor: map[fMovieMainActorField],
-      userRating: map[fMovieUserRatingField],
-      pubDate: map[fMoviePubdateField],
-      description: map[fMovieDescriptionField],
-      mainPhoto: map[fMovieMainPhotoField],
-      stillcutList: map[fMovieStillcutListField],
-      trailerList: map[fMovieTrailerListField]
+      link: map[fMovieLinkField] as String,
+      movieCode: map[fMovieCodeField] as String,
+      thumbnail: map[fMovieThumbnailField] as String,
+      title: map[fMovieTitleField] as String,
+      mainDirector: map[fMovieMainDirectorField] as String,
+      mainActor: map[fMovieMainActorField] as String,
+      userRating: map[fMovieUserRatingField] as String,
+      pubDate: map[fMoviePubdateField] as String,
+      description: map[fMovieDescriptionField] as String,
+      mainPhoto: map[fMovieMainPhotoField] as String,
+      stillcutList: stillcutList,
+      trailerList: trailerList
     );
   }
 
@@ -105,9 +114,11 @@ class MovieModel {
   }
 
   void addActorList(List<Map<String,dynamic>> actorList){
+    List<ActorModel> actors = List<ActorModel>();
     for(var actor in actorList) {
-      this.actorList.add(ActorModel.fromMap(actor));
+      actors.add(ActorModel.fromMap(actor));
     }
+    this.actorList = actors;
   }
 
   @override

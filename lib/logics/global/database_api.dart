@@ -21,7 +21,7 @@ class DatabaseAPI {
 
   /// [영화]
   Future<void> putMovie({@required MovieModel movie}) async {
-    await _movieStore.put({movie.movieCode,movie.toMap()},movie.movieCode);
+    await _movieStore.put(movie.toMap(),movie.movieCode);
     List<Map<String,dynamic>> actorList = List<Map<String,dynamic>>();
     for(ActorModel actor in movie.actorList) {
       actorList.add(actor.toMap());
@@ -37,15 +37,19 @@ class DatabaseAPI {
   Future<MovieModel> getMovie({@required String movieCode}) async {
     Finder finder = Finder(filter: Filter.byKey(movieCode));
     Record record = await _movieStore.findRecord(finder);
-    MovieModel movie =  MovieModel.fromMap(record.value as Map);
-    List<Map<String,dynamic>> actorList = await _getActorList(movieCode);
-    movie.addActorList(actorList);
+    MovieModel movie =  MovieModel.fromMap(record.value);
+    List<dynamic> actorList = await _getActorList(movieCode);
+    List<Map<String,dynamic>> realActorList = List<Map<String,dynamic>>();
+    for(dynamic actor in actorList) {
+      realActorList.add(actor as Map<String,dynamic>);
+    }
+    movie.addActorList(realActorList);
     return movie;
   }
 
   /// [배우]
   Future<void> _putActorList(List<Map<String,dynamic>> actorList,String movieCode) async {
-    await _actorStore.put({actorList},movieCode);
+    await _actorStore.put(actorList,movieCode);
   }
 
   Future<dynamic> _getActorList(String movieCode) async {
@@ -56,7 +60,7 @@ class DatabaseAPI {
 
   /// [일기]
   Future<void> putDiary({@required DiaryModel diary}) async {
-    await _diaryStore.put({diary.toMap()},diary.movieCode);
+    await _diaryStore.put(diary.toMap(),diary.movieCode);
   }
 
   Future<DiaryModel> getDiary({@required String movieCode}) async {
