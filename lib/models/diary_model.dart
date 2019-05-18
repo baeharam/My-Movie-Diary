@@ -29,16 +29,20 @@ class DiaryModel {
   }
 
   factory DiaryModel.fromMap(Map<String,dynamic> map) {
+    List<String> stillcutList = List<String>();
+    for(dynamic stillcutLink in map[fDiaryMovieStillcutListField]){
+      stillcutList.add(stillcutLink as String);
+    }
     return DiaryModel(
       movieCode: map[fDiaryMovieCodeField],
       moviePubDate: map[fDiaryMoviePubDateField],
       movieTitle: map[fDiaryMovieTitleField],
       movieMainPhoto: map[fDiaryMovieMainPhotoField],
-      movieStillCutList: map[fMovieStillcutListField],
+      movieStillCutList: stillcutList,
 
       diaryTitle: map[fDiaryTitleField],
       diaryContents: map[fDiaryContentsField],
-      diaryRating: map[fDiaryMovieMainPhotoField]
+      diaryRating: map[fDiaryRatingField]
     );
   }
 
