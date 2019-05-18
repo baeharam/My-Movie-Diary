@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void _getRandomDiary() {
-    if(sl.get<CurrentUser>().diary.isEmpty) {
+    if(sl.get<CurrentUser>().isDiaryEmpty()) {
       _introMessageModel = IntroMessageModel(
         diaryTitle: '일기를 작성하세용!',
         movieTitle: '개발자',
@@ -46,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       );
     } else {
       _introMessageModel = IntroMessageModel.fromDiary(
-        diary: sl.get<CurrentUser>().diary[
-          Random().nextInt(sl.get<CurrentUser>().diary.length)
+        diary: sl.get<CurrentUser>().diaryList[
+          Random().nextInt(sl.get<CurrentUser>().diaryLength)
         ]
       );
     }

@@ -75,7 +75,7 @@ class _MovieScreenState extends State<MovieScreen> {
                       WhiteLine(),
                       SizedBox(height: 20.0),
                       MovieSectionTitle(title: stringMovieStillCut),
-                      MovieStillCutList(movie: widget.movie),
+                      MovieStillCutList(stillcutList: widget.movie.stillcutList),
                       SizedBox(height: 20.0),
                       WhiteLine(),
                       SizedBox(height: 20.0),

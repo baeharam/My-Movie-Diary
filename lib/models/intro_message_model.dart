@@ -16,9 +16,9 @@ class IntroMessageModel {
 
   factory IntroMessageModel.fromDiary({@required DiaryModel diary}) {
     return IntroMessageModel(
-      diaryTitle: diary.title,
-      movieTitle: diary.movie.title,
-      pubDate: diary.movie.pubDate
+      diaryTitle: diary.diaryTitle,
+      movieTitle: diary.movieTitle,
+      pubDate: diary.moviePubDate
     );
   }
 }

@@ -1,15 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/widgets/custom_progress_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class MovieStillCutList extends StatelessWidget {
 
-  final MovieModel movie;
+  final List<String> stillcutList;
   final bool isAutoPlay;
 
-  const MovieStillCutList({Key key, this.movie, this.isAutoPlay: true}) : super(key: key);
+  const MovieStillCutList({
+    Key key, 
+    @required this.stillcutList, 
+    this.isAutoPlay: true
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class MovieStillCutList extends StatelessWidget {
         autoPlay: isAutoPlay,
         autoPlayInterval: const Duration(milliseconds: 3000),
         enlargeCenterPage: true,
-        items: movie.stillcutList.map((imageUrl){
+        items: stillcutList.map((imageUrl){
           return Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,

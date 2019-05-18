@@ -1,11 +1,13 @@
 import 'package:html/dom.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
+import 'package:uuid/uuid.dart';
 
 class ActorModel {
 
   static const String actorLevelLeading = 'leading';
   static const String actorLevelSupporting = 'supporting';
+  final Uuid uuid = Uuid();
 
   String name;
   String thumbnail;
@@ -22,12 +24,23 @@ class ActorModel {
        assert(level!=null),
        assert(role!=null);
 
-  factory ActorModel.fromMap(Map map) {
+  String get docName => this.name+"-"+uuid.v1();
+
+  Map<String,dynamic> toMap() {
+    return {
+      fActorNameField: this.name,
+      fActorThumbnailField: this.thumbnail,
+      fActorLevelField: this.level,
+      fActorRoleField: this.role
+    };
+  }
+
+  factory ActorModel.fromMap(Map<String,dynamic> map) {
     return ActorModel(
-      name: map[actorColName],
-      thumbnail: map[actorColThumbnail],
-      level: map[actorColLevel],
-      role: map[actorColRole]
+      name: map[fActorNameField],
+      thumbnail: map[fActorThumbnailField],
+      level: map[fActorLevelField],
+      role: map[fActorRoleField]
     );
   }
 

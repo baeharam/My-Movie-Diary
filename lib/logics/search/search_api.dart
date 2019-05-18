@@ -1,121 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:mymovie/logics/global/database_api.dart';
+import 'package:mymovie/logics/global/firebase_api.dart';
 import 'package:mymovie/models/actor_model.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymovie/resources/constants.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart';
-import 'package:mymovie/utils/database_helper.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mymovie/utils/service_locator.dart';
 
 class SearchAPI {
-
-  static Database _db;
-
-  Future<void> _dbInitialization() async => _db = await DatabaseHelper.instance.database;
-
-  Future<void> _storeMovieDefaultInfo(MovieModel movie) async {
-    debugPrint('로컬 DB에 기본정보 저장중...');
-
-    await _db.insert(tableMovie, {
-      movieColLink: movie.link,
-      movieColCode: movie.movieCode,
-      movieColThumnail: movie.thumbnail,
-      movieColTitle: movie.title,
-      movieColPubdate: movie.pubDate,
-      movieColMainDirector: movie.mainDirector,
-      movieColMainActor: movie.mainActor,
-      movieColUserRating: movie.userRating,
-      movieColDescription: movie.description,
-      movieColMainPhoto: movie.mainPhoto
-    });
-  }
-
-  Future<void> _storeMovieStillcutList(MovieModel movie) async{
-    debugPrint('로컬 DB에 스틸컷 저장중...');
-
-    movie.stillcutList.forEach((stillcut) async{
-      await _db.insert(tableStillcut, {
-        stillcutColCode: movie.movieCode,
-        stillcutColPhoto: stillcut
-      });
-    });
-  }
-
-  Future<void> _storeMovieActorList(MovieModel movie) async{
-    debugPrint('로컬 DB에 배우 저장중...');
-
-    movie.actorList.forEach((actor) async{
-      await _db.insert(tableActor, {
-        actorColCode: movie.movieCode,
-        actorColLevel: actor.level,
-        actorColName: actor.name,
-        actorColRole: actor.role,
-        actorColThumbnail: actor.thumbnail
-      });
-    });
-  }
-
-  Future<void> _storeMovieTrailerList(MovieModel movie) async{
-    debugPrint('로컬 DB에 트레일러 저장중...');
-
-    movie.trailerList.forEach((trailer) async{
-      await _db.insert(tableTrailer, {
-        trailerColCode: movie.movieCode,
-        trailerColVideo: trailer,
-      });
-    });
-  }
-
-  Future<bool> _isLocalDBExist(MovieModel movie) async {
-    debugPrint('로컬 DB 체크...');
-
-    var result = await _db.rawQuery(
-      'SELECT * FROM $tableMovie WHERE $movieColCode=${movie.movieCode}');
-    
-    result.isNotEmpty ? debugPrint('로컬 DB 있음!') : debugPrint('로컬 DB 없음ㅠ');
-    return result.isNotEmpty;
-  }
-
-  Future<MovieModel> _getMovieFromLocalDB(MovieModel movie) async {
-    debugPrint('로컬 DB에서 ${movie.title} 가져오기...');
-
-    var movieDefault = await _db.rawQuery(
-      'SELECT * FROM $tableMovie WHERE $movieColCode=${movie.movieCode}'
-    );
-    var movieStillcut = await _db.rawQuery(
-      'SELECT * FROM $tableStillcut WHERE $stillcutColCode=${movie.movieCode}'
-    );
-    var movieActor = await _db.rawQuery(
-      'SELECT * FROM $tableActor WHERE $actorColCode=${movie.movieCode}'
-    );
-    var movieTrailer = await _db.rawQuery(
-      'SELECT * FROM $tableTrailer WHERE $trailerColCode=${movie.movieCode}'
-    );
-
-    return MovieModel.fromLocalDB(
-      movieDefault: movieDefault[0],
-      movieStillcutList: movieStillcut,
-      movieActorList: movieActor,
-      movieTrailerList: movieTrailer
-    );
-  }
-
-  Future<void> _stroeIntoLocalDB(MovieModel movie) async {
-    await _storeMovieDefaultInfo(movie);
-    await _storeMovieActorList(movie);
-    await _storeMovieStillcutList(movie);
-    await _storeMovieTrailerList(movie);
-  }
 
   Future<MovieModel> getMoreInfoOfMovie(MovieModel movie) async {
     debugPrint("영화의 총체적인 정보 가져오는 중...");
 
-    await _dbInitialization();
-    if(await _isLocalDBExist(movie)) {
-      return await _getMovieFromLocalDB(movie);
+    // 로컬 db 체크
+    if(await sl.get<DatabaseAPI>().isExistingMovie(movieCode: movie.movieCode)){
+      return await sl.get<DatabaseAPI>().getMovie(movieCode: movie.movieCode);
     }
 
     http.Response mainPageResponse = await http.get(movie.link);
@@ -129,7 +32,8 @@ class SearchAPI {
     movie.actorList = _getActorList(actorResponse);
     movie.trailerList = _getMovieTrailerList(mainPageResponse);
 
-    await _stroeIntoLocalDB(movie);
+    await sl.get<FirebaseAPI>().storeMovie(movie: movie);
+    await sl.get<DatabaseAPI>().putMovie(movie: movie);
 
     return movie;
   }

@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:mymovie/logics/diary_edit/diary_edit_bloc.dart';
 import 'package:mymovie/logics/diary_list/diary_list_bloc.dart';
 import 'package:mymovie/logics/global/current_user.dart';
+import 'package:mymovie/logics/global/database_api.dart';
+import 'package:mymovie/logics/global/firebase_api.dart';
 import 'package:mymovie/logics/intro/intro_bloc.dart';
 import 'package:mymovie/logics/movie/movie_bloc.dart';
 import 'package:mymovie/logics/search/search_bloc.dart';
@@ -15,4 +17,6 @@ void setup() {
   sl.registerLazySingleton<DiaryEditBloc>(() => DiaryEditBloc());
   sl.registerLazySingleton<DiaryListBloc>(() => DiaryListBloc());
   sl.registerLazySingleton<CurrentUser>(() => CurrentUser());
+  sl.registerLazySingleton<FirebaseAPI>(() => FirebaseAPI());
+  sl.registerLazySingleton<DatabaseAPI>(() => DatabaseAPI());
 }

@@ -18,12 +18,16 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.diaryModel.movie.title),
+        title: Text(widget.diaryModel.movieTitle),
         centerTitle: true,
         backgroundColor: Colors.black,
         actions: [
           IconButton(
             icon: Icon(Icons.create),
+            onPressed: (){},
+          ),
+          IconButton(
+            icon: Icon(Icons.delete),
             onPressed: (){},
           )
         ],
@@ -32,7 +36,10 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MovieStillCutList(movie: widget.diaryModel.movie,isAutoPlay: false),
+            MovieStillCutList(
+              stillcutList: widget.diaryModel.movieStillCutList,
+              isAutoPlay: false
+            ),
             SizedBox(height: 10.0),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -42,12 +49,12 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
                   SmoothStarRating(
                     borderColor: Colors.black,
                     color: Colors.red,
-                    rating: widget.diaryModel.rating,
+                    rating: widget.diaryModel.diaryRating,
                     size: 40.0,
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    widget.diaryModel.title,
+                    widget.diaryModel.diaryTitle,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 40.0
@@ -55,7 +62,7 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    widget.diaryModel.contents,
+                    widget.diaryModel.diaryContents,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0

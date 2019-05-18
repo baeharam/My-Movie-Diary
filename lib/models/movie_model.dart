@@ -41,6 +41,42 @@ class MovieModel {
        assert(mainActor!=null),
        assert(userRating!=null);
 
+  String get docName => this.movieCode+"-"+this.title;
+  
+  factory MovieModel.fromMap(Map<String,dynamic> map) {
+    return MovieModel._(
+      link: map[fMovieLinkField],
+      movieCode: map[fMovieCodeField],
+      thumbnail: map[fMovieThumbnailField],
+      title: map[fMovieTitleField],
+      mainDirector: map[fMovieMainDirectorField],
+      mainActor: map[fMovieMainActorField],
+      userRating: map[fMovieUserRatingField],
+      pubDate: map[fMoviePubdateField],
+      description: map[fMovieDescriptionField],
+      mainPhoto: map[fMovieMainPhotoField],
+      stillcutList: map[fMovieStillcutListField],
+      trailerList: map[fMovieTrailerListField]
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      fMovieLinkField: this.link,
+      fMovieCodeField: this.movieCode,
+      fMovieThumbnailField: this.thumbnail,
+      fMovieTitleField: this.title,
+      fMovieMainDirectorField: this.mainDirector,
+      fMovieMainActorField: this.mainActor,
+      fMovieUserRatingField: this.userRating,
+      fMoviePubdateField: this.pubDate,
+      fMovieDescriptionField: this.description,
+      fMovieMainPhotoField: this.mainPhoto,
+      fMovieStillcutListField: this.stillcutList,
+      fMovieTrailerListField: this.trailerList
+    };
+  }
+
   factory MovieModel.fromJson(Map<String,dynamic> json) {
     String movieTitle = (json['title'] as String)
       .replaceAll('<b>', '')
@@ -68,37 +104,10 @@ class MovieModel {
     );
   }
 
-  factory MovieModel.fromLocalDB({
-    @required Map<String,dynamic> movieDefault,
-    @required List<Map<String,dynamic>> movieStillcutList,
-    @required List<Map<String,dynamic>> movieActorList,
-    @required List<Map<String,dynamic>> movieTrailerList
-  }) {
-
-    List<String> _stillCutList = List<String>();
-    movieStillcutList.forEach((map) => _stillCutList.add(map[stillcutColPhoto]));
-
-    List<ActorModel> _actorList = List<ActorModel>();
-    movieActorList.forEach((map) => _actorList.add(ActorModel.fromMap(map)));
-
-    List<String> _trailerList = List<String>();
-    movieTrailerList.forEach((map) => _trailerList.add(map[trailerColVideo]));
-
-    return MovieModel._(
-      link: movieDefault[movieColLink],
-      movieCode: movieDefault[movieColCode],
-      thumbnail: movieDefault[movieColThumnail],
-      title: movieDefault[movieColTitle],
-      mainDirector: movieDefault[movieColMainDirector],
-      mainActor: movieDefault[movieColMainActor],
-      userRating: movieDefault[movieColUserRating],
-      pubDate: movieDefault[movieColPubdate],
-      description: movieDefault[movieColDescription],
-      mainPhoto: movieDefault[movieColMainPhoto],
-      stillcutList: _stillCutList,
-      actorList: _actorList,
-      trailerList: _trailerList
-    );
+  void addActorList(List<Map<String,dynamic>> actorList){
+    for(var actor in actorList) {
+      this.actorList.add(ActorModel.fromMap(actor));
+    }
   }
 
   @override

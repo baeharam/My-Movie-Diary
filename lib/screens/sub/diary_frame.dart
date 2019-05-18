@@ -62,10 +62,14 @@ class _DiaryFrameState extends State<DiaryFrame> {
                   ? Container(height: 50.0)
                   : DiaryCompleteButton(
                     diaryModel: DiaryModel(
-                      movie: widget.movie,
-                      title: _titleController.text,
-                      contents: _feelingController.text,
-                      rating: _rating
+                      movieMainPhoto: widget.movie.mainPhoto,
+                      movieTitle: widget.movie.title,
+                      movieCode: widget.movie.movieCode,
+                      moviePubDate: widget.movie.pubDate,
+                      movieStillCutList: widget.movie.stillcutList,
+                      diaryTitle: _titleController.text,
+                      diaryContents: _feelingController.text,
+                      diaryRating: _rating
                     ),
                   )
                 ],

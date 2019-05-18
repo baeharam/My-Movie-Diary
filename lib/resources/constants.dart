@@ -31,99 +31,46 @@ const String movieActorPartClass = 'p_part';
 const String movieActorRoleClass = 'pe_cmt';
 const String movieActorPhilmographyClass = 'mv_product';
 
-// Database Overview
+// Sembast
 const String databaseName = 'movie_db';
-const String tableMovie = 'movie_table';
-const String tableStillcut = 'stillcut_table';
-const String tableActor = 'actor_table';
-const String tableTrailer = 'trailer_table';
-const String tableDiary = 'diary_table';
-
-// Table - movie_table
-const String movieColID = 'movie_id';
-const String movieColLink = 'movie_link';
-const String movieColCode = 'movie_code';
-const String movieColThumnail = 'movie_thumbnail';
-const String movieColTitle = 'movie_title';
-const String movieColPubdate = 'movie_pubdate';
-const String movieColMainDirector = 'movie_main_director';
-const String movieColMainActor = 'movie_main_actor';
-const String movieColUserRating = 'movie_user_rating';
-const String movieColDescription = 'movie_description';
-const String movieColMainPhoto = 'movie_main_photo';
-
-// Table - stillcut_table
-const String stillcutColID = 'stillcut_id';
-const String stillcutColCode = 'stillcut_code';
-const String stillcutColPhoto = 'stillcut_photo';
-
-// Table - actor_table
-const String actorColID = 'actor_id';
-const String actorColCode = 'actor_code';
-const String actorColName = 'actor_name';
-const String actorColThumbnail = 'actor_thumbnail';
-const String actorColLevel = 'actor_level';
-const String actorColRole = 'actor_role';
-
-// Table - trailer_table
-const String trailerColID = 'trailer_id';
-const String trailerColCode = 'trailer_code';
-const String trailerColVideo = 'trailer_video';
-
-// Table - diary_table
-const String diaryColID = 'diary_id';
-const String diaryColCode = 'diary_code';
-const String diaryColTitle = 'diary_title';
-const String diaryColContents = 'diary_contents';
-const String diaryColRating = 'diary_rating';
-
-// CREATE SQL
-const String sqlCreateMovieTable = 
-  'CREATE TABLE $tableMovie ('
-  '$movieColID INTEGER PRIMARY KEY,'
-  '$movieColLink TEXT, $movieColCode TEXT,'
-  '$movieColTitle TEXT, $movieColThumnail TEXT,'
-  '$movieColMainActor TEXT, $movieColMainDirector TEXT,'
-  '$movieColPubdate TEXT, $movieColUserRating TEXT,'
-  '$movieColDescription TEXT, $movieColMainPhoto TEXT)';
-
-const String sqlCreateStillcutTable = 
-  'CREATE TABLE $tableStillcut ('
-  '$stillcutColID INTEGER PRIMARY KEY, '
-  '$stillcutColCode TEXT, $stillcutColPhoto TEXT)';
-
-const String sqlCreateActorTable =
-  'CREATE TABLE $tableActor ('
-  '$actorColID INTEGER PRIMARY KEY, '
-  '$actorColCode TEXT, $actorColName TEXT,' 
-  '$actorColLevel TEXT,'
-  '$actorColRole TEXT, $actorColThumbnail TEXT)';
-
-const String sqlCreateTrailerTable =
-  'CREATE TABLE $tableTrailer ('
-  '$trailerColID INTEGER PRIMARY KEY,'
-  '$trailerColCode TEXT, $trailerColVideo TEXT)';
-
-const String sqlCreateDiaryTable =
-  'CREATE TABLE $tableDiary ('
-  '$diaryColID INTEGER PRIMARY KEY,'
-  '$diaryColCode TEXT, $diaryColTitle TEXT,'
-  '$diaryColContents TEXT, $diaryColRating REAL)';
-
-// READ SQL
-const String sqlReadMovieTable = 'SELECT * FROM $tableMovie';
-const String sqlReadMovieStillcutTable = 'SELECT * FROM $tableStillcut';
-const String sqlReadMovieActorTable = 'SELECT * FROM $tableActor';
-const String sqlReadMovieTrailer = 'SELECT * FROM $tableTrailer';
+const String storeMovie = 'movie_store';
+const String storeActor = 'actor_store';
+const String storeDiary = 'diary_store';
 
 // Cloud Firestore - diary document
-const String fMovieDiaryCol = 'movie_diary';
-const String fMovieDiarySubCol = 'movie_diary_sub';
+const String fDiaryCol = 'diary';
+const String fDiarySubCol = 'diary_sub';
 const String fDiaryTitleField = 'diary_title';
 const String fDiaryContentsField = 'diary_contents';
 const String fDiaryRatingField = 'diary_rating';
-const String fDiaryImageField = 'diary_image';
-const String fDiaryCodeField = 'diary_code';
+
+const String fDiaryMovieMainPhotoField = 'diary_movie_main_photo';
+const String fDiaryMovieCodeField = 'diary_movie_code';
+const String fDiaryMoviePubDateField = 'diary_movie_pubdate';
+const String fDiaryMovieTitleField = 'diary_movie_title';
+const String fDiaryMovieStillcutListField = 'diary_movie_stillcut_list';
+
+// Cloud Firestore - movie document
+const String fMovieCol = 'movie';
+const String fMovieActorSubCol = 'movie_actor';
+const String fMovieLinkField = 'movie_link';
+const String fMovieCodeField = 'movie_code';
+const String fMovieThumbnailField = 'movie_thumbnail';
+const String fMovieTitleField = 'movie_title';
+const String fMoviePubdateField = 'movie_pub_date';
+const String fMovieMainDirectorField = 'movie_main_director';
+const String fMovieMainActorField = 'movie_main_actor';
+const String fMovieUserRatingField = 'movie_user_rating';
+const String fMovieDescriptionField = 'movie_description';
+const String fMovieMainPhotoField = 'movie_main_photo';
+const String fMovieStillcutListField = 'movie_stillcut_list';
+const String fMovieTrailerListField = 'movie_trailer_list';
+
+// Cloud Firestore - actor subDocument
+const String fActorNameField = 'actor_name';
+const String fActorLevelField = 'actor_level';
+const String fActorThumbnailField = 'actor_thumbnail';
+const String fActorRoleField = 'actor_role';
 
 // Cloud Firestore - user document
 const String fRecentUpdatedTimeField = 'recent_updated';
