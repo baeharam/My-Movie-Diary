@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
-import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/main/diary_result_screen.dart';
 import 'package:mymovie/screens/sub/diary_frame.dart';
@@ -13,9 +12,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DiaryEditScreen extends StatefulWidget {
 
-  final MovieModel movie;
+  final DiaryModel diary;
 
-  const DiaryEditScreen({Key key, @required this.movie}) : super(key: key);
+  const DiaryEditScreen({Key key, @required this.diary}) : super(key: key);
 
   @override
   _DiaryEditScreenState createState() => _DiaryEditScreenState();
@@ -27,6 +26,12 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
   void initState() {
     super.initState();
     sl.get<DiaryEditBloc>().dispatch(DiaryEditEventStateClear());
+  }
+
+  @override
+  void dispose() {
+    sl.get<DiaryEditBloc>().dispatch(DiaryEditEventStateClear());
+    super.dispose();
   }
 
   @override
@@ -55,7 +60,7 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
             if(state.isDiaryCompleteFailed) {
               BlocSnackbar.show(context,'일기를 저장하는데 실패했습니다.');
             }
-            return DiaryFrame(movie: widget.movie);
+            return DiaryFrame(diary: widget.diary);
           }
         )
       )

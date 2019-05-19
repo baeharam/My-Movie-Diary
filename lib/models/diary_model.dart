@@ -8,9 +8,9 @@ class DiaryModel {
   final String movieMainPhoto;
   final List<String> movieStillCutList;
 
-  final String diaryTitle;
-  final String diaryContents;
-  final double diaryRating;
+  String diaryTitle;
+  String diaryContents;
+  double diaryRating;
 
   String get docName => movieCode+"-"+movieTitle;
 
@@ -46,6 +46,18 @@ class DiaryModel {
     );
   }
 
+  DiaryModel.make({
+    @required this.movieCode,
+    @required this.moviePubDate,
+    @required this.movieMainPhoto,
+    @required this.movieTitle,
+    @required this.movieStillCutList
+  }) : assert(movieCode!=null),
+       assert(movieTitle!=null),
+       assert(moviePubDate!=null),
+       assert(movieMainPhoto!=null),
+       assert(movieStillCutList!=null);
+
   DiaryModel({
     @required this.movieCode,
     @required this.moviePubDate,
@@ -64,4 +76,15 @@ class DiaryModel {
        assert(diaryTitle!=null),
        assert(diaryContents!=null),
        assert(diaryRating!=null);
+
+  DiaryModel copyWith({
+    @required String diaryTitle,
+    @required String diaryContents,
+    @required double diaryRating
+  }) {
+    this.diaryTitle = diaryTitle;
+    this.diaryContents = diaryContents;
+    this.diaryRating = diaryRating;
+    return this;
+  }
 }

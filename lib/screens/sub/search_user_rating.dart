@@ -15,17 +15,17 @@ class SearchUserRating extends StatelessWidget {
     if(index>=changedRating) {
       icon = Icon(
         Icons.star_border,
-        color: searchStarColor,
+        color: AppColor.searchStar,
       );
     } else if(index>changedRating-1 && index<changedRating) {
       icon = Icon(
         Icons.star_half,
-        color: searchStarColor,
+        color: AppColor.searchStar,
       );
     } else {
       icon = Icon(
         Icons.star,
-        color: searchStarColor
+        color: AppColor.searchStar
       );
     }
     return icon;

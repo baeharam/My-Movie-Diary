@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mymovie/logics/diary_list/diary_list.dart';
 import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/models/diary_model.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/screens/main/diary_result_screen.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -25,17 +26,19 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
   @override
   void initState() {
     super.initState();
+    _diaryListBloc.dispatch(DiaryListEventStateClear());
     _currentPage = 0;
     _pageController = PageController(
       initialPage: _currentPage,
       keepPage: false,
-      viewportFraction: 0.8
+      viewportFraction: 0.9
     );
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _diaryListBloc.dispatch(DiaryListEventStateClear());
     super.dispose();
   }
 
@@ -48,23 +51,26 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
           if(state.isPageSnapped) {
             _currentPage = state.pageIndex;
           }
-          return Column(
-            children: <Widget>[
-              Container(
-                height: 600.0,
-                child: PageView.builder(
-                  itemBuilder: (context,index) => _diaryPhotoBuilder(index),
-                  controller: _pageController,
-                  pageSnapping: true,
-                  itemCount: _diaryList.length,
-                  onPageChanged: (page) 
-                    => _diaryListBloc.dispatch(DiaryListEventSnapPage(pageIndex: page)),
-                  physics: ClampingScrollPhysics(),
+          return Container(
+            color: AppColor.background,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 600.0,
+                  child: PageView.builder(
+                    itemBuilder: (context,index) => _diaryPhotoBuilder(index),
+                    controller: _pageController,
+                    pageSnapping: true,
+                    itemCount: _diaryList.length,
+                    onPageChanged: (page) 
+                      => _diaryListBloc.dispatch(DiaryListEventSnapPage(pageIndex: page)),
+                    physics: ClampingScrollPhysics(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 10.0),
-              _diaryDetailBuilder(_currentPage)
-            ],
+                SizedBox(height: 10.0),
+                _diaryDetailBuilder(_currentPage)
+              ],
+            ),
           );
         }
       ),
@@ -89,7 +95,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                 children: [
                   SmoothStarRating(
                     color: Colors.red,
-                    borderColor: Colors.black,
+                    borderColor: Colors.white,
                     size: 40.0,
                     rating: _diaryList[index].diaryRating,
                   ),
@@ -97,15 +103,9 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                   Text(
                     _diaryList[index].diaryTitle,
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    _diaryList[index].diaryContents,
-                    style: TextStyle(
-                      fontSize: 20.0,
                     ),
                   )
                 ]
@@ -145,7 +145,8 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
         }
       },
       child: Material(
-        elevation: 4.0,
+        elevation: 2.0,
+        color: AppColor.background.withOpacity(0.2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(10.0),

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/main/diary_edit_screen.dart';
@@ -91,7 +92,13 @@ class _MovieScreenState extends State<MovieScreen> {
       ),
       floatingActionButton:  FloatingActionButton.extended(
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => DiaryEditScreen(movie: widget.movie)
+          builder: (_) => DiaryEditScreen(diary: DiaryModel.make(
+            movieCode: widget.movie.movieCode,
+            moviePubDate: widget.movie.pubDate,
+            movieMainPhoto: widget.movie.mainPhoto,
+            movieTitle: widget.movie.title,
+            movieStillCutList: widget.movie.stillcutList
+          ))
         )),
         icon: Icon(Icons.edit),
         label: Text('일기쓰기'),

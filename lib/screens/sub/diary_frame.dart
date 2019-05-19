@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
-import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/screens/main/diary_edit_screen.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -10,9 +9,9 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class DiaryFrame extends StatefulWidget {
 
-  final MovieModel movie;
+  final DiaryModel diary;
 
-  const DiaryFrame({Key key, @required this.movie}) : super(key: key);
+  const DiaryFrame({Key key, @required this.diary}) : super(key: key);
 
   @override
   _DiaryFrameState createState() => _DiaryFrameState();
@@ -20,16 +19,16 @@ class DiaryFrame extends StatefulWidget {
 
 class _DiaryFrameState extends State<DiaryFrame> {
 
-  final DiaryEditBloc _diaryBloc = sl.get<DiaryEditBloc>();
+  final DiaryEditBloc _diaryEditBloc = sl.get<DiaryEditBloc>();
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _feelingController = TextEditingController();
+  final TextEditingController _contentsController = TextEditingController();
 
   double _rating;
 
   @override
   void dispose() {
     _titleController.dispose();
-    _feelingController.dispose();
+    _contentsController.dispose();
     super.dispose();
   }
 
@@ -39,7 +38,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
       children: [
           SizedBox(height: 60.0),
           BlocBuilder<DiaryEditEvent,DiaryEditState>(
-            bloc: _diaryBloc,
+            bloc: _diaryEditBloc,
             builder: (context,state){
               if(state.star>0.0) {
                 _rating = state.star;
@@ -53,7 +52,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
                     allowHalfRating: true,
                     size: 40.0,
                     onRatingChanged: (value) => 
-                      _diaryBloc.dispatch(DiaryEditEventStarClick(value: value)),
+                      _diaryEditBloc.dispatch(DiaryEditEventStarClick(value: value)),
                   ),
                   Spacer(),
                   (state.star==0.0 || 
@@ -61,15 +60,10 @@ class _DiaryFrameState extends State<DiaryFrame> {
                     state.title.isEmpty) 
                   ? Container(height: 50.0)
                   : DiaryCompleteButton(
-                    diaryModel: DiaryModel(
-                      movieMainPhoto: widget.movie.mainPhoto,
-                      movieTitle: widget.movie.title,
-                      movieCode: widget.movie.movieCode,
-                      moviePubDate: widget.movie.pubDate,
-                      movieStillCutList: widget.movie.stillcutList,
-                      diaryTitle: _titleController.text,
-                      diaryContents: _feelingController.text,
-                      diaryRating: _rating
+                    diaryModel: widget.diary.copyWith(
+                      diaryTitle: widget.diary.diaryTitle ?? _titleController.text,
+                      diaryContents: widget.diary.diaryContents ?? _contentsController.text,
+                      diaryRating: widget.diary.diaryRating ?? _rating
                     ),
                   )
                 ],
@@ -95,7 +89,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
               cursorColor: Colors.white,
               controller: _titleController,
               onChanged: (title) => 
-                    _diaryBloc.dispatch(DiaryEditEventTitleChange(title: title)),
+                    _diaryEditBloc.dispatch(DiaryEditEventTitleChange(title: title)),
             ),
           ),
           Theme(
@@ -116,9 +110,9 @@ class _DiaryFrameState extends State<DiaryFrame> {
               cursorColor: Colors.white,
               keyboardType: TextInputType.multiline,
               maxLines: null,
-              controller: _feelingController,
+              controller: _contentsController,
               onChanged: (feeling) => 
-                _diaryBloc.dispatch(DiaryEditEventFeelingChange(feeling: feeling)),
+                _diaryEditBloc.dispatch(DiaryEditEventFeelingChange(feeling: feeling)),
             ),
           )
         ],

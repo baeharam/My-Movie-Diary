@@ -71,7 +71,7 @@ class IntroBody extends StatelessWidget {
                     width: 50.0,
                     height: 50.0
                   ),
-                  buttonColor: facebookLogoColor,
+                  buttonColor: AppColor.facebookLogo,
                   textColor: Colors.white,
                   loadingColor: Colors.white,
                   message: stringLoginFacebook,

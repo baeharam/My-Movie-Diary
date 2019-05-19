@@ -1,7 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
-import 'package:mymovie/screens/sub/movie_stillcut_list.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:mymovie/screens/sub/diary_result_body.dart';
+import 'package:mymovie/utils/bloc_navigator.dart';
+import 'package:mymovie/utils/bloc_snackbar.dart';
+import 'package:mymovie/utils/service_locator.dart';
 
 class DiaryResultScreen extends StatefulWidget {
 
@@ -14,17 +21,35 @@ class DiaryResultScreen extends StatefulWidget {
 }
 
 class _DiaryResultScreenState extends State<DiaryResultScreen> {
+
+  final DiaryEditBloc _diaryEditBloc = sl.get<DiaryEditBloc>();
+  int _randomIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _diaryEditBloc.dispatch(DiaryEditEventStateClear());
+    _randomIndex = Random().nextInt(widget.diaryModel.movieStillCutList.length);
+  }
+
+  @override
+  void dispose() {
+    _diaryEditBloc.dispatch(DiaryEditEventStateClear());
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.diaryModel.movieTitle),
+        title: Text('일기장'),
         centerTitle: true,
         backgroundColor: Colors.black,
         actions: [
           IconButton(
             icon: Icon(Icons.create),
-            onPressed: (){},
+            onPressed: () {},
           ),
           IconButton(
             icon: Icon(Icons.delete),
@@ -32,48 +57,28 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MovieStillCutList(
-              stillcutList: widget.diaryModel.movieStillCutList,
-              isAutoPlay: false
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SmoothStarRating(
-                    borderColor: Colors.black,
-                    color: Colors.red,
-                    rating: widget.diaryModel.diaryRating,
-                    size: 40.0,
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    widget.diaryModel.diaryTitle,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 40.0
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    widget.diaryModel.diaryContents,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      )
+      body: BlocBuilder(
+        bloc: sl.get<DiaryEditBloc>(),
+        builder: (context, state){
+          if(state.isDiaryCompleteSucceeded) {
+            BlocNavigator.pop(context);
+          }
+          if(state.isDiaryCompleteLoading || state.isDiaryCompleteSucceeded){
+            return SpinKitWave(
+              color: Colors.white,
+              size: 50.0,
+            );
+          }
+          if(state.isDiaryCompleteFailed) {
+            BlocSnackbar.show(context,'일기를 저장하는데 실패했습니다.');
+          }
+
+          return DiaryResultBody(
+            diaryModel: widget.diaryModel,
+            randomIndex: _randomIndex
+          );
+        }
+      ),
     );
   }
 }

@@ -27,7 +27,7 @@ class MovieStillCutList extends StatelessWidget {
           return Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            margin: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 0.0),
             child: GestureDetector(
               onTap: () => Navigator.push(context, MaterialPageRoute(
                 builder: (context) => MovieStillcutViewer(imageUrl: imageUrl)
