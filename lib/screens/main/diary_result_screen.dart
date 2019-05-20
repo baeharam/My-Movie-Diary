@@ -65,7 +65,7 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
           ),
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: (){},
+            onPressed: () => _diaryResultbloc.dispatch(DiaryResultEventDelete(diary: widget.diaryModel)),
           )
         ],
       ),

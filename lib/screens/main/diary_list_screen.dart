@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mymovie/logics/diary_list/diary_list.dart';
 import 'package:mymovie/logics/global/current_user.dart';
-import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/screens/main/diary_result_screen.dart';
 import 'package:mymovie/utils/service_locator.dart';
@@ -16,8 +15,6 @@ class DiaryListScreen extends StatefulWidget {
 }
 
 class _DiaryListScreenState extends State<DiaryListScreen> {
-
-  final List<DiaryModel> _diaryList = sl.get<CurrentUser>().diaryList;
   final DiaryListBloc _diaryListBloc = sl.get<DiaryListBloc>();
 
   PageController _pageController; 
@@ -44,6 +41,24 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(sl.get<CurrentUser>().isDiaryEmpty()) {
+      return Scaffold(
+        body: Container(
+          color: AppColor.background,
+          alignment: Alignment.center,
+          child: Text(
+            '일기가 없어요 ㅠㅠ',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 30.0,
+            )
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       body: BlocBuilder<DiaryListEvent,DiaryListState>(
         bloc: _diaryListBloc,
@@ -61,7 +76,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                     itemBuilder: (context,index) => _diaryPhotoBuilder(index),
                     controller: _pageController,
                     pageSnapping: true,
-                    itemCount: _diaryList.length,
+                    itemCount: sl.get<CurrentUser>().diaryLength,
                     onPageChanged: (page) 
                       => _diaryListBloc.dispatch(DiaryListEventSnapPage(pageIndex: page)),
                     physics: ClampingScrollPhysics(),
@@ -97,11 +112,11 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                     color: Colors.red,
                     borderColor: Colors.white,
                     size: 40.0,
-                    rating: _diaryList[index].diaryRating,
+                    rating: sl.get<CurrentUser>().diaryList[index].diaryRating,
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    _diaryList[index].diaryTitle,
+                    sl.get<CurrentUser>().diaryList[index].diaryTitle,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30.0,
@@ -162,9 +177,9 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
             ),
             child: GestureDetector(
               child: Hero(
-                tag: _diaryList[index].movieCode,
+                tag: sl.get<CurrentUser>().diaryList[index].movieCode,
                 child: CachedNetworkImage(
-                  imageUrl: _diaryList[index].movieMainPhoto,
+                  imageUrl: sl.get<CurrentUser>().diaryList[index].movieMainPhoto,
                   placeholder: (_,__) => SpinKitWave(
                     color: Colors.white,
                     size: 50.0,
@@ -174,7 +189,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
               ),
               onTap: () => Navigator.push(context, 
                 MaterialPageRoute(builder: (_) 
-                  => DiaryResultScreen(diaryModel: _diaryList[index],))),
+                  => DiaryResultScreen(diaryModel: sl.get<CurrentUser>().diaryList[index],))),
             ),
           ),
         ),
