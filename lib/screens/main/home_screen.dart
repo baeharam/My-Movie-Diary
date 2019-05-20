@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mymovie/logics/global/animation_api.dart';
 import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/models/intro_message_model.dart';
 import 'package:mymovie/resources/strings.dart';
@@ -18,51 +18,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
 
   StreamController<bool> _streamController;
-  AnimationController _fadeAnimationController;
-  Animation _fadeAnimation;
   IntroMessageModel _introMessageModel;
 
   @override
   void initState() {
     super.initState();
     _streamController = StreamController<bool>();
-    _fadeAnimationInitialization();
-    _getRandomDiary();
+    sl.get<AnimationAPI>().initHome(vsync: this);
+    _introMessageModel = sl.get<CurrentUser>().getRandomIntro();
   }
 
   @override
   void dispose() {
     _streamController.close();
-    _fadeAnimationController.dispose();
+    sl.get<AnimationAPI>().disposeHome();
     super.dispose();
-  }
-
-  void _getRandomDiary() {
-    if(sl.get<CurrentUser>().isDiaryEmpty()) {
-      _introMessageModel = IntroMessageModel(
-        diaryTitle: '일기를 작성하세용!',
-        movieTitle: '개발자',
-        pubDate: '2019'
-      );
-    } else {
-      _introMessageModel = IntroMessageModel.fromDiary(
-        diary: sl.get<CurrentUser>().diaryList[
-          Random().nextInt(sl.get<CurrentUser>().diaryLength)
-        ]
-      );
-    }
-  }
-
-  void _fadeAnimationInitialization() {
-    _fadeAnimationController =AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000)
-    );
-    _fadeAnimation = Tween(begin: 0.0,end: 1.0).animate(CurvedAnimation(
-      parent: _fadeAnimationController,
-      curve: Curves.easeIn
-    ));
-    _fadeAnimationController.forward();
   }
 
   @override
@@ -70,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     OrientationFixer.fixPortrait();
 
     return FadeTransition(
-      opacity: _fadeAnimation,
+      opacity: sl.get<AnimationAPI>().homeAnimation,
       child: Scaffold(
         body: Container(
           width: double.infinity,
@@ -114,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       return  SizedBox(
                         height: 25.0,
                         child: TypeWriter(
-                          text: ['${_introMessageModel.movieTitle},' 
+                          text: ['${_introMessageModel.movieTitle}, ' 
                             '${_introMessageModel.pubDate}'],
                           textStyle: TextStyle(
                             color: Colors.white,

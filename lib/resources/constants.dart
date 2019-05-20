@@ -1,4 +1,6 @@
 // API Management
+import 'package:mymovie/models/intro_message_model.dart';
+
 const String naverMovieHosthUrl = 'openapi.naver.com';
 const String naverMovieAPIUrl = '/v1/search/movie.json';
 const String naverAPIClientID = 'of6amSIPekcLSUPuzL9x';
@@ -87,3 +89,9 @@ const List introBackgroundImageList = [
   'assets/images/spiderman.jpg',
   'assets/images/abouttime.jpg'
 ];
+
+const IntroMessageModel defaultIntro = IntroMessageModel(
+  diaryTitle: '일기를 작성하세요.',
+  movieTitle: '개발자',
+  pubDate: '2019'
+);
