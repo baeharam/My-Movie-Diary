@@ -35,6 +35,65 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     super.dispose();
   }
 
+  Widget _buildTypeWriting() {
+    return Column(
+      children: [
+        SizedBox(
+          width: 250.0,
+          child: TypeWriter(
+            text: [_introMessageModel.diaryTitle],
+            textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 30.0,
+            ),
+            alignment: Alignment.center,
+            streamController: _streamController,
+            duration: const Duration(milliseconds: 2500),
+          ),
+        ),
+        SizedBox(height: 40.0),
+        Container(
+          color: Colors.white,
+          width: 200.0,
+          height: 4.0,
+        ),
+        SizedBox(height: 20.0),
+        StreamBuilder<bool>(
+          stream: _streamController.stream,
+          initialData: false,
+          builder: (context, AsyncSnapshot<bool> snapshot){
+            if(snapshot.hasData && snapshot.data) {
+              return  SizedBox(
+                height: 25.0,
+                child: TypeWriter(
+                  text: ['${_introMessageModel.movieTitle}, ' 
+                    '${_introMessageModel.pubDate}'],
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 2500),
+                ),
+              );
+            }
+            return SizedBox(height: 25.0);
+          }
+        ),
+        SizedBox(height: 200.0),
+        HomeButton(
+          title: '나의 영화일기', 
+          onPressed: () => Navigator.pushNamed(context, routeDiaryList)
+        ),
+        SizedBox(height: 20.0),
+        HomeButton(
+          title: '영화일기 작성하기', 
+          onPressed: () => Navigator.pushNamed(context, routeSearch)
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     OrientationFixer.fixPortrait();
@@ -54,62 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           child: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.only(top: 200.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 250.0,
-                  child: TypeWriter(
-                    text: [_introMessageModel.diaryTitle],
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.0,
-                    ),
-                    alignment: Alignment.center,
-                    streamController: _streamController,
-                    duration: const Duration(milliseconds: 2500),
-                  ),
-                ),
-                SizedBox(height: 40.0),
-                Container(
-                  color: Colors.white,
-                  width: 200.0,
-                  height: 4.0,
-                ),
-                SizedBox(height: 20.0),
-                StreamBuilder<bool>(
-                  stream: _streamController.stream,
-                  initialData: false,
-                  builder: (context, AsyncSnapshot<bool> snapshot){
-                    if(snapshot.hasData && snapshot.data) {
-                      return  SizedBox(
-                        height: 25.0,
-                        child: TypeWriter(
-                          text: ['${_introMessageModel.movieTitle}, ' 
-                            '${_introMessageModel.pubDate}'],
-                          textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                          ),
-                          alignment: Alignment.center,
-                          duration: const Duration(milliseconds: 2500),
-                        ),
-                      );
-                    }
-                    return SizedBox(height: 25.0);
-                  }
-                ),
-                SizedBox(height: 200.0),
-                HomeButton(
-                  title: '나의 영화일기', 
-                  onPressed: () => Navigator.pushNamed(context, routeDiaryList)
-                ),
-                SizedBox(height: 20.0),
-                HomeButton(
-                  title: '영화일기 작성하기', 
-                  onPressed: () => Navigator.pushNamed(context, routeSearch)
-                )
-              ],
-            ),
+            child: _buildTypeWriting()
           ),
         ),
       ),

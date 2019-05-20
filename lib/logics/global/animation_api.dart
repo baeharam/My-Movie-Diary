@@ -9,20 +9,18 @@ class AnimationAPI {
   AnimationController _introBackgroundController;
   Animation _introFacebookAnimation,_introGoogleAnimation;
   Animation _introBackgroundAnimation;
-
-  // Home
-  AnimationController _homeFadeAnimationController;
-  Animation _homeFadeAnimation;
-
-  AnimationController get homeController => _homeFadeAnimationController;
-  Animation get homeAnimation => _homeFadeAnimation;
-
   AnimationController get introFacebookController => _introFacebookController;
   Animation get introFacebookAnimation => _introFacebookAnimation;
   AnimationController get introGoogleController => _introGoogleController;
   Animation get introGoogleAnimation => _introGoogleAnimation;
   AnimationController get introBackgroundController => _introBackgroundController;
   Animation get introBackgroundAnimation => _introBackgroundAnimation;
+
+  // Home
+  AnimationController _homeFadeAnimationController;
+  Animation _homeFadeAnimation;
+  AnimationController get homeController => _homeFadeAnimationController;
+  Animation get homeAnimation => _homeFadeAnimation;
 
   void initIntroBackground({@required TickerProvider vsync}) {
     _introBackgroundController = AnimationController(
