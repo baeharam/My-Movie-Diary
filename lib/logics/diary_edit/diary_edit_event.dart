@@ -20,12 +20,18 @@ class DiaryEditEventTitleChange extends DiaryEditEvent {
   DiaryEditEventTitleChange({@required this.title});
 }
 
-class DiaryEditEventFeelingChange extends DiaryEditEvent {
-  final String feeling;
-  DiaryEditEventFeelingChange({@required this.feeling});
+class DiaryEditEventContentsChange extends DiaryEditEvent {
+  final String contents;
+  DiaryEditEventContentsChange({@required this.contents});
 }
 
 class DiaryEditEventComplete extends DiaryEditEvent {
   final DiaryModel diaryModel;
   DiaryEditEventComplete({@required this.diaryModel});
+}
+
+class DiaryEditEventUpdate extends DiaryEditEvent {
+  final DiaryModel diaryModel;
+
+  DiaryEditEventUpdate({@required this.diaryModel});
 }

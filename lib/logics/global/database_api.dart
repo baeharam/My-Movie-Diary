@@ -59,7 +59,7 @@ class DatabaseAPI {
   }
 
   /// [일기]
-  Future<void> putDiary({@required DiaryModel diary}) async {
+  Future<void> addDiary({@required DiaryModel diary, @required int time}) async {
     await _diaryStore.put(diary.toMap(),diary.movieCode);
   }
 
@@ -72,5 +72,9 @@ class DatabaseAPI {
   Future<List<DiaryModel>> getAllDiary() async {
     return await _diaryStore.records.map((record) 
       => DiaryModel.fromMap(record.value as Map)).toList();
+  }
+
+  Future<void> updateDiary({@required DiaryModel diary}) async {
+    await _diaryStore.update(diary.toMap(), diary.movieCode);
   }
 }

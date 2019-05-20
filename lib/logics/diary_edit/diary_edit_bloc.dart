@@ -20,14 +20,22 @@ class DiaryEditBloc extends Bloc<DiaryEditEvent,DiaryEditState> {
     if(event is DiaryEditEventComplete) {
       yield DiaryEditState.completeLoading();
       try {
-        _diaryAPI.setTime();
-        await _diaryAPI.storeIntoFirestore(diaryModel: event.diaryModel);
-        await _diaryAPI.storeIntoLocal(diaryModel: event.diaryModel);
-        _diaryAPI.storeIntoCurrentUser(diaryModel: event.diaryModel);
+        await _diaryAPI.storeDiary(diaryModel: event.diaryModel);
         yield DiaryEditState.completeSucceeded(diaryModel: event.diaryModel);
       } catch(exception){
         debugPrint('일기 Firestore에 저장 실패: ${exception.toString()}');
         yield DiaryEditState.completeFailed();
+      }
+    }
+
+    if(event is DiaryEditEventUpdate) {
+      yield DiaryEditState.updateLoading();
+      try {
+        await _diaryAPI.updateDiary(diaryModel: event.diaryModel);
+        yield DiaryEditState.updateSucceeded(diaryModel: event.diaryModel);
+      } catch(exception){
+        debugPrint('일기 Firestore에 업데이트 실패: ${exception.toString()}');
+        yield DiaryEditState.updateFailed();
       }
     }
 
@@ -49,9 +57,9 @@ class DiaryEditBloc extends Bloc<DiaryEditEvent,DiaryEditState> {
       );
     }
 
-    if(event is DiaryEditEventFeelingChange) {
+    if(event is DiaryEditEventContentsChange) {
       yield currentState.copyWith(
-        feeling: event.feeling,
+        feeling: event.contents,
         isFeelingNotEmpty: true
       );
     }

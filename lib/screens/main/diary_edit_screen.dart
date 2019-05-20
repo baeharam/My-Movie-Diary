@@ -4,7 +4,7 @@ import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/main/diary_result_screen.dart';
-import 'package:mymovie/screens/sub/diary_frame.dart';
+import 'package:mymovie/screens/sub/diary_edit_frame.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
@@ -51,7 +51,11 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
                 routeHome
               );
             }
-            if(state.isDiaryCompleteLoading || state.isDiaryCompleteSucceeded){
+            if(state.isDiaryUpdateSucceeded) {
+              BlocNavigator.pop(context);
+            }
+            if(state.isDiaryCompleteLoading || state.isDiaryCompleteSucceeded
+            || state.isDiaryUpdateLoading || state.isDiaryUpdateSucceeded){
               return SpinKitWave(
                 color: Colors.white,
                 size: 50.0,
@@ -60,7 +64,10 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
             if(state.isDiaryCompleteFailed) {
               BlocSnackbar.show(context,'일기를 저장하는데 실패했습니다.');
             }
-            return DiaryFrame(diary: widget.diary);
+            if(state.isDiaryUpdateFailed) {
+              BlocSnackbar.show(context,'일기를 수정하는데 실패했습니다.');
+            }
+            return DiaryEditFrame(diary: widget.diary);
           }
         )
       )

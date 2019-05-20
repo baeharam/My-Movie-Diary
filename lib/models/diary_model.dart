@@ -12,7 +12,11 @@ class DiaryModel {
   String diaryContents;
   double diaryRating;
 
+  int diaryUpdatedTime;
+
   String get docName => movieCode+"-"+movieTitle;
+
+  bool isEditing() => diaryTitle!=null;
 
   Map<String,dynamic> toMap() {
     return {
@@ -24,7 +28,9 @@ class DiaryModel {
 
       fDiaryTitleField: diaryTitle,
       fDiaryContentsField: diaryContents,
-      fDiaryRatingField: diaryRating
+      fDiaryRatingField: diaryRating,
+
+      fRecentUpdatedTimeField: diaryUpdatedTime
     };
   }
 
@@ -42,7 +48,9 @@ class DiaryModel {
 
       diaryTitle: map[fDiaryTitleField],
       diaryContents: map[fDiaryContentsField],
-      diaryRating: map[fDiaryRatingField]
+      diaryRating: map[fDiaryRatingField],
+
+      diaryUpdatedTime: map[fRecentUpdatedTimeField]
     );
   }
 
@@ -67,7 +75,9 @@ class DiaryModel {
 
     @required this.diaryTitle,
     @required this.diaryContents,
-    @required this.diaryRating
+    @required this.diaryRating,
+
+    @required this.diaryUpdatedTime
   }) : assert(movieCode!=null),
        assert(movieTitle!=null),
        assert(moviePubDate!=null),
@@ -75,16 +85,19 @@ class DiaryModel {
        assert(movieStillCutList!=null),
        assert(diaryTitle!=null),
        assert(diaryContents!=null),
-       assert(diaryRating!=null);
+       assert(diaryRating!=null),
+       assert(diaryUpdatedTime!=null);
 
   DiaryModel copyWith({
     @required String diaryTitle,
     @required String diaryContents,
-    @required double diaryRating
+    @required double diaryRating,
+    @required int time
   }) {
     this.diaryTitle = diaryTitle;
     this.diaryContents = diaryContents;
     this.diaryRating = diaryRating;
+    this.diaryUpdatedTime = time;
     return this;
   }
 }

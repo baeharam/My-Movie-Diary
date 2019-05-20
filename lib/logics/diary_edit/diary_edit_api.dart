@@ -5,31 +5,24 @@ import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/logics/global/database_api.dart';
 import 'package:mymovie/logics/global/firebase_api.dart';
 import 'package:mymovie/models/diary_model.dart';
-import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/utils/service_locator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DiaryEditAPI {
-  DateTime _now;
+  int _now;
 
-  void setTime() => _now = DateTime.now();
-
-  Future<void> storeIntoFirestore({@required DiaryModel diaryModel}) async{
-    debugPrint('서버에 일기 저장 중...');
-
-    await sl.get<FirebaseAPI>().storeDiary(diaryModel: diaryModel, time: _now.millisecondsSinceEpoch);
-  }
-
-  Future<void> storeIntoLocal({@required DiaryModel diaryModel}) async {
-    debugPrint('로컬에 일기 저장 중...');
-    SharedPreferences sf = await SharedPreferences.getInstance();
-    await sf.setInt(sfRecentUpdatedTime, _now.millisecondsSinceEpoch);
-    await sl.get<DatabaseAPI>().putDiary(diary: diaryModel);
-  }
-
-  void storeIntoCurrentUser({@required DiaryModel diaryModel}) {
-    debugPrint('현재 사용자에 일기 저장 중...');
-
+  void _setTime() => _now = DateTime.now().millisecondsSinceEpoch;
+  
+  Future<void> storeDiary({@required DiaryModel diaryModel}) async {
+    _setTime();
+    await sl.get<FirebaseAPI>().addDiary(diaryModel: diaryModel, time: _now);
+    await sl.get<DatabaseAPI>().addDiary(diary: diaryModel, time: _now);
     sl.get<CurrentUser>().addDiary(diary: diaryModel);
+  }
+
+  Future<void> updateDiary({@required DiaryModel diaryModel}) async {
+    _setTime();
+    await sl.get<FirebaseAPI>().updateDiary(diaryModel: diaryModel);
+    await sl.get<DatabaseAPI>().updateDiary(diary: diaryModel);
+    sl.get<CurrentUser>().updateDiary(diary: diaryModel);
   }
 }

@@ -18,8 +18,13 @@ class DiaryEditState {
 
   final bool isDiaryCompleteLoading;
   final bool isDiaryCompleteSucceeded;
-  final DiaryModel diaryModel;
   final bool isDiaryCompleteFailed;
+
+  final bool isDiaryUpdateLoading;
+  final bool isDiaryUpdateSucceeded;
+  final bool isDiaryUpdateFailed;
+
+  final DiaryModel diaryModel;
 
   const DiaryEditState({
     this.isInitial: false,
@@ -38,16 +43,28 @@ class DiaryEditState {
 
     this.isDiaryCompleteLoading: false,
     this.isDiaryCompleteSucceeded: false,
+    this.isDiaryCompleteFailed: false,
+
+    this.isDiaryUpdateLoading: false,
+    this.isDiaryUpdateSucceeded: false,
+    this.isDiaryUpdateFailed: false,
+
     this.diaryModel,
-    this.isDiaryCompleteFailed: false
+    
   });
 
 
   factory DiaryEditState.initial() => DiaryEditState(isInitial: true);
+
   factory DiaryEditState.completeLoading() => DiaryEditState(isDiaryCompleteLoading: true);
   factory DiaryEditState.completeSucceeded({@required DiaryModel diaryModel}) => 
     DiaryEditState(isDiaryCompleteSucceeded: true,diaryModel: diaryModel);
-  factory DiaryEditState.completeFailed() => DiaryEditState(isDiaryCompleteFailed: true);   
+  factory DiaryEditState.completeFailed() => DiaryEditState(isDiaryCompleteFailed: true);  
+
+  factory DiaryEditState.updateLoading() => DiaryEditState(isDiaryUpdateLoading: true);
+  factory DiaryEditState.updateSucceeded({@required DiaryModel diaryModel}) => 
+    DiaryEditState(isDiaryUpdateSucceeded: true,diaryModel: diaryModel);
+  factory DiaryEditState.updateFailed() => DiaryEditState(isDiaryUpdateFailed: true);   
 
   DiaryEditState copyWith({
     double star,

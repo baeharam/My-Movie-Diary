@@ -7,23 +7,30 @@ import 'package:mymovie/utils/service_locator.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 
-class DiaryFrame extends StatefulWidget {
+class DiaryEditFrame extends StatefulWidget {
 
   final DiaryModel diary;
 
-  const DiaryFrame({Key key, @required this.diary}) : super(key: key);
+  const DiaryEditFrame({Key key, @required this.diary}) : super(key: key);
 
   @override
-  _DiaryFrameState createState() => _DiaryFrameState();
+  _DiaryEditFrameState createState() => _DiaryEditFrameState();
 }
 
-class _DiaryFrameState extends State<DiaryFrame> {
+class _DiaryEditFrameState extends State<DiaryEditFrame> {
 
   final DiaryEditBloc _diaryEditBloc = sl.get<DiaryEditBloc>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentsController = TextEditingController();
+  TextEditingController _titleController;
+  TextEditingController _contentsController;
 
   double _rating;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.diary.diaryTitle ?? '');
+    _contentsController = TextEditingController(text: widget.diary.diaryContents ?? '');
+  }
 
   @override
   void dispose() {
@@ -48,7 +55,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
                   SmoothStarRating(
                     borderColor: Colors.grey,
                     color: Colors.red,
-                    rating: state.star,
+                    rating: widget.diary.diaryRating ?? _rating,
                     allowHalfRating: true,
                     size: 40.0,
                     onRatingChanged: (value) => 
@@ -63,7 +70,8 @@ class _DiaryFrameState extends State<DiaryFrame> {
                     diaryModel: widget.diary.copyWith(
                       diaryTitle: widget.diary.diaryTitle ?? _titleController.text,
                       diaryContents: widget.diary.diaryContents ?? _contentsController.text,
-                      diaryRating: widget.diary.diaryRating ?? _rating
+                      diaryRating: widget.diary.diaryRating ?? _rating,
+                      time: DateTime.now().millisecondsSinceEpoch
                     ),
                   )
                 ],
@@ -112,7 +120,7 @@ class _DiaryFrameState extends State<DiaryFrame> {
               maxLines: null,
               controller: _contentsController,
               onChanged: (feeling) => 
-                _diaryEditBloc.dispatch(DiaryEditEventFeelingChange(feeling: feeling)),
+                _diaryEditBloc.dispatch(DiaryEditEventContentsChange(contents: feeling)),
             ),
           )
         ],

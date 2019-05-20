@@ -21,6 +21,8 @@ class FirebaseAPI {
 
   /// [API 호출 + 크롤링한 영화 데이터 저장]]
   Future<void> storeMovie({@required MovieModel movie}) async{
+    debugPrint('서버에 영화 저장 중...');
+
     DocumentReference movieDocRef = firestore.collection(fMovieCol)
       .document(movie.docName);
     CollectionReference actorColRef = firestore.collection(fMovieCol)
@@ -57,7 +59,32 @@ class FirebaseAPI {
     await writeBatch.commit();
   }
 
-  Future<void> storeDiary({@required DiaryModel diaryModel, int time}) async{
+  Future<void> updateDiary({@required DiaryModel diaryModel}) async {
+    debugPrint('서버에 일기 업데이트 중...');
+
+    DocumentReference userRef = firestore
+      .collection(fDiaryCol)
+      .document(sl.get<CurrentUser>().uid);
+
+    DocumentReference diaryRef = firestore
+      .collection(fDiaryCol)
+      .document(sl.get<CurrentUser>().uid)
+      .collection(fDiarySubCol)
+      .document(diaryModel.docName);
+
+    WriteBatch batch = firestore.batch();
+
+    batch.updateData(diaryRef, {
+      fDiaryTitleField: diaryModel.diaryTitle,
+      fDiaryContentsField: diaryModel.diaryContents,
+      fDiaryRatingField: diaryModel.diaryRating
+    });
+    batch.updateData(userRef, {fRecentUpdatedTimeField: diaryModel.diaryUpdatedTime});
+
+    await batch.commit();
+  }
+
+  Future<void> addDiary({@required DiaryModel diaryModel, int time}) async{
     debugPrint('서버에 일기 저장 중...');
 
     DocumentReference userRef = firestore

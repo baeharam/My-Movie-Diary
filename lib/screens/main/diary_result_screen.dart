@@ -1,13 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
+import 'package:mymovie/screens/main/diary_edit_screen.dart';
 import 'package:mymovie/screens/sub/diary_result_body.dart';
-import 'package:mymovie/utils/bloc_navigator.dart';
-import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
 class DiaryResultScreen extends StatefulWidget {
@@ -49,7 +46,10 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.create),
-            onPressed: () {},
+            onPressed: () 
+              => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => DiaryEditScreen(diary: widget.diaryModel)
+              )),
           ),
           IconButton(
             icon: Icon(Icons.delete),
@@ -57,27 +57,9 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
           )
         ],
       ),
-      body: BlocBuilder(
-        bloc: sl.get<DiaryEditBloc>(),
-        builder: (context, state){
-          if(state.isDiaryCompleteSucceeded) {
-            BlocNavigator.pop(context);
-          }
-          if(state.isDiaryCompleteLoading || state.isDiaryCompleteSucceeded){
-            return SpinKitWave(
-              color: Colors.white,
-              size: 50.0,
-            );
-          }
-          if(state.isDiaryCompleteFailed) {
-            BlocSnackbar.show(context,'일기를 저장하는데 실패했습니다.');
-          }
-
-          return DiaryResultBody(
-            diaryModel: widget.diaryModel,
-            randomIndex: _randomIndex
-          );
-        }
+      body: DiaryResultBody(
+        diaryModel: widget.diaryModel,
+        randomIndex: _randomIndex
       ),
     );
   }
