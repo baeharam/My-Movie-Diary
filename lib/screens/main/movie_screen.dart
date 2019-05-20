@@ -98,7 +98,7 @@ class _MovieScreenState extends State<MovieScreen> {
             movieMainPhoto: widget.movie.mainPhoto,
             movieTitle: widget.movie.title,
             movieStillCutList: widget.movie.stillcutList
-          ))
+          ),isEditing: false)
         )),
         icon: Icon(Icons.edit),
         label: Text('일기쓰기'),

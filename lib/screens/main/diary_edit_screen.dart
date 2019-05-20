@@ -13,8 +13,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class DiaryEditScreen extends StatefulWidget {
 
   final DiaryModel diary;
+  final bool isEditing;
 
-  const DiaryEditScreen({Key key, @required this.diary}) : super(key: key);
+  const DiaryEditScreen({Key key, @required this.diary, @required this.isEditing}): super(key: key);
 
   @override
   _DiaryEditScreenState createState() => _DiaryEditScreenState();
@@ -67,7 +68,7 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
             if(state.isDiaryUpdateFailed) {
               BlocSnackbar.show(context,'일기를 수정하는데 실패했습니다.');
             }
-            return DiaryEditFrame(diary: widget.diary);
+            return DiaryEditFrame(diary: widget.diary,isEditing: widget.isEditing);
           }
         )
       )

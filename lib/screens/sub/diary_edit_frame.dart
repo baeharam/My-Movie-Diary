@@ -10,8 +10,9 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 class DiaryEditFrame extends StatefulWidget {
 
   final DiaryModel diary;
+  final bool isEditing;
 
-  const DiaryEditFrame({Key key, @required this.diary}) : super(key: key);
+  const DiaryEditFrame({Key key, @required this.diary, @required this.isEditing}) : super(key: key);
 
   @override
   _DiaryEditFrameState createState() => _DiaryEditFrameState();
@@ -22,12 +23,12 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
   final DiaryEditBloc _diaryEditBloc = sl.get<DiaryEditBloc>();
   TextEditingController _titleController;
   TextEditingController _contentsController;
-
   double _rating;
 
   @override
   void initState() {
     super.initState();
+    _rating = widget.diary.diaryRating ?? 0.0;
     _titleController = TextEditingController(text: widget.diary.diaryTitle ?? '');
     _contentsController = TextEditingController(text: widget.diary.diaryContents ?? '');
   }
@@ -55,22 +56,22 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
                   SmoothStarRating(
                     borderColor: Colors.grey,
                     color: Colors.red,
-                    rating: widget.diary.diaryRating ?? _rating,
+                    rating: _rating,
                     allowHalfRating: true,
                     size: 40.0,
                     onRatingChanged: (value) => 
                       _diaryEditBloc.dispatch(DiaryEditEventStarClick(value: value)),
                   ),
                   Spacer(),
-                  (state.star==0.0 || 
+                  ((state.star==0.0 || 
                     state.feeling.isEmpty || 
-                    state.title.isEmpty) 
+                    state.title.isEmpty) && !widget.isEditing) 
                   ? Container(height: 50.0)
                   : DiaryCompleteButton(
                     diaryModel: widget.diary.copyWith(
-                      diaryTitle: widget.diary.diaryTitle ?? _titleController.text,
-                      diaryContents: widget.diary.diaryContents ?? _contentsController.text,
-                      diaryRating: widget.diary.diaryRating ?? _rating,
+                      diaryTitle: _titleController.text,
+                      diaryContents: _contentsController.text,
+                      diaryRating: _rating,
                       time: DateTime.now().millisecondsSinceEpoch
                     ),
                   )
@@ -119,8 +120,8 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
               keyboardType: TextInputType.multiline,
               maxLines: null,
               controller: _contentsController,
-              onChanged: (feeling) => 
-                _diaryEditBloc.dispatch(DiaryEditEventContentsChange(contents: feeling)),
+              onChanged: (content) => 
+                _diaryEditBloc.dispatch(DiaryEditEventContentsChange(contents: content)),
             ),
           )
         ],

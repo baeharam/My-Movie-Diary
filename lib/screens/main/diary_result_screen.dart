@@ -48,7 +48,10 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
             icon: Icon(Icons.create),
             onPressed: () 
               => Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => DiaryEditScreen(diary: widget.diaryModel)
+                builder: (_) => DiaryEditScreen(
+                  diary: widget.diaryModel,
+                  isEditing: true,
+                )
               )),
           ),
           IconButton(
