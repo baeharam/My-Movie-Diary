@@ -7,12 +7,16 @@ class CurrentUser {
   List<DiaryModel> diaryList = List<DiaryModel>();
 
   void setDiaryList({@required List<DiaryModel> diaryList}) => this.diaryList = diaryList;
+
   void addDiary({@required DiaryModel diary}) => this.diaryList.add(diary);
   void updateDiary({@required DiaryModel diary}) {
     diaryList
       .where((existing) => existing.movieCode==diary.movieCode)
       .forEach((find) => find = diary);
   }
+  void deleteDiary({@required DiaryModel diary}) 
+    => this.diaryList.removeWhere((diaryModel) => diaryModel.movieCode==diary.movieCode);
+
   bool isDiaryEmpty() => diaryList.isEmpty;
   int get diaryLength => diaryList.length;
 }

@@ -59,8 +59,12 @@ class DatabaseAPI {
   }
 
   /// [일기]
-  Future<void> addDiary({@required DiaryModel diary, @required int time}) async {
+  Future<void> addDiary({@required DiaryModel diary}) async {
     await _diaryStore.put(diary.toMap(),diary.movieCode);
+  }
+
+  Future<void> deleteDiary({@required DiaryModel diary}) async {
+    await _diaryStore.delete(diary.movieCode);
   }
 
   Future<DiaryModel> getDiary({@required String movieCode}) async {

@@ -84,7 +84,7 @@ class FirebaseAPI {
     await batch.commit();
   }
 
-  Future<void> addDiary({@required DiaryModel diaryModel, int time}) async{
+  Future<void> addDiary({@required DiaryModel diaryModel}) async{
     debugPrint('서버에 일기 저장 중...');
 
     DocumentReference userRef = firestore
@@ -111,8 +111,29 @@ class FirebaseAPI {
     });
 
     batch.setData(userRef, {
-      fRecentUpdatedTimeField: time
+      fRecentUpdatedTimeField: diaryModel.diaryUpdatedTime
     });
+
+    await batch.commit();
+  }
+
+  Future<void> deleteDiary({@required DiaryModel diary}) async {
+    debugPrint('서버에서 일기 제거 중');
+
+    DocumentReference userRef = firestore
+      .collection(fDiaryCol)
+      .document(sl.get<CurrentUser>().uid);
+
+    DocumentReference diaryRef = firestore
+      .collection(fDiaryCol)
+      .document(sl.get<CurrentUser>().uid)
+      .collection(fDiarySubCol)
+      .document(diary.docName);
+
+    WriteBatch batch = firestore.batch();
+
+    batch.delete(diaryRef);
+    batch.setData(userRef, {fRecentUpdatedTimeField: diary.diaryUpdatedTime});
 
     await batch.commit();
   }
