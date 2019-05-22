@@ -14,7 +14,7 @@ class MyMovieApp extends StatelessWidget {
     return MaterialApp(
       home: IntroScreen(),
       theme: ThemeData(
-        fontFamily: 'hanna',
+        fontFamily: 'NanumMyeongjo',
       ),
       routes: routes,
       debugShowCheckedModeBanner: false,

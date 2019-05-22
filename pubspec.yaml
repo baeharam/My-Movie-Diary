@@ -46,14 +46,16 @@ flutter:
     - assets/images/google.png
     - assets/images/fantasy.jpg
     - assets/images/cinema.jpg
+    - assets/images/milkyway.jpeg
 
     - assets/images/ironman.jpg
     - assets/images/abouttime.jpg
     - assets/images/spiderman.jpg
   fonts:
-  - family: Chosunilbo_myungjo
+  - family: NanumMyeongjo
     fonts:
-      - asset: assets/fonts/chosun.ttf
-  - family: hanna
-    fonts:
-      - asset: assets/fonts/hanna.ttf
+      - asset: assets/fonts/NanumMyeongjo.ttf
+      - asset: assets/fonts/NanumMyeongjoBold.ttf
+        weight: 500
+      - asset: assets/fonts/NanumMyeongjoExtraBold.ttf
+        weight: 700

@@ -24,45 +24,52 @@ class MovieActorList extends StatelessWidget {
           return Container(
             height: 250.0,
             width: 111.0,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white,width: 2.0),
+              borderRadius: BorderRadius.circular(10.0)
+            ),
             margin: const EdgeInsets.only(right: 20.0),
-            child: Column(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: actors[index].thumbnail,
-                  placeholder: (_,__) => Container(
-                    margin: const EdgeInsets.all(30.0),
-                    child: CustomProgressIndicator(color: Colors.black),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(9.0),
+              child: Column(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: actors[index].thumbnail,
+                    placeholder: (_,__) => Container(
+                      margin: const EdgeInsets.all(30.0),
+                      child: CustomProgressIndicator(color: Colors.black),
+                    ),
                   ),
-                ),
-                Container(
-                  height: 61.0,
-                  width: 111.0,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(top: 10.0),
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      AutoSizeText(
-                        actors[index].name,
-                        style: TextStyle(
-                          color: Colors.black,
+                  Container(
+                    height: 62.0,
+                    width: 111.0,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(top: 10.0),
+                    color: Color(0xfff7f3f5),
+                    child: Column(
+                      children: [
+                        AutoSizeText(
+                          actors[index].name,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
                         ),
-                        maxLines: 1,
-                      ),
-                      SizedBox(height: 10.0),
-                      AutoSizeText(
-                        actors[index].role,
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                        maxLines: 1,
-                        minFontSize: 10.0,
-                        overflow: TextOverflow.ellipsis,
-                      )                      
-                    ],
-                  )
-                ),
-              ]
+                        SizedBox(height: 10.0),
+                        AutoSizeText(
+                          actors[index].role,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
+                          minFontSize: 10.0,
+                          overflow: TextOverflow.ellipsis,
+                        )                      
+                      ],
+                    )
+                  ),
+                ]
+              ),
             ),
           );
         }

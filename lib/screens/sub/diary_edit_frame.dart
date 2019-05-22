@@ -87,12 +87,12 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
                 hintText: '제목',
                 hintStyle: TextStyle(
                   color: Colors.grey,
-                  fontSize: 40.0
+                  fontSize: 30.0
                 ),
               ),
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 40.0
+                fontSize: 30.0
               ),
               maxLines: 1,
               cursorColor: Colors.white,
@@ -108,12 +108,12 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
                 hintText: '느낀점',
                 hintStyle: TextStyle(
                   color: Colors.grey,
-                  fontSize: 30.0
+                  fontSize: 20.0
                 ),
               ),
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 30.0,
+                fontSize: 20.0,
                 height: 1.2
               ),
               cursorColor: Colors.white,

@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             text: [_introMessageModel.diaryTitle],
             textStyle: TextStyle(
               color: Colors.white,
-              fontSize: 30.0,
+              fontSize: 25.0,
             ),
             alignment: Alignment.center,
             streamController: _streamController,

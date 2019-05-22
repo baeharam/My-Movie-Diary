@@ -78,14 +78,14 @@ class DiaryResultBody extends StatelessWidget {
                       diaryModel.diaryTitle,
                       style: TextStyle(
                         color: AppColor.diaryResultText,
-                        fontSize: 40.0
+                        fontSize: 30.0
                       ),
                     ),
                     SizedBox(height: 10.0),
                     Text(
                       diaryModel.diaryContents,
                       style: TextStyle(
-                        color: AppColor.diaryResultText,
+                        color: AppColor.diaryResultText.withOpacity(0.85),
                         fontSize: 20.0
                       ),
                     )

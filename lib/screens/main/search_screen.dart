@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
@@ -29,6 +30,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
+    _searchBloc.dispatch(SearchEventStateClear());
     _searchAnimationInitialization();
     _keyboardListenerInitialization();
   }
@@ -38,6 +40,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     _searchAnimationController.dispose();
     _searchBarController.dispose();
     _keyboardVisibility.removeListener(_keyboardSubscriber);
+    _searchBloc.dispatch(SearchEventStateClear());
     super.dispose();
   }
 
@@ -95,10 +98,33 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             if(state.isMovieAPICallSucceeded) {
               _movieList = state.movieList;
             }
+            
             if(state.isMovieCrawlSucceeded) {
               _searchBloc.dispatch(SearchEventStateClear());
               BlocNavigator.push(context, 
                 MaterialPageRoute(builder: (_)=>MovieScreen(movie: state.clickedMovie)));
+            }
+            if(state.isMovieCrawlLoading || state.isMovieCrawlSucceeded) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SpinKitWave(
+                      size: 50.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 40.0),
+                    Text(
+                      '영화를 가져오고 있습니다...',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ],
+                ),
+              );
             }
             return AnimatedBuilder(
               animation: _liftUpAnimation,

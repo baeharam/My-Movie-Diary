@@ -103,7 +103,7 @@ class _MovieScreenState extends State<MovieScreen> {
         icon: Icon(Icons.edit),
         label: Text('일기쓰기'),
         heroTag: 'diary',
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xff333435),
       )
     );
   }

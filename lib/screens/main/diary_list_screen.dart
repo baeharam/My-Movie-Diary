@@ -67,7 +67,14 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
             _currentPage = state.pageIndex;
           }
           return Container(
-            color: AppColor.background,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.black,Colors.black.withOpacity(0.6)],
+                stops: [0.5,0.9],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter
+              )
+            ),
             child: Column(
               children: <Widget>[
                 Container(
@@ -110,17 +117,16 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                 children: [
                   SmoothStarRating(
                     color: Colors.red,
-                    borderColor: Colors.white,
+                    borderColor: Colors.white.withOpacity(0.6),
                     size: 40.0,
                     rating: sl.get<CurrentUser>().diaryList[index].diaryRating,
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 20.0),
                   Text(
                     sl.get<CurrentUser>().diaryList[index].diaryTitle,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.white.withOpacity(0.6),
                       fontSize: 30.0,
-                      fontWeight: FontWeight.bold
                     ),
                   )
                 ]

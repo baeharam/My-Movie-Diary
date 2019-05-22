@@ -94,7 +94,7 @@ class SearchMovieContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150.0,
+      height: 160.0,
       width: MediaQuery.of(context).size.width*0.4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +105,7 @@ class SearchMovieContents extends StatelessWidget {
             movie.title,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 20.0
+              fontSize: 15.0
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

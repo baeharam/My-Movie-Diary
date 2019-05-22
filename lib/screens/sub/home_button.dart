@@ -13,21 +13,24 @@ class HomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250.0,
-      height: 60.0,
-      child: RaisedButton(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white24,
+          borderRadius: BorderRadius.circular(30.0),
+          border: Border.all(color: Colors.white)
+        ),
+        width: 250.0,
+        height: 55.0,
         child: Text(
           title,
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 22.0
           ),
         ),
-        elevation: 5.0,
-        onPressed: onPressed,
       ),
     );
   }
