@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:html/dom.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/resources/strings.dart';
@@ -25,6 +26,15 @@ class ActorModel {
        assert(role!=null);
 
   String get docName => this.name+"-"+uuid.v1();
+
+  factory ActorModel.fromSnapshot(DocumentSnapshot snapshot) {
+    return ActorModel(
+      name: snapshot.data[fActorNameField],
+      thumbnail: snapshot.data[fActorThumbnailField],
+      level: snapshot.data[fActorLevelField],
+      role: snapshot.data[fActorRoleField]
+    );
+  }
 
   Map<String,dynamic> toMap() {
     return {

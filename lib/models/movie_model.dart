@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:mymovie/models/actor_model.dart';
 import 'package:mymovie/resources/constants.dart';
@@ -42,6 +43,31 @@ class MovieModel {
        assert(userRating!=null);
 
   String get docName => this.movieCode+"-"+this.title;
+
+  factory MovieModel.fromSnapshot(DocumentSnapshot snapshot){
+    List<String> stillcutList = List<String>();
+    for(dynamic stillcutLink in snapshot.data[fMovieStillcutListField]){
+      stillcutList.add(stillcutLink as String);
+    }
+    List<String> trailerList = List<String>();
+    for(dynamic trailerLink in snapshot.data[fMovieTrailerListField]){
+      trailerList.add(trailerLink as String);
+    }
+    return MovieModel._(
+      link: snapshot.data[fMovieLinkField] as String,
+      movieCode: snapshot.data[fMovieCodeField] as String,
+      thumbnail: snapshot.data[fMovieThumbnailField] as String,
+      title: snapshot.data[fMovieTitleField] as String,
+      mainDirector: snapshot.data[fMovieMainDirectorField] as String,
+      mainActor: snapshot.data[fMovieMainActorField] as String,
+      userRating: snapshot.data[fMovieUserRatingField] as String,
+      pubDate: snapshot.data[fMoviePubdateField] as String,
+      description: snapshot.data[fMovieDescriptionField] as String,
+      mainPhoto: snapshot.data[fMovieMainPhotoField] as String,
+      stillcutList: stillcutList,
+      trailerList: trailerList
+    );
+  }
   
   factory MovieModel.fromMap(Map<String,dynamic> map) {
     List<String> stillcutList = List<String>();

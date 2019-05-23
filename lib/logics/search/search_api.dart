@@ -21,6 +21,11 @@ class SearchAPI {
       return await sl.get<DatabaseAPI>().getMovie(movieCode: movie.movieCode);
     }
 
+    // Cloud Firestore 체크
+    else if(await sl.get<FirebaseAPI>().isExitingMovie(movieCode: movie.movieCode)){
+      return await sl.get<FirebaseAPI>().getMovie(movieCode: movie.movieCode);
+    }
+
     http.Response mainPageResponse = await http.get(movie.link);
     http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
     http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');

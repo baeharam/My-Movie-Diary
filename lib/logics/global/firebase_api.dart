@@ -19,6 +19,40 @@ class FirebaseAPI {
     sl.get<CurrentUser>().uid = user.uid;
   }
 
+  Future<bool> isExitingMovie({@required String movieCode}) async {
+    QuerySnapshot movieSnapshot 
+      = await firestore
+        .collection(fMovieCol)
+        .where(fMovieCodeField,isEqualTo: movieCode)
+        .getDocuments();
+    return movieSnapshot.documents.isNotEmpty;
+  }
+
+  Future<MovieModel> getMovie({@required String movieCode}) async {
+    QuerySnapshot movieSnapshot 
+      = await firestore
+        .collection(fMovieCol)
+        .where(fMovieCodeField,isEqualTo: movieCode)
+        .getDocuments();
+    MovieModel movie = MovieModel.fromSnapshot(movieSnapshot.documents[0]);
+    movie.actorList = await _getActorList(movieCode);
+    return movie;
+  }
+
+  Future<List<ActorModel>> _getActorList(String movieDocID) async {
+    QuerySnapshot actorSnapshot 
+      = await firestore
+        .collection(fMovieCol)
+        .document(movieDocID)
+        .collection(fMovieActorSubCol)
+        .getDocuments();
+    List<ActorModel> actorList = List<ActorModel>();
+    for(DocumentSnapshot actor in actorSnapshot.documents) {
+      actorList.add(ActorModel.fromSnapshot(actor));
+    }
+    return actorList;
+  }
+
   /// [API 호출 + 크롤링한 영화 데이터 저장]]
   Future<void> storeMovie({@required MovieModel movie}) async{
     debugPrint('서버에 영화 저장 중...');
