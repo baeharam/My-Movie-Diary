@@ -22,77 +22,77 @@ class DiaryResultBody extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          decoration: BoxDecoration(
-            color: AppColor.background
-          ),
+          decoration: AppColor.diaryResultGradient,
           height: MediaQuery.of(context).size.height
         ),
-        Card(
-          color: AppColor.diaryResultComponent,
-          elevation: 4.0,
-          margin: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 10.0),
-              Hero(
-                tag: diaryModel.movieCode,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: CachedNetworkImage(
-                      imageUrl: diaryModel.movieStillCutList[randomIndex],
-                      placeholder: (_,__) {
-                        return SizedBox(
-                          width: 300.0,
-                          height: 300.0,
-                          child: Center(
-                            child: SpinKitWave(
-                              color: Colors.white,
-                              size: 50.0,
+        SingleChildScrollView(
+          child: Card(
+            color: AppColor.diaryResultComponent,
+            elevation: 4.0,
+            margin: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 10.0),
+                Hero(
+                  tag: diaryModel.movieCode,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: CachedNetworkImage(
+                        imageUrl: diaryModel.movieStillCutList[randomIndex],
+                        placeholder: (_,__) {
+                          return SizedBox(
+                            width: 300.0,
+                            height: 300.0,
+                            child: Center(
+                              child: SpinKitWave(
+                                color: Colors.white,
+                                size: 50.0,
+                              ),
                             ),
-                          ),
-                        );
-                      }
+                          );
+                        }
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                padding: const EdgeInsets.only(left: 20.0,right: 20.0,bottom: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SmoothStarRating(
-                      borderColor: Colors.grey,
-                      color: Colors.red,
-                      rating: diaryModel.diaryRating,
-                      size: 40.0,
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      diaryModel.diaryTitle,
-                      style: TextStyle(
-                        color: AppColor.diaryResultText,
-                        fontSize: 30.0
+                SizedBox(height: 10.0),
+                Container(
+                  padding: const EdgeInsets.only(left: 20.0,right: 20.0,bottom: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SmoothStarRating(
+                        borderColor: Colors.grey,
+                        color: Colors.red,
+                        rating: diaryModel.diaryRating,
+                        size: 40.0,
                       ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      diaryModel.diaryContents,
-                      style: TextStyle(
-                        color: AppColor.diaryResultText.withOpacity(0.85),
-                        fontSize: 20.0
+                      SizedBox(height: 10.0),
+                      Text(
+                        diaryModel.diaryTitle,
+                        style: TextStyle(
+                          color: AppColor.diaryResultText,
+                          fontSize: 30.0
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              )
-            ],
+                      SizedBox(height: 10.0),
+                      Text(
+                        diaryModel.diaryContents,
+                        style: TextStyle(
+                          color: AppColor.diaryResultText.withOpacity(0.85),
+                          fontSize: 20.0
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         )
       ],

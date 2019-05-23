@@ -68,6 +68,7 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
                     state.title.isEmpty) && !widget.isEditing) 
                   ? Container(height: 50.0)
                   : DiaryCompleteButton(
+                    isEditing: widget.isEditing,
                     diaryModel: widget.diary.copyWith(
                       diaryTitle: _titleController.text,
                       diaryContents: _contentsController.text,

@@ -75,7 +75,7 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
           if(state.isDeleteLoading) {
             return Container(
               alignment: Alignment.center,
-              color: AppColor.background,
+              decoration: AppColor.diaryResultGradient,
               child: SpinKitWave(
                 color: Colors.white,
                 size: 50.0,
@@ -86,6 +86,7 @@ class _DiaryResultScreenState extends State<DiaryResultScreen> {
             BlocSnackbar.show(context, '삭제에 실패했습니다.');
           }
           if(state.isDeleteSucceeded){
+            BlocSnackbar.show(context, '일기가 삭제되었습니다.');
             BlocNavigator.pop(context);
           }
           return DiaryResultBody(

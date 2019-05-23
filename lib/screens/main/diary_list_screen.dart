@@ -45,7 +45,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
     if(sl.get<CurrentUser>().isDiaryEmpty()) {
       return Scaffold(
         body: Container(
-          color: AppColor.background,
+          decoration: AppColor.diaryResultGradient,
           alignment: Alignment.center,
           child: Text(
             '일기가 없어요 ㅠㅠ',
@@ -67,14 +67,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
             _currentPage = state.pageIndex;
           }
           return Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.black,Colors.black.withOpacity(0.6)],
-                stops: [0.5,0.9],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter
-              )
-            ),
+            decoration: AppColor.diaryResultGradient,
             child: Column(
               children: <Widget>[
                 Container(
@@ -117,7 +110,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                 children: [
                   SmoothStarRating(
                     color: Colors.red,
-                    borderColor: Colors.white.withOpacity(0.6),
+                    borderColor: Colors.white,
                     size: 40.0,
                     rating: sl.get<CurrentUser>().diaryList[index].diaryRating,
                   ),
@@ -125,7 +118,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                   Text(
                     sl.get<CurrentUser>().diaryList[index].diaryTitle,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white,
                       fontSize: 30.0,
                     ),
                   )

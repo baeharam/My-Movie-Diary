@@ -14,9 +14,12 @@ class CurrentUser {
 
   void addDiary({@required DiaryModel diary}) => this.diaryList.add(diary);
   void updateDiary({@required DiaryModel diary}) {
-    diaryList
-      .where((existing) => existing.movieCode==diary.movieCode)
-      .forEach((find) => find = diary);
+    for(DiaryModel existing in diaryList){
+      if(existing.movieCode==diary.movieCode){
+        existing = diary;
+        break;
+      }
+    }
   }
   void deleteDiary({@required DiaryModel diary}) 
     => this.diaryList.removeWhere((diaryModel) => diaryModel.movieCode==diary.movieCode);

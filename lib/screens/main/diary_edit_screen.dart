@@ -79,8 +79,14 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
 class DiaryCompleteButton extends StatelessWidget {
 
   final DiaryModel diaryModel;
+  final bool isEditing;
 
-  const DiaryCompleteButton({Key key, @required this.diaryModel}) : super(key: key);
+
+  const DiaryCompleteButton({
+    Key key, 
+    @required this.diaryModel,
+    @required this.isEditing
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +94,10 @@ class DiaryCompleteButton extends StatelessWidget {
       child: Container(
         child: Icon(Icons.check,color: Colors.white,size: 50.0),
       ),
-      onTap: () => sl.get<DiaryEditBloc>().dispatch(DiaryEditEventComplete(diaryModel: diaryModel)),
+      onTap: () => 
+      isEditing 
+      ? sl.get<DiaryEditBloc>().dispatch(DiaryEditEventUpdate(diaryModel: diaryModel))
+      : sl.get<DiaryEditBloc>().dispatch(DiaryEditEventComplete(diaryModel: diaryModel)),
     );
   }
 }
