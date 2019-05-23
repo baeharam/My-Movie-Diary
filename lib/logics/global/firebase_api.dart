@@ -35,7 +35,7 @@ class FirebaseAPI {
         .where(fMovieCodeField,isEqualTo: movieCode)
         .getDocuments();
     MovieModel movie = MovieModel.fromSnapshot(movieSnapshot.documents[0]);
-    movie.actorList = await _getActorList(movieCode);
+    movie.actorList = await _getActorList(movie.docName);
     return movie;
   }
 
