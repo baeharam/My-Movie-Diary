@@ -19,7 +19,16 @@ class IntroAPI {
   Future<void> _dataInitialization() async {
     await sl.get<FirebaseAPI>().setUID();
     await sl.get<DatabaseAPI>().initialization();
-    sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<DatabaseAPI>().getAllDiary());
+    await _fetchDiary();
+  }
+
+  Future<void> _fetchDiary() async {
+    if(await sl.get<DatabaseAPI>().isDiaryCached()){
+      sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<DatabaseAPI>().getAllDiary());
+    }
+    else{
+      sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<FirebaseAPI>().getAllDiary());
+    }
   }
 
   Future<void> facebookAuthentication() async {

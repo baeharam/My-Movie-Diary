@@ -81,4 +81,8 @@ class DatabaseAPI {
   Future<void> updateDiary({@required DiaryModel diary}) async {
     await _diaryStore.update(diary.toMap(), diary.movieCode);
   }
+
+  Future<bool> isDiaryCached() async {
+    return !(await _diaryStore.records.isEmpty);
+  }
 }

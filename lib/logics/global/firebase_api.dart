@@ -96,67 +96,59 @@ class FirebaseAPI {
   Future<void> updateDiary({@required DiaryModel diaryModel}) async {
     debugPrint('서버에 일기 업데이트 중...');
 
-    DocumentReference userRef = firestore
-      .collection(fDiaryCol)
-      .document(sl.get<CurrentUser>().uid);
-
     DocumentReference diaryRef = firestore
       .collection(fDiaryCol)
       .document(sl.get<CurrentUser>().uid)
       .collection(fDiarySubCol)
       .document(diaryModel.docName);
 
-    WriteBatch batch = firestore.batch();
-
-    batch.updateData(diaryRef, {
-      fDiaryTitleField: diaryModel.diaryTitle,
-      fDiaryContentsField: diaryModel.diaryContents,
-      fDiaryRatingField: diaryModel.diaryRating
+    await firestore.runTransaction((tx) async{
+      await tx.update(diaryRef, {
+        fDiaryTitleField: diaryModel.diaryTitle,
+        fDiaryContentsField: diaryModel.diaryContents,
+        fDiaryRatingField: diaryModel.diaryRating
+      });
     });
-    batch.updateData(userRef, {fRecentUpdatedTimeField: diaryModel.diaryUpdatedTime});
-
-    await batch.commit();
   }
 
   Future<void> addDiary({@required DiaryModel diaryModel}) async{
     debugPrint('서버에 일기 저장 중...');
 
-    DocumentReference userRef = firestore
-      .collection(fDiaryCol)
-      .document(sl.get<CurrentUser>().uid);
-
     DocumentReference diaryRef = firestore
       .collection(fDiaryCol)
       .document(sl.get<CurrentUser>().uid)
       .collection(fDiarySubCol)
       .document(diaryModel.docName);
 
-    WriteBatch batch = firestore.batch();
-
-    batch.setData(diaryRef, {
-      fDiaryTitleField: diaryModel.diaryTitle,
-      fDiaryContentsField: diaryModel.diaryContents,
-      fDiaryRatingField: diaryModel.diaryRating,
-      fDiaryMovieMainPhotoField: diaryModel.movieMainPhoto,
-      fDiaryMovieCodeField: diaryModel.movieCode,
-      fDiaryMoviePubDateField: diaryModel.moviePubDate,
-      fDiaryMovieStillcutListField: diaryModel.movieStillCutList,
-      fDiaryMovieTitleField: diaryModel.movieTitle
+    await firestore.runTransaction((tx) async {
+      await tx.set(diaryRef, {
+        fDiaryTitleField: diaryModel.diaryTitle,
+        fDiaryContentsField: diaryModel.diaryContents,
+        fDiaryRatingField: diaryModel.diaryRating,
+        fDiaryMovieMainPhotoField: diaryModel.movieMainPhoto,
+        fDiaryMovieCodeField: diaryModel.movieCode,
+        fDiaryMoviePubDateField: diaryModel.moviePubDate,
+        fDiaryMovieStillcutListField: diaryModel.movieStillCutList,
+        fDiaryMovieTitleField: diaryModel.movieTitle
+      });
     });
+  }
 
-    batch.setData(userRef, {
-      fRecentUpdatedTimeField: diaryModel.diaryUpdatedTime
-    });
-
-    await batch.commit();
+  Future<List<DiaryModel>> getAllDiary() async {
+    QuerySnapshot diarySnapshot = await firestore
+      .collection(fDiaryCol)
+      .document(sl.get<CurrentUser>().uid)
+      .collection(fDiarySubCol)
+      .getDocuments();
+    List<DiaryModel> diaryList = List<DiaryModel>();
+    for(DocumentSnapshot diary in diarySnapshot.documents) {
+      diaryList.add(DiaryModel.fromSnapshot(diary));
+    }
+    return diaryList;
   }
 
   Future<void> deleteDiary({@required DiaryModel diary}) async {
     debugPrint('서버에서 일기 제거 중');
-
-    DocumentReference userRef = firestore
-      .collection(fDiaryCol)
-      .document(sl.get<CurrentUser>().uid);
 
     DocumentReference diaryRef = firestore
       .collection(fDiaryCol)
@@ -164,12 +156,9 @@ class FirebaseAPI {
       .collection(fDiarySubCol)
       .document(diary.docName);
 
-    WriteBatch batch = firestore.batch();
-
-    batch.delete(diaryRef);
-    batch.setData(userRef, {fRecentUpdatedTimeField: diary.diaryUpdatedTime});
-
-    await batch.commit();
+    await firestore.runTransaction((tx) async {
+      await tx.delete(diaryRef);
+    });
   }
 
   Future<QuerySnapshot> fetchDiarySnapshot() async {

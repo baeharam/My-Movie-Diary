@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:mymovie/resources/constants.dart';
 
@@ -12,11 +13,27 @@ class DiaryModel {
   String diaryContents;
   double diaryRating;
 
-  int diaryUpdatedTime;
-
   String get docName => movieCode+"-"+movieTitle;
 
   bool isEditing() => diaryTitle!=null;
+
+  factory DiaryModel.fromSnapshot(DocumentSnapshot snapshot) {
+    List<String> stillcutList = List<String>();
+    for(dynamic stillcutLink in snapshot.data[fDiaryMovieStillcutListField]){
+      stillcutList.add(stillcutLink as String);
+    }
+    return DiaryModel(
+      movieCode: snapshot.data[fDiaryMovieCodeField],
+      moviePubDate: snapshot.data[fDiaryMoviePubDateField],
+      movieTitle: snapshot.data[fDiaryMovieTitleField],
+      movieMainPhoto: snapshot.data[fDiaryMovieMainPhotoField],
+      movieStillCutList: stillcutList,
+
+      diaryTitle: snapshot.data[fDiaryTitleField],
+      diaryContents: snapshot.data[fDiaryContentsField],
+      diaryRating: snapshot.data[fDiaryRatingField]
+    );
+  }
 
   Map<String,dynamic> toMap() {
     return {
@@ -28,9 +45,7 @@ class DiaryModel {
 
       fDiaryTitleField: diaryTitle,
       fDiaryContentsField: diaryContents,
-      fDiaryRatingField: diaryRating,
-
-      fRecentUpdatedTimeField: diaryUpdatedTime
+      fDiaryRatingField: diaryRating
     };
   }
 
@@ -48,9 +63,7 @@ class DiaryModel {
 
       diaryTitle: map[fDiaryTitleField],
       diaryContents: map[fDiaryContentsField],
-      diaryRating: map[fDiaryRatingField],
-
-      diaryUpdatedTime: map[fRecentUpdatedTimeField]
+      diaryRating: map[fDiaryRatingField]
     );
   }
 
@@ -75,9 +88,7 @@ class DiaryModel {
 
     @required this.diaryTitle,
     @required this.diaryContents,
-    @required this.diaryRating,
-
-    @required this.diaryUpdatedTime
+    @required this.diaryRating
   }) : assert(movieCode!=null),
        assert(movieTitle!=null),
        assert(moviePubDate!=null),
@@ -85,8 +96,7 @@ class DiaryModel {
        assert(movieStillCutList!=null),
        assert(diaryTitle!=null),
        assert(diaryContents!=null),
-       assert(diaryRating!=null),
-       assert(diaryUpdatedTime!=null);
+       assert(diaryRating!=null);
 
   DiaryModel copyWith({
     @required String diaryTitle,
@@ -97,7 +107,6 @@ class DiaryModel {
     this.diaryTitle = diaryTitle;
     this.diaryContents = diaryContents;
     this.diaryRating = diaryRating;
-    this.diaryUpdatedTime = time;
     return this;
   }
 }
