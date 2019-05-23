@@ -74,12 +74,6 @@ const String fActorLevelField = 'actor_level';
 const String fActorThumbnailField = 'actor_thumbnail';
 const String fActorRoleField = 'actor_role';
 
-// Cloud Firestore - user document
-const String fRecentUpdatedTimeField = 'recent_updated';
-
-// SharedPreferences
-const String sfRecentUpdatedTime = 'recent_updated';
-
 // Intro Screen
 const String facebookImage = 'assets/images/facebook.png';
 const String googleImage = 'assets/images/google.png';
