@@ -63,6 +63,12 @@ class DatabaseAPI {
     await _diaryStore.put(diary.toMap(),diary.movieCode);
   }
 
+  Future<void> addAllDiary({@required List<DiaryModel> diaryList}) async {
+    for(DiaryModel diary in diaryList) {
+      await addDiary(diary: diary);
+    }
+  }
+
   Future<void> deleteDiary({@required DiaryModel diary}) async {
     await _diaryStore.delete(diary.movieCode);
   }

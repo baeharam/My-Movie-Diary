@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/logics/global/database_api.dart';
 import 'package:mymovie/logics/global/firebase_api.dart';
+import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
 class IntroAPI {
@@ -27,7 +28,9 @@ class IntroAPI {
       sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<DatabaseAPI>().getAllDiary());
     }
     else{
-      sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<FirebaseAPI>().getAllDiary());
+      List<DiaryModel> diaryList = await sl.get<FirebaseAPI>().getAllDiary();
+      sl.get<DatabaseAPI>().addAllDiary(diaryList: diaryList);
+      sl.get<CurrentUser>().setDiaryList(diaryList: diaryList);
     }
   }
 
