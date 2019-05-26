@@ -9,7 +9,6 @@ import 'package:mymovie/screens/sub/search_sub.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
-import 'package:mymovie/widgets/fadein_scaffold.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -75,92 +74,95 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     OrientationFixer.fixPortrait();
 
-    return FadeInScaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/cinema.jpg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
-          ),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/cinema.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
         ),
-        child: BlocBuilder<SearchEvent, SearchState>(
-          bloc: _searchBloc,
-          builder: (context, state) {
-            if(state.isKeyboardOn) {
-              _searchAnimationController.forward();
-            }
-            if(state.isKeyboardOff && _movieList.isEmpty) {
-              _searchAnimationController.reverse();
-              _searchBarController.clear();
-            }
-            if(state.isMovieAPICallSucceeded) {
-              _movieList = state.movieList;
-            }
-            
-            if(state.isMovieCrawlSucceeded) {
-              _searchBloc.dispatch(SearchEventStateClear());
-              BlocNavigator.push(context, 
-                MaterialPageRoute(builder: (_)=>MovieScreen(movie: state.clickedMovie)));
-            }
-            if(state.isMovieCrawlLoading || state.isMovieCrawlSucceeded) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SpinKitWave(
-                      size: 50.0,
+      ),
+      child: BlocBuilder<SearchEvent, SearchState>(
+        bloc: _searchBloc,
+        builder: (context, state) {
+          if(state.isKeyboardOn) {
+            _searchAnimationController.forward();
+          }
+          if(state.isKeyboardOff && _movieList.isEmpty) {
+            _searchAnimationController.reverse();
+            _searchBarController.clear();
+          }
+          if(state.isMovieAPICallSucceeded) {
+            _movieList = state.movieList;
+          }
+          
+          if(state.isMovieCrawlSucceeded) {
+            _searchBloc.dispatch(SearchEventStateClear());
+            BlocNavigator.push(context, 
+              MaterialPageRoute(builder: (_)=>MovieScreen(movie: state.clickedMovie)));
+          }
+          if(state.isMovieCrawlLoading || state.isMovieCrawlSucceeded) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SpinKitWave(
+                    size: 50.0,
+                    color: Colors.white,
+                  ),
+                  SizedBox(height: 40.0),
+                  Text(
+                    '영화를 가져오고 있습니다...',
+                    style: TextStyle(
                       color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold
                     ),
-                    SizedBox(height: 40.0),
-                    Text(
-                      '영화를 가져오고 있습니다...',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold
+                  )
+                ],
+              ),
+            );
+          }
+          return AnimatedBuilder(
+            animation: _liftUpAnimation,
+            builder: (context, widget){
+              return SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    children: [
+                      SizedBox(height: _liftUpAnimation.value),
+                      SearchMessage(
+                        fadeOutAnimation: _fadeOutAnimation,
+                        liftUpAnimation: _liftUpAnimation
                       ),
-                    )
-                  ],
+                      SizedBox(height: 100.0),
+                      Column(
+                        children: [
+                          SearchBar(
+                            searchBarController: _searchBarController,
+                            searchBloc: _searchBloc,
+                          ),
+                          Container(
+                            height: 3.0,
+                            width: MediaQuery.of(context).size.width*0.9,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                      SearchResultForm(
+                        movieList: _movieList,
+                        searchBloc: _searchBloc,
+                        searchBarController: _searchBarController,
+                      )
+                    ],
+                  ),
                 ),
               );
             }
-            return AnimatedBuilder(
-              animation: _liftUpAnimation,
-              builder: (context, widget){
-                return Column(
-                  children: [
-                    SizedBox(height: _liftUpAnimation.value),
-                    SearchMessage(
-                      fadeOutAnimation: _fadeOutAnimation,
-                      liftUpAnimation: _liftUpAnimation
-                    ),
-                    SizedBox(height: 100.0),
-                    Column(
-                      children: [
-                        SearchBar(
-                          searchBarController: _searchBarController,
-                          searchBloc: _searchBloc,
-                        ),
-                        Container(
-                          height: 3.0,
-                          width: MediaQuery.of(context).size.width*0.9,
-                          color: Colors.white,
-                        )
-                      ],
-                    ),
-                    SearchResultForm(
-                      movieList: _movieList,
-                      searchBloc: _searchBloc,
-                      searchBarController: _searchBarController,
-                    )
-                  ],
-                );
-              }
-            );
-          }
-        ),
+          );
+        }
       ),
     );
   }

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mymovie/logics/global/animation_api.dart';
 import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/models/intro_message_model.dart';
-import 'package:mymovie/resources/strings.dart';
-import 'package:mymovie/screens/sub/home_button.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/utils/typewriter.dart';
@@ -79,16 +77,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             }
             return SizedBox(height: 25.0);
           }
-        ),
-        SizedBox(height: 200.0),
-        HomeButton(
-          title: '나의 영화일기', 
-          onPressed: () => Navigator.pushNamed(context, routeDiaryList)
-        ),
-        SizedBox(height: 20.0),
-        HomeButton(
-          title: '영화일기 작성하기', 
-          onPressed: () => Navigator.pushNamed(context, routeSearch)
         )
       ],
     );

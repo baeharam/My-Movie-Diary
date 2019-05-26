@@ -45,7 +45,7 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
         bloc: _introBloc,
         builder: (context, state){
           if(state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded) {
-            BlocNavigator.pushReplacementNamed(context, routeHome);
+            BlocNavigator.pushReplacementNamed(context, routeDrawer);
           }
           if(state.isFacebookLoginFailed || state.isGoogleLoginFailed) {
             BlocSnackbar.show(context, '로그인에 실패하였습니다.');

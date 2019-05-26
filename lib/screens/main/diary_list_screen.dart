@@ -71,7 +71,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 600.0,
+                  height: 500.0,
                   child: PageView.builder(
                     itemBuilder: (context,index) => _diaryPhotoBuilder(index),
                     controller: _pageController,
