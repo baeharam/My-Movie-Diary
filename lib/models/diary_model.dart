@@ -48,6 +48,7 @@ class DiaryModel {
       fDiaryMovieTitleField: movieTitle,
       fDiaryMovieMainPhotoField: movieMainPhoto,
       fDiaryMovieStillcutListField: movieStillCutList,
+      fDiaryMovieLineList: movieLineList,
 
       fDiaryTitleField: diaryTitle,
       fDiaryContentsField: diaryContents,

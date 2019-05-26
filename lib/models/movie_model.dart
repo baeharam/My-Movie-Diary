@@ -55,6 +55,10 @@ class MovieModel {
     for(dynamic trailerLink in snapshot.data[fMovieTrailerListField]){
       trailerList.add(trailerLink as String);
     }
+    List<String> lineList = List<String>();
+    for(dynamic line in snapshot.data[fMovieLineListField]){
+      lineList.add(line as String);
+    }
     return MovieModel._(
       link: snapshot.data[fMovieLinkField] as String,
       movieCode: snapshot.data[fMovieCodeField] as String,
@@ -67,7 +71,8 @@ class MovieModel {
       description: snapshot.data[fMovieDescriptionField] as String,
       mainPhoto: snapshot.data[fMovieMainPhotoField] as String,
       stillcutList: stillcutList,
-      trailerList: trailerList
+      trailerList: trailerList,
+      lineList: lineList
     );
   }
   
@@ -80,7 +85,10 @@ class MovieModel {
     for(dynamic trailerLink in map[fMovieTrailerListField]){
       trailerList.add(trailerLink as String);
     }
-
+    List<String> lineList = List<String>();
+    for(dynamic line in map[fMovieLineListField]){
+      lineList.add(line as String);
+    }
     return MovieModel._(
       link: map[fMovieLinkField] as String,
       movieCode: map[fMovieCodeField] as String,
@@ -93,7 +101,8 @@ class MovieModel {
       description: map[fMovieDescriptionField] as String,
       mainPhoto: map[fMovieMainPhotoField] as String,
       stillcutList: stillcutList,
-      trailerList: trailerList
+      trailerList: trailerList,
+      lineList: lineList
     );
   }
 
@@ -110,7 +119,8 @@ class MovieModel {
       fMovieDescriptionField: this.description,
       fMovieMainPhotoField: this.mainPhoto,
       fMovieStillcutListField: this.stillcutList,
-      fMovieTrailerListField: this.trailerList
+      fMovieTrailerListField: this.trailerList,
+      fMovieLineListField: this.lineList
     };
   }
 

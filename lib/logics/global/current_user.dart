@@ -3,8 +3,6 @@ import 'dart:math';
 
 import 'package:meta/meta.dart';
 import 'package:mymovie/models/diary_model.dart';
-import 'package:mymovie/models/intro_message_model.dart';
-import 'package:mymovie/resources/constants.dart';
 
 class CurrentUser {
   String uid = '';
@@ -24,20 +22,7 @@ class CurrentUser {
   void deleteDiary({@required DiaryModel diary}) 
     => this.diaryList.removeWhere((diaryModel) => diaryModel.movieCode==diary.movieCode);
 
-  IntroMessageModel getRandomIntro() {
-    if(isDiaryEmpty()) {
-      return defaultIntro;
-    } else {
-      DiaryModel random = _getRandomDiary();
-      return IntroMessageModel(
-        line: random.movieLineList[Random().nextInt(random.movieLineList.length)],
-        pubDate: random.moviePubDate,
-        movieTitle: random.movieTitle
-      );
-    }
-  }
-
-  DiaryModel _getRandomDiary() => diaryList[Random().nextInt(diaryList.length)];
+  DiaryModel getRandomDiary() => diaryList[Random().nextInt(diaryList.length)];
 
   bool isDiaryEmpty() => diaryList.isEmpty;
   int get diaryLength => diaryList.length;

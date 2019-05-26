@@ -130,6 +130,7 @@ class FirebaseAPI {
         fDiaryMovieCodeField: diaryModel.movieCode,
         fDiaryMoviePubDateField: diaryModel.moviePubDate,
         fDiaryMovieStillcutListField: diaryModel.movieStillCutList,
+        fDiaryMovieLineList: diaryModel.movieLineList,
         fDiaryMovieTitleField: diaryModel.movieTitle
       });
     });

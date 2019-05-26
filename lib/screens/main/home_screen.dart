@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mymovie/logics/global/animation_api.dart';
 import 'package:mymovie/logics/global/current_user.dart';
-import 'package:mymovie/models/intro_message_model.dart';
+import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:mymovie/utils/typewriter.dart';
@@ -16,14 +18,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
 
   StreamController<bool> _streamController;
-  IntroMessageModel _introMessageModel;
+  DiaryModel _diaryModel;
+  String realLine = "";
 
   @override
   void initState() {
     super.initState();
     _streamController = StreamController<bool>();
     sl.get<AnimationAPI>().initHome(vsync: this);
-    _introMessageModel = sl.get<CurrentUser>().getRandomIntro();
+    _diaryModel = sl.get<CurrentUser>().getRandomDiary();
+    realLine = "\""+
+      (_diaryModel==null ? '영화는 예술이다.' :
+      _diaryModel.movieLineList[Random().nextInt(_diaryModel.movieLineList.length)])
+    +"\"";
   }
 
   @override
@@ -37,16 +44,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return Column(
       children: [
         SizedBox(
-          width: 250.0,
+          width: 300.0,
           child: TypeWriter(
-            text: [_introMessageModel.line],
+            text: [realLine],
             textStyle: TextStyle(
               color: Colors.white,
-              fontSize: 25.0,
+              fontSize: 20.0,
             ),
-            alignment: Alignment.center,
+            textAlign: TextAlign.center,
             streamController: _streamController,
-            duration: const Duration(milliseconds: 2500),
+            duration: const Duration(milliseconds: 5000),
           ),
         ),
         SizedBox(height: 40.0),
@@ -64,10 +71,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               return  SizedBox(
                 height: 25.0,
                 child: TypeWriter(
-                  text: ['${_introMessageModel.movieTitle}, ' 
-                    '${_introMessageModel.pubDate}'],
+                  text: [_diaryModel==null ? '개발자, 2019' : '${_diaryModel.movieTitle}, ' 
+                    '${_diaryModel.moviePubDate}'],
                   textStyle: TextStyle(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.8),
                     fontSize: 20.0,
                   ),
                   alignment: Alignment.center,
@@ -93,7 +100,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/fantasy.jpg'),
+              image: _diaryModel==null ?
+              AssetImage('assets/images/fantasy.jpg'):
+              CachedNetworkImageProvider(
+                _diaryModel.movieMainPhoto
+              ),
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
             ),
