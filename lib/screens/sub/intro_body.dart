@@ -9,20 +9,11 @@ import 'intro_login_button.dart';
 class IntroBody extends StatelessWidget {
 
   final Animation backgroundImageAnimation;
-  final Animation facebookAnimation;
-  final Animation googleAnimation;
-
-  final AnimationController facebookController;
-  final AnimationController googleController;
   final IntroBloc introBloc;
 
   const IntroBody({
     Key key, 
-    @required this.backgroundImageAnimation, 
-    @required this.facebookAnimation, 
-    @required this.googleAnimation, 
-    @required this.facebookController, 
-    @required this.googleController, 
+    @required this.backgroundImageAnimation,
     @required this.introBloc
   }) : super(key: key);
 
@@ -63,9 +54,6 @@ class IntroBody extends StatelessWidget {
                 ),
                 SizedBox(height: 200.0),
                 LoginButton(
-                  loginAnimation: facebookAnimation,
-                  loginAnimationController: facebookController,
-                  otherAnimationController: googleController,
                   image: Image(
                     image: AssetImage(facebookImage),
                     width: 50.0,
@@ -75,13 +63,10 @@ class IntroBody extends StatelessWidget {
                   textColor: Colors.white,
                   loadingColor: Colors.white,
                   message: stringLoginFacebook,
-                  introBloc: introBloc,
+                  callback: () => introBloc.dispatch(IntroEventFacebookLogin()),
                 ),
                 SizedBox(height: 20.0),
                 LoginButton(
-                  loginAnimation: googleAnimation,
-                  loginAnimationController: googleController,
-                  otherAnimationController: facebookController,
                   image: Image(
                     image: AssetImage(googleImage),
                     width: 50.0,
@@ -91,7 +76,7 @@ class IntroBody extends StatelessWidget {
                   textColor: Colors.black,
                   loadingColor: Colors.black,
                   message: stringLoginGoogle,
-                  introBloc: introBloc,
+                  callback: () => introBloc.dispatch(IntroEventGoogleLogin()),
                 )
               ],
             ),

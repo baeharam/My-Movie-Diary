@@ -24,16 +24,10 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _introBloc.dispatch(IntroEventStateClear());
-    sl.get<AnimationAPI>().initIntroBackground(vsync: this);
-    sl.get<AnimationAPI>().initIntroFacebook(vsync: this);
-    sl.get<AnimationAPI>().initIntroGoogle(vsync: this);
   }
 
   @override
   void dispose() {
-    sl.get<AnimationAPI>().disposeIntroBackground();
-    sl.get<AnimationAPI>().disposeIntroFacebook();
-    sl.get<AnimationAPI>().disposeIntroGoogle();
     _introBloc.dispatch(IntroEventStateClear());
     super.dispose();
   }
@@ -53,13 +47,20 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
           if(state.isFacebookLoginFailed || state.isGoogleLoginFailed) {
             BlocSnackbar.show(context, '로그인에 실패하였습니다.');
           }
-          return IntroBody(
-            backgroundImageAnimation: sl.get<AnimationAPI>().introBackgroundAnimation,
-            facebookAnimation: sl.get<AnimationAPI>().introFacebookAnimation,
-            googleAnimation: sl.get<AnimationAPI>().introGoogleAnimation,
-            facebookController: sl.get<AnimationAPI>().introFacebookController,
-            googleController: sl.get<AnimationAPI>().introGoogleController,
-            introBloc: _introBloc,
+          return Stack(
+            children: <Widget>[
+              if(state.isGoogleLoginLoading || state.isFacebookLoginLoading) 
+                Container(
+                  color: Colors.black.withOpacity(0.2),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              IntroBody(
+                backgroundImageAnimation: sl.get<AnimationAPI>().introBackgroundAnimation,
+                introBloc: _introBloc,
+              ),
+            ],
           );
         }
       )

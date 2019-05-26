@@ -1,85 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:mymovie/logics/intro/intro.dart';
-import 'package:mymovie/logics/intro/intro_bloc.dart';
 
 class LoginButton extends StatelessWidget {
-
-  final AnimationController loginAnimationController;
-  final AnimationController otherAnimationController;
-  final Animation loginAnimation;
   final Image image;
   final Color buttonColor;
   final Color textColor;
   final Color loadingColor;
   final String message;
-  final IntroBloc introBloc;
+  final VoidCallback callback;
 
 
   LoginButton({
     Key key,
-    @required this.loginAnimationController,
-    @required this.otherAnimationController,
-    @required this.loginAnimation,
     @required this.image,
     @required this.buttonColor,
     @required this.textColor,
     @required this.loadingColor,
     @required this.message,
-    @required this.introBloc
+    @required this.callback
   }) : super(key: key);
-
-  Future<void> _playAnimation({@required AnimationController controller}) async{
-    try {
-      await controller.forward();
-    } on TickerCanceled {
-      print("애니메이션이 취소되었습니다.");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: AnimatedBuilder(
-        animation: loginAnimation,
-        builder: (_,__){
-          return Container(
-            width: loginAnimation.value,
-            height: 60.0,
-            decoration: BoxDecoration(
-              color: buttonColor,
-              borderRadius: BorderRadius.circular(15.0)
-            ),
-            child: loginAnimation.value>75.0 ? Row(
-              children: <Widget>[
-                SizedBox(width: 20.0),
-                loginAnimation.value<100.0 ? Container() :
-                image,
-                loginAnimation.value<300.0 ? Container() :
-                Container(
-                  child: Text(
-                    message,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 20.0
-                    ),
-                  ),
-                )
-              ],
-            ) : 
+      child: Container(
+        width: 300.0,
+        height: 60.0,
+        decoration: BoxDecoration(
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(15.0)
+        ),
+        child: Row(
+          children: <Widget>[
+            SizedBox(width: 20.0),
+            image,
             Container(
-              margin: const EdgeInsets.all(15.0),
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(loadingColor),
+              child: Text(
+                message,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 20.0
+                ),
               ),
-              width: 30.0,
-              height: 30.0,
             )
-          );
-        }
+          ],
+        )
       ),
-      onTap: () => otherAnimationController.isAnimating ? null
-        : _playAnimation(controller: loginAnimationController)
+      onTap: () => callback
     );
   }
 }
