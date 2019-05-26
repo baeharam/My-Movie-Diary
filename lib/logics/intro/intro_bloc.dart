@@ -17,6 +17,7 @@ class IntroBloc extends Bloc<IntroEvent,IntroState> {
     }
 
     if(event is IntroEventFacebookLogin) {
+      yield IntroState.facebookLoginLoading();
       try {
         await _api.facebookAuthentication();
         yield IntroState.facebookLoginSucceeded();
@@ -27,6 +28,7 @@ class IntroBloc extends Bloc<IntroEvent,IntroState> {
     }
 
     if(event is IntroEventGoogleLogin) {
+      yield IntroState.googleLoginLoading();
       try {
         await _api.googleAuthentication();
         yield IntroState.googleLoginSucceeded();

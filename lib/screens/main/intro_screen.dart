@@ -5,6 +5,7 @@ import 'package:mymovie/logics/global/animation_api.dart';
 import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/intro_body.dart';
+import 'package:mymovie/screens/sub/intro_modal_progress.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
@@ -24,11 +25,13 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _introBloc.dispatch(IntroEventStateClear());
+    sl.get<AnimationAPI>().initIntroBackground(vsync: this);
   }
 
   @override
   void dispose() {
     _introBloc.dispatch(IntroEventStateClear());
+    sl.get<AnimationAPI>().disposeIntroBackground();
     super.dispose();
   }
 
@@ -49,17 +52,13 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
           }
           return Stack(
             children: <Widget>[
-              if(state.isGoogleLoginLoading || state.isFacebookLoginLoading) 
-                Container(
-                  color: Colors.black.withOpacity(0.2),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
               IntroBody(
                 backgroundImageAnimation: sl.get<AnimationAPI>().introBackgroundAnimation,
                 introBloc: _introBloc,
               ),
+              if(state.isGoogleLoginLoading || state.isFacebookLoginLoading ||
+              state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded)
+                IntroModalProgress()
             ],
           );
         }
