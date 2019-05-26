@@ -21,12 +21,12 @@ const String movieBasicUrl = 'https://movie.naver.com';
 const String movieRealPhotoUrl = 'https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=';
 const String movieSubPhotosUrl = 'https://movie.naver.com/movie/bi/mi/photo.nhn?code=';
 const String movieActorUrl = 'https://movie.naver.com/movie/bi/mi/detail.nhn?code=';
-const String movieLineUrl = 'https://movie.naver.com/movie/bi/mi/scriptAndRelate.nhn?code=';
+const String movieLineUrl1 = 'https://movie.naver.com/movie/bi/mi/script.nhn?code=';
+const String movieLineUrl2 = '&order=best&nid=';
 
 const String movieDescriptionClass = 'con_tx';
 const String movieSubPhotosClass = 'gallery_group';
 const String movieTrailerClass = 'video_thumb';
-const String movieLineClass = 'lines';
 const String movieOneLineClass = 'one_line';
 
 const String movieActorAreaClass = 'lst_people';

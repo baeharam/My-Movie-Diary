@@ -30,7 +30,7 @@ class SearchAPI {
     http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
     http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');
     http.Response actorResponse = await http.get(movieActorUrl+movie.movieCode);
-    http.Response lineResponse = await http.get(movieLineUrl+movie.movieCode);
+    http.Response lineResponse = await http.get(movieLineUrl1+movie.movieCode+movieLineUrl2);
 
     movie.description = _getMovieDescription(mainPageResponse);
     movie.mainPhoto = _getMainPhoto(realPhotoPageResponse);
@@ -49,12 +49,11 @@ class SearchAPI {
     debugPrint("영화 명대사 가져오는 중...");
 
     Document document = parser.parse(response.body);
-    var lines = document.getElementsByClassName(movieLineClass);
+    var lines = document.getElementsByClassName(movieOneLineClass);
     if(lines.isEmpty) return [];
 
-    List<Element> linkElement = lines[0].getElementsByClassName(movieOneLineClass);
     List<String> lineList = List<String>();
-    linkElement.forEach((e) => lineList.add(e.text));
+    lines.forEach((e) => lineList.add(e.text));
     return lineList;
   }
 
