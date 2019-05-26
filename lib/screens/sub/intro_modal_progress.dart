@@ -16,7 +16,7 @@ class IntroModalProgress extends StatelessWidget {
           width: 200.0,
           height: 150.0,
           decoration: BoxDecoration(
-            color: AppColor.background,
+            color: AppColor.darkBlueLight,
             borderRadius: BorderRadius.circular(15.0),
             border: Border.all(color: Colors.black,width: 2.0)
           ),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/diary_edit/diary_edit.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/resources/strings.dart';
-import 'package:mymovie/screens/main/diary_result_screen.dart';
 import 'package:mymovie/screens/sub/diary_edit_frame.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
@@ -46,11 +45,7 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
           bloc: sl.get<DiaryEditBloc>(),
           builder: (context, state){ 
             if(state.isDiaryCompleteSucceeded) {
-              BlocNavigator.pushNamedAndRemoveUntilWithRoute(
-                context, 
-                MaterialPageRoute(builder: (_) => DiaryResultScreen(diaryModel: state.diaryModel)), 
-                routeHome
-              );
+              BlocNavigator.pushNamed(context, routeDiaryList);
             }
             if(state.isDiaryUpdateSucceeded) {
               BlocNavigator.pop(context);

@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               fontSize: 20.0,
             ),
             textAlign: TextAlign.center,
+            alignment: Alignment.center,
             streamController: _streamController,
             duration: const Duration(milliseconds: 5000),
           ),

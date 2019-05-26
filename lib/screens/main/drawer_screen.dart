@@ -54,7 +54,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     return HiddenDrawerMenu(
       enablePerspective: true,
       backgroundColorMenu: Colors.blueGrey,
-      backgroundColorAppBar: AppColor.background,
+      backgroundColorAppBar: AppColor.darkBlueLight,
       screens: screens
     );
   }

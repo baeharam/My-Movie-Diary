@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mymovie/logics/diary_list/diary_list.dart';
 import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/resources/colors.dart';
-import 'package:mymovie/screens/main/diary_result_screen.dart';
+import 'package:mymovie/screens/main/diary_edit_screen.dart';
+import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
@@ -16,6 +19,8 @@ class DiaryListScreen extends StatefulWidget {
 
 class _DiaryListScreenState extends State<DiaryListScreen> {
   final DiaryListBloc _diaryListBloc = sl.get<DiaryListBloc>();
+  final List<String> imageCache = List<String>(sl.get<CurrentUser>().diaryLength);
+  final ScrollController _scrollController = ScrollController();
 
   PageController _pageController; 
   int _currentPage;
@@ -35,6 +40,7 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    _scrollController.dispose();
     _diaryListBloc.dispatch(DiaryListEventStateClear());
     super.dispose();
   }
@@ -42,36 +48,48 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
   @override
   Widget build(BuildContext context) {
 
-    if(sl.get<CurrentUser>().isDiaryEmpty()) {
-      return Scaffold(
-        body: Container(
-          decoration: AppColor.diaryResultGradient,
-          alignment: Alignment.center,
-          child: Text(
-            '일기가 없어요 ㅠㅠ',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 30.0,
-            )
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       body: BlocBuilder<DiaryListEvent,DiaryListState>(
         bloc: _diaryListBloc,
         builder: (context, state){
+          if(sl.get<CurrentUser>().isDiaryEmpty()) {
+            return Container(
+              color: AppColor.darkBlueDark,
+              alignment: Alignment.center,
+              child: Text(
+                '일기를 작성해주세요.',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.0,
+                )
+              ),
+            );
+          }
+          if(state.isDeleteLoading) {
+            return Container(
+              alignment: Alignment.center,
+              color: AppColor.darkBlueLight,
+              child: SpinKitWave(
+                color: Colors.white,
+                size: 50.0,
+              )
+            );
+          }
+          if(state.isDeleteFailed){
+            BlocSnackbar.show(context, '삭제에 실패했습니다.');
+          }
+          if(state.isDeleteSucceeded){
+            BlocSnackbar.show(context, '일기가 삭제되었습니다.');
+          }
           if(state.isPageSnapped) {
             _currentPage = state.pageIndex;
           }
           return Container(
-            decoration: AppColor.diaryResultGradient,
+            color: AppColor.darkBlueDark,
             child: Column(
               children: <Widget>[
-                Container(
-                  height: 500.0,
+                SizedBox(height: 20.0),
+                Expanded(
                   child: PageView.builder(
                     itemBuilder: (context,index) => _diaryPhotoBuilder(index),
                     controller: _pageController,
@@ -82,7 +100,6 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                     physics: ClampingScrollPhysics(),
                   ),
                 ),
-                SizedBox(height: 10.0),
                 _diaryDetailBuilder(_currentPage)
               ],
             ),
@@ -108,6 +125,63 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
               opacity: value,
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.white,width: 2.0)),
+                        ),
+                        child: GestureDetector(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.create,size: 30.0,color: Colors.white,),
+                              Text(
+                                '수정',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0
+                                ),
+                              )
+                            ],
+                          ),
+                          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => DiaryEditScreen(
+                              diary: sl.get<CurrentUser>().diaryList[index],
+                              isEditing: true,
+                            ))),
+                        ),
+                      ),
+                      SizedBox(width: 20.0),
+                      Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.white,width: 2.0)),
+                        ),
+                        child: GestureDetector(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.delete,size: 30.0,color: Colors.white,),
+                              Text(
+                                '삭제',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0
+                                ),
+                              )
+                            ],
+                          ),
+                          onTap: () => 
+                            _diaryListBloc.dispatch(DiaryListEventDelete(diary: 
+                              sl.get<CurrentUser>().diaryList[index])),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
                   SmoothStarRating(
                     color: Colors.red,
                     borderColor: Colors.white,
@@ -121,6 +195,19 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
                       color: Colors.white,
                       fontSize: 30.0,
                     ),
+                  ),
+                  SizedBox(height: 20.0,),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                    child: Text(
+                      sl.get<CurrentUser>().diaryList[index].diaryContents,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.8),
+                        fontSize: 20.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   )
                 ]
               ),
@@ -132,6 +219,11 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
   }
 
   Widget _diaryPhotoBuilder(index) {
+    if(imageCache[index]==null || index==_currentPage) {
+      imageCache[index] = sl.get<CurrentUser>().diaryList[index].movieStillCutList[
+        Random().nextInt(sl.get<CurrentUser>().diaryList[index].movieStillCutList.length)
+      ];
+    }
     return AnimatedBuilder(
       animation: _pageController,
       builder: (context, child){
@@ -140,10 +232,9 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
           value = _pageController.page - index;
           value = (1 - (value.abs()*0.5)).clamp(0.0, 1.0);
           return Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.center,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10.0),
-              height: Curves.easeIn.transform(value) * 600,
+              margin: const EdgeInsets.only(bottom: 20.0),
               child: child
             ),
           );
@@ -151,45 +242,42 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
           return Align(
             alignment: Alignment.topCenter,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10.0),
-              height: Curves.easeIn.transform(index==_currentPage ? value : value*0.5) * 600,
+              margin: const EdgeInsets.only(bottom: 20.0),
               child: child
             ),
           );
         }
       },
-      child: Material(
-        elevation: 2.0,
-        color: AppColor.background.withOpacity(0.2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(10.0)
-          )
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0,right: 10.0,bottom: 10.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10.0),
-              bottomRight: Radius.circular(10.0)
-            ),
-            child: GestureDetector(
-              child: Hero(
-                tag: sl.get<CurrentUser>().diaryList[index].movieCode,
-                child: CachedNetworkImage(
-                  imageUrl: sl.get<CurrentUser>().diaryList[index].movieMainPhoto,
-                  placeholder: (_,__) => SpinKitWave(
-                    color: Colors.white,
-                    size: 50.0,
-                  ),
-                  fit: BoxFit.fitHeight,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        color: AppColor.darkBlueLight,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20.0),
+              Text(
+                sl.get<CurrentUser>().diaryList[index].movieTitle,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25.0
                 ),
               ),
-              onTap: () => Navigator.push(context, 
-                MaterialPageRoute(builder: (_) 
-                  => DiaryResultScreen(diaryModel: sl.get<CurrentUser>().diaryList[index],))),
-            ),
+              SizedBox(height: 20.0),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: CachedNetworkImage(
+                    imageUrl: imageCache[index],
+                    placeholder: (_,__) => SpinKitWave(
+                      color: Colors.white,
+                      size: 50.0,
+                    ),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
