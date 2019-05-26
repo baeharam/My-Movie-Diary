@@ -97,7 +97,8 @@ class _MovieScreenState extends State<MovieScreen> {
             moviePubDate: widget.movie.pubDate,
             movieMainPhoto: widget.movie.mainPhoto,
             movieTitle: widget.movie.title,
-            movieStillCutList: widget.movie.stillcutList
+            movieStillCutList: widget.movie.stillcutList,
+            movieLineList: widget.movie.lineList
           ),isEditing: false)
         )),
         icon: Icon(Icons.edit),

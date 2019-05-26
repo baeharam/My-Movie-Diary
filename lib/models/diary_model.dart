@@ -8,6 +8,7 @@ class DiaryModel {
   final String movieTitle;
   final String movieMainPhoto;
   final List<String> movieStillCutList;
+  final List<String> movieLineList;
 
   String diaryTitle;
   String diaryContents;
@@ -22,16 +23,21 @@ class DiaryModel {
     for(dynamic stillcutLink in snapshot.data[fDiaryMovieStillcutListField]){
       stillcutList.add(stillcutLink as String);
     }
+    List<String> lineList = List<String>();
+    for(dynamic line in snapshot.data[fDiaryMovieLineList]){
+      lineList.add(line as String);
+    }
     return DiaryModel(
       movieCode: snapshot.data[fDiaryMovieCodeField],
       moviePubDate: snapshot.data[fDiaryMoviePubDateField],
       movieTitle: snapshot.data[fDiaryMovieTitleField],
       movieMainPhoto: snapshot.data[fDiaryMovieMainPhotoField],
       movieStillCutList: stillcutList,
+      movieLineList: lineList,
 
       diaryTitle: snapshot.data[fDiaryTitleField],
       diaryContents: snapshot.data[fDiaryContentsField],
-      diaryRating: snapshot.data[fDiaryRatingField]
+      diaryRating: snapshot.data[fDiaryRatingField],
     );
   }
 
@@ -54,12 +60,17 @@ class DiaryModel {
     for(dynamic stillcutLink in map[fDiaryMovieStillcutListField]){
       stillcutList.add(stillcutLink as String);
     }
+    List<String> lineList = List<String>();
+    for(dynamic line in map[fDiaryMovieLineList]){
+      lineList.add(line as String);
+    }
     return DiaryModel(
       movieCode: map[fDiaryMovieCodeField],
       moviePubDate: map[fDiaryMoviePubDateField],
       movieTitle: map[fDiaryMovieTitleField],
       movieMainPhoto: map[fDiaryMovieMainPhotoField],
       movieStillCutList: stillcutList,
+      movieLineList: lineList,
 
       diaryTitle: map[fDiaryTitleField],
       diaryContents: map[fDiaryContentsField],
@@ -72,12 +83,14 @@ class DiaryModel {
     @required this.moviePubDate,
     @required this.movieMainPhoto,
     @required this.movieTitle,
-    @required this.movieStillCutList
+    @required this.movieStillCutList,
+    @required this.movieLineList
   }) : assert(movieCode!=null),
        assert(movieTitle!=null),
        assert(moviePubDate!=null),
        assert(movieMainPhoto!=null),
-       assert(movieStillCutList!=null);
+       assert(movieStillCutList!=null),
+       assert(movieLineList!=null);
 
   DiaryModel({
     @required this.movieCode,
@@ -85,6 +98,7 @@ class DiaryModel {
     @required this.movieMainPhoto,
     @required this.movieTitle,
     @required this.movieStillCutList,
+    @required this.movieLineList,
 
     @required this.diaryTitle,
     @required this.diaryContents,
@@ -94,6 +108,7 @@ class DiaryModel {
        assert(moviePubDate!=null),
        assert(movieMainPhoto!=null),
        assert(movieStillCutList!=null),
+       assert(movieLineList!=null),
        assert(diaryTitle!=null),
        assert(diaryContents!=null),
        assert(diaryRating!=null);
@@ -101,8 +116,7 @@ class DiaryModel {
   DiaryModel copyWith({
     @required String diaryTitle,
     @required String diaryContents,
-    @required double diaryRating,
-    @required int time
+    @required double diaryRating
   }) {
     this.diaryTitle = diaryTitle;
     this.diaryContents = diaryContents;

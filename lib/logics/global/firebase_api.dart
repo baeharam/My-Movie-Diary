@@ -77,7 +77,8 @@ class FirebaseAPI {
       fMovieDescriptionField: movie.description,
       fMovieMainPhotoField: movie.mainPhoto,
       fMovieStillcutListField: movie.stillcutList,
-      fMovieTrailerListField: movie.trailerList
+      fMovieTrailerListField: movie.trailerList,
+      fMovieLineListField: movie.lineList
     });
 
     for(ActorModel actor in movie.actorList) {

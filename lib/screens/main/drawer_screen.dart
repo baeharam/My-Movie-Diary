@@ -55,7 +55,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
       enablePerspective: true,
       backgroundColorMenu: Colors.blueGrey,
       backgroundColorAppBar: AppColor.background,
-      tittleAppBar: Text('하하'),
       screens: screens
     );
   }

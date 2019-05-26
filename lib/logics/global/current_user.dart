@@ -30,7 +30,7 @@ class CurrentUser {
     } else {
       DiaryModel random = _getRandomDiary();
       return IntroMessageModel(
-        diaryTitle: random.diaryTitle,
+        line: random.movieLineList[Random().nextInt(random.movieLineList.length)],
         pubDate: random.moviePubDate,
         movieTitle: random.movieTitle
       );

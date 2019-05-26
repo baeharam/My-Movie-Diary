@@ -21,10 +21,13 @@ const String movieBasicUrl = 'https://movie.naver.com';
 const String movieRealPhotoUrl = 'https://movie.naver.com/movie/bi/mi/photoViewPopup.nhn?movieCode=';
 const String movieSubPhotosUrl = 'https://movie.naver.com/movie/bi/mi/photo.nhn?code=';
 const String movieActorUrl = 'https://movie.naver.com/movie/bi/mi/detail.nhn?code=';
+const String movieLineUrl = 'https://movie.naver.com/movie/bi/mi/scriptAndRelate.nhn?code=';
 
 const String movieDescriptionClass = 'con_tx';
 const String movieSubPhotosClass = 'gallery_group';
 const String movieTrailerClass = 'video_thumb';
+const String movieLineClass = 'lines';
+const String movieOneLineClass = 'one_line';
 
 const String movieActorAreaClass = 'lst_people';
 const String movieActorThumbnailClass = 'p_thumb';
@@ -51,6 +54,7 @@ const String fDiaryMovieCodeField = 'diary_movie_code';
 const String fDiaryMoviePubDateField = 'diary_movie_pubdate';
 const String fDiaryMovieTitleField = 'diary_movie_title';
 const String fDiaryMovieStillcutListField = 'diary_movie_stillcut_list';
+const String fDiaryMovieLineList = 'diary_movie_line_list';
 
 // Cloud Firestore - movie document
 const String fMovieCol = 'movie';
@@ -67,6 +71,7 @@ const String fMovieDescriptionField = 'movie_description';
 const String fMovieMainPhotoField = 'movie_main_photo';
 const String fMovieStillcutListField = 'movie_stillcut_list';
 const String fMovieTrailerListField = 'movie_trailer_list';
+const String fMovieLineListField = 'movie_line_list';
 
 // Cloud Firestore - actor subDocument
 const String fActorNameField = 'actor_name';
@@ -85,7 +90,7 @@ const List introBackgroundImageList = [
 ];
 
 const IntroMessageModel defaultIntro = IntroMessageModel(
-  diaryTitle: '일기를 작성하세요.',
+  line: '영화는 예술이다.',
   movieTitle: '개발자',
   pubDate: '2019'
 );

@@ -30,17 +30,32 @@ class SearchAPI {
     http.Response realPhotoPageResponse = await http.get(movieRealPhotoUrl+movie.movieCode);
     http.Response subPhotosResponse = await http.get(movieSubPhotosUrl+movie.movieCode+'#tab');
     http.Response actorResponse = await http.get(movieActorUrl+movie.movieCode);
+    http.Response lineResponse = await http.get(movieLineUrl+movie.movieCode);
 
     movie.description = _getMovieDescription(mainPageResponse);
     movie.mainPhoto = _getMainPhoto(realPhotoPageResponse);
     movie.stillcutList = _getStillcutList(subPhotosResponse);
     movie.actorList = _getActorList(actorResponse);
     movie.trailerList = _getMovieTrailerList(mainPageResponse);
+    movie.lineList = _getMovieLineList(lineResponse);
 
     await sl.get<FirebaseAPI>().storeMovie(movie: movie);
     await sl.get<DatabaseAPI>().putMovie(movie: movie);
 
     return movie;
+  }
+
+  List<String> _getMovieLineList(http.Response response) {
+    debugPrint("영화 명대사 가져오는 중...");
+
+    Document document = parser.parse(response.body);
+    var lines = document.getElementsByClassName(movieLineClass);
+    if(lines.isEmpty) return [];
+
+    List<Element> linkElement = lines[0].getElementsByClassName(movieOneLineClass);
+    List<String> lineList = List<String>();
+    linkElement.forEach((e) => lineList.add(e.text));
+    return lineList;
   }
 
   String _getMovieDescription(http.Response response) {

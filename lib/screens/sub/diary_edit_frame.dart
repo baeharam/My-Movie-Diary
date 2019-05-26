@@ -72,8 +72,7 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
                     diaryModel: widget.diary.copyWith(
                       diaryTitle: _titleController.text,
                       diaryContents: _contentsController.text,
-                      diaryRating: _rating,
-                      time: DateTime.now().millisecondsSinceEpoch
+                      diaryRating: _rating
                     ),
                   )
                 ],

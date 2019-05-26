@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         SizedBox(
           width: 250.0,
           child: TypeWriter(
-            text: [_introMessageModel.diaryTitle],
+            text: [_introMessageModel.line],
             textStyle: TextStyle(
               color: Colors.white,
               fontSize: 25.0,

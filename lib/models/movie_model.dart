@@ -18,6 +18,7 @@ class MovieModel {
   List<String> stillcutList;
   List<ActorModel> actorList;
   List<String> trailerList;
+  List<String> lineList;
 
   MovieModel._({
     @required this.link,
@@ -33,7 +34,8 @@ class MovieModel {
     this.mainPhoto,
     this.stillcutList,
     this.actorList,
-    this.trailerList
+    this.trailerList,
+    this.lineList
   }) : assert(link!=null),
        assert(movieCode!=null),
        assert(thumbnail!=null),
