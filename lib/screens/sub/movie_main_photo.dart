@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/widgets/custom_progress_indicator.dart';
 
 class MovieMainPhoto extends StatelessWidget {
@@ -34,8 +35,9 @@ class MovieMainPhoto extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.99),
+                AppColor.darkBlueLight.withOpacity(0.3),
+                AppColor.darkBlueLight.withOpacity(0.9),
+                AppColor.darkBlueLight,
               ]
             )
           ),

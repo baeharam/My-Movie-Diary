@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/movie/movie.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/utils/service_locator.dart';
 
 class MovieDescription extends StatelessWidget {
@@ -44,7 +45,7 @@ class MovieDescription extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   height: state.isMoreButtonClicked ? null : MediaQuery.of(context).size.height*0.28,
-                  color: Colors.black,
+                  color: AppColor.darkBlueLight,
                   child: Text.rich(
                     textSpan,
                     overflow: state.isMoreButtonClicked ? null : TextOverflow.ellipsis,

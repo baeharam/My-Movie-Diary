@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/screens/sub/search_user_rating.dart';
 
 class SearchMovieForm extends StatefulWidget {
@@ -48,8 +49,12 @@ class _SearchMovieFormState extends State<SearchMovieForm> {
             width: MediaQuery.of(context).size.width*0.75,
             height: MediaQuery.of(context).size.height*0.28,
             child: Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              color: AppColor.blueGreyLight,
+              borderOnForeground: true,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.white54, width: 2.0),
+                borderRadius: BorderRadius.circular(10.0)
+              ),
               child: Row(
                 children: [
                   SizedBox(width: 10.0),
@@ -104,7 +109,7 @@ class SearchMovieContents extends StatelessWidget {
           Text(
             movie.title,
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 15.0
             ),
             maxLines: 1,
@@ -116,7 +121,7 @@ class SearchMovieContents extends StatelessWidget {
           AutoSizeText(
             movie.mainDirector,
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.white,
             ),
             minFontSize: 10.0,
             maxLines: 1,
@@ -125,7 +130,7 @@ class SearchMovieContents extends StatelessWidget {
           AutoSizeText(
             movie.mainActor,
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.white,
             ),
             textAlign: TextAlign.center,
             maxLines: 1,
@@ -135,7 +140,7 @@ class SearchMovieContents extends StatelessWidget {
           Text(
             movie.pubDate,
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.white,
               fontSize: 15.0
             ),
             textAlign: TextAlign.center,

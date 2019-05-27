@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             textStyle: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
+              fontWeight: FontWeight.bold
             ),
             textAlign: TextAlign.center,
             alignment: Alignment.center,
@@ -77,9 +78,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   textStyle: TextStyle(
                     color: Colors.white.withOpacity(0.8),
                     fontSize: 20.0,
+                    fontWeight: FontWeight.bold
                   ),
                   alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 2500),
+                  duration: const Duration(milliseconds: 4000),
                 ),
               );
             }

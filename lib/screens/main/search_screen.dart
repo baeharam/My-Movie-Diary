@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:mymovie/logics/search/search.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/screens/main/movie_screen.dart';
 import 'package:mymovie/screens/sub/search_sub.dart';
 import 'package:mymovie/utils/bloc_navigator.dart';
 import 'package:mymovie/utils/orientation_fixer.dart';
 import 'package:mymovie/utils/service_locator.dart';
+import 'package:mymovie/widgets/modal_progress.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
       vsync: this,
       duration: const Duration(milliseconds: 300)
     );
-    _liftUpAnimation = Tween(begin: 150.0,end: 0.0)
+    _liftUpAnimation = Tween(begin: 100.0,end: 0.0)
     .animate(CurvedAnimation(
       parent: _searchAnimationController,
       curve: Curves.easeOut
@@ -77,11 +78,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/cinema.jpg'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
-        ),
+        color: AppColor.darkBlueDark
       ),
       child: BlocBuilder<SearchEvent, SearchState>(
         bloc: _searchBloc,
@@ -103,26 +100,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               MaterialPageRoute(builder: (_)=>MovieScreen(movie: state.clickedMovie)));
           }
           if(state.isMovieCrawlLoading || state.isMovieCrawlSucceeded) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SpinKitWave(
-                    size: 50.0,
-                    color: Colors.white,
-                  ),
-                  SizedBox(height: 40.0),
-                  Text(
-                    '영화를 가져오고 있습니다...',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold
-                    ),
-                  )
-                ],
-              ),
-            );
+            return ModalProgress(text: '영화를 가져오고 있습니다...');
           }
           return AnimatedBuilder(
             animation: _liftUpAnimation,
@@ -151,6 +129,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                           )
                         ],
                       ),
+                      SizedBox(height: 20.0),
                       SearchResultForm(
                         movieList: _movieList,
                         searchBloc: _searchBloc,

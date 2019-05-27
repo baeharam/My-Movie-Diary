@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
+import 'package:mymovie/resources/colors.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/main/diary_edit_screen.dart';
 import 'package:mymovie/screens/sub/movie_actor_list.dart';
@@ -32,16 +33,35 @@ class _MovieScreenState extends State<MovieScreen> {
 
     return Scaffold(
       body: Container(
-        color: Colors.black,
+        color: AppColor.darkBlueLight,
         child: CustomScrollView(
           scrollDirection: Axis.vertical,
           slivers: [
             SliverAppBar(
               expandedHeight: MediaQuery.of(context).size.height*0.8,
               flexibleSpace: FlexibleSpaceBar(
-                background: MovieMainPhoto(movie: widget.movie),
+                background: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    MovieMainPhoto(movie: widget.movie),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        MovieSectionTitle(title: widget.movie.title,padding: 5.0,),
+                        Text(
+                          '('+widget.movie.pubDate+')',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25.0
+                          ),
+                        ),
+                        MovieUserRating(movie: widget.movie)
+                      ],
+                    )
+                  ],
+                ),
               ),
-              backgroundColor: Colors.black,
+              backgroundColor: AppColor.darkBlueLight,
               leading: Container(),
             ),
             SliverList(
@@ -50,21 +70,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MovieSectionTitle(title: widget.movie.title),
-                      Container(
-                        color: Colors.black,
-                        child: Text(
-                          '('+widget.movie.pubDate+')',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25.0
-                          ),
-                        ),
-                      ),
                       SizedBox(height: 20.0),
-                      MovieUserRating(movie: widget.movie),
-                      SizedBox(height: 20.0),
-                      WhiteLine(),
                       MovieSectionTitle(title: stringMovieSynopsis),
                       MovieDescription(description: widget.movie.description),
                       SizedBox(height: 20.0),
@@ -104,7 +110,7 @@ class _MovieScreenState extends State<MovieScreen> {
         icon: Icon(Icons.edit),
         label: Text('일기쓰기'),
         heroTag: 'diary',
-        backgroundColor: Color(0xff333435),
+        backgroundColor: AppColor.blueGreyLight,
       )
     );
   }
@@ -113,12 +119,15 @@ class _MovieScreenState extends State<MovieScreen> {
 class MovieSectionTitle extends StatelessWidget {
 
   final String title;
-  const MovieSectionTitle({Key key, @required this.title}): super(key: key);
+  final double padding;
+  const MovieSectionTitle({Key key, 
+    @required this.title, 
+    this.padding: 20.0}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      padding: EdgeInsets.symmetric(vertical: padding),
       child: AutoSizeText(
         title,
         style: TextStyle(

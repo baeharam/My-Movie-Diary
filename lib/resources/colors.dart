@@ -11,6 +11,9 @@ class AppColor {
   static const Color darkBlueLight = Color(0xFF414B6F);
   static const Color darkBlueDark = Color(0xff2f3651);
 
+  static const Color blueGreyLight = Color(0xff607D8B);
+  static const Color blueGreyDark = Color(0xff4a6572);
+
   static const Color diaryResultText = Color(0xfff4f5f9);
   static const Color diaryResultComponent = Colors.black87;
 

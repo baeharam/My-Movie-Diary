@@ -54,7 +54,7 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
               return Row(
                 children: <Widget>[
                   SmoothStarRating(
-                    borderColor: Colors.grey,
+                    borderColor: Colors.white70,
                     color: Colors.red,
                     rating: _rating,
                     allowHalfRating: true,
@@ -84,6 +84,7 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
             data: Theme.of(context).copyWith(primaryColor: Colors.transparent),
             child: TextField(
               decoration: InputDecoration(
+                border: InputBorder.none,
                 hintText: '제목',
                 hintStyle: TextStyle(
                   color: Colors.grey,
@@ -105,6 +106,7 @@ class _DiaryEditFrameState extends State<DiaryEditFrame> {
             data: Theme.of(context).copyWith(primaryColor: Colors.transparent),
             child: TextField(
               decoration: InputDecoration(
+                border: InputBorder.none,
                 hintText: '느낀점',
                 hintStyle: TextStyle(
                   color: Colors.grey,
