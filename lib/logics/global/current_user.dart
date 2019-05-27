@@ -22,7 +22,8 @@ class CurrentUser {
   void deleteDiary({@required DiaryModel diary}) 
     => this.diaryList.removeWhere((diaryModel) => diaryModel.movieCode==diary.movieCode);
 
-  DiaryModel getRandomDiary() => diaryList[Random().nextInt(diaryList.length)];
+  DiaryModel getRandomDiary() => 
+    isDiaryEmpty() ? null : diaryList[Random().nextInt(diaryList.length)];
 
   bool isDiaryEmpty() => diaryList.isEmpty;
   int get diaryLength => diaryList.length;

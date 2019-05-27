@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mymovie/resources/colors.dart';
 
-class IntroModalProgress extends StatelessWidget {
+class ModalProgress extends StatelessWidget {
+
+  final String text;
+
+  const ModalProgress({Key key, @required this.text}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -29,11 +34,11 @@ class IntroModalProgress extends StatelessWidget {
             ),
             SizedBox(height: 20.0),
             Text(
-              '로그인 중입니다....',
+              text,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold
-              ),
+              )
             )
           ],
         )

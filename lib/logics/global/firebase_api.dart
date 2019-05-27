@@ -14,6 +14,8 @@ class FirebaseAPI {
   final Firestore firestore = Firestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
+  Future<void> signOut() async => await firebaseAuth.signOut();
+
   Future<void> setUID() async {
     FirebaseUser user = await firebaseAuth.currentUser();
     sl.get<CurrentUser>().uid = user.uid;
