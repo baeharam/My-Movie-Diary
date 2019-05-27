@@ -35,8 +35,8 @@ class MovieMainPhoto extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                AppColor.darkBlueLight.withOpacity(0.3),
-                AppColor.darkBlueLight.withOpacity(0.9),
+                AppColor.darkBlueLight.withOpacity(0.1),
+                AppColor.darkBlueLight.withOpacity(0.8),
                 AppColor.darkBlueLight,
               ]
             )

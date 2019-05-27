@@ -8,6 +8,7 @@ class AppColor {
   static const Color searchStar = Color(0xFFFCBE11);
   static const Color facebookLogo = Color(0xFF3C5A99);
 
+  static const Color darkBlueWhite = Color(0xFF5a6799);
   static const Color darkBlueLight = Color(0xFF414B6F);
   static const Color darkBlueDark = Color(0xff2f3651);
 

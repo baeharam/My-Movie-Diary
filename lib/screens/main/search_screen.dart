@@ -115,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         fadeOutAnimation: _fadeOutAnimation,
                         liftUpAnimation: _liftUpAnimation
                       ),
-                      SizedBox(height: 100.0),
+                      SizedBox(height: 30.0),
                       Column(
                         children: [
                           SearchBar(
@@ -134,7 +134,8 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         movieList: _movieList,
                         searchBloc: _searchBloc,
                         searchBarController: _searchBarController,
-                      )
+                      ),
+                      SizedBox(height: 50.0)
                     ],
                   ),
                 ),

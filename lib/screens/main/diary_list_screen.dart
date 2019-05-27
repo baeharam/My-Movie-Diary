@@ -4,12 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mymovie/logics/diary_list/diary_list.dart';
 import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/resources/colors.dart';
-import 'package:mymovie/screens/sub/diary_list_frame.dart';
+import 'package:mymovie/screens/sub/diary_listview.dart';
 import 'package:mymovie/utils/bloc_snackbar.dart';
 import 'package:mymovie/utils/service_locator.dart';
-import 'package:unicorndial/unicorndial.dart';
-
-import 'diary_edit_screen.dart';
 
 class DiaryListScreen extends StatefulWidget {
   @override
@@ -63,11 +60,13 @@ class _DiaryListScreenState extends State<DiaryListScreen> {
           }
           if(state.isDeleteFailed){
             BlocSnackbar.show(context, '삭제에 실패했습니다.');
+            _diaryListBloc.dispatch(DiaryListEventStateClear());
           }
           if(state.isDeleteSucceeded){
             BlocSnackbar.show(context, '일기가 삭제되었습니다.');
+            _diaryListBloc.dispatch(DiaryListEventStateClear());
           }
-          return DiaryListFrame();
+          return DiaryListView();
         }
       ),
     );
