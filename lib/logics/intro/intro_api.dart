@@ -25,7 +25,8 @@ class IntroAPI {
 
   Future<void> _fetchDiary() async {
     if(await sl.get<DatabaseAPI>().isDiaryCached()){
-      sl.get<CurrentUser>().setDiaryList(diaryList: await sl.get<DatabaseAPI>().getAllDiary());
+      List<DiaryModel> diaryList = await sl.get<DatabaseAPI>().getAllDiary();
+      sl.get<CurrentUser>().setDiaryList(diaryList: diaryList);
     }
     else{
       List<DiaryModel> diaryList = await sl.get<FirebaseAPI>().getAllDiary();

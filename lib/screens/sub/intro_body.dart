@@ -25,26 +25,17 @@ class IntroBody extends StatelessWidget {
         return Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(introBackgroundImageList[backgroundImageAnimation.value]),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
-            ),
-          ),
+          alignment: Alignment.center,
+          color: AppColor.darkBlueLight,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 180.0),
-                  child: Text(
-                    '영화일기',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 70.0
-                    ),
-                  ),
+                Image(
+                  image: AssetImage('assets/images/logo.png'),
+                  color: Colors.white,
+                  width: 200.0,
+                  height: 200.0,
                 ),
                 SizedBox(height: 20.0),
                 Container(
@@ -52,7 +43,7 @@ class IntroBody extends StatelessWidget {
                   width: 200.0,
                   height: 4.0,
                 ),
-                SizedBox(height: 200.0),
+                SizedBox(height: 100.0),
                 LoginButton(
                   image: Image(
                     image: AssetImage(facebookImage),
@@ -77,6 +68,19 @@ class IntroBody extends StatelessWidget {
                   loadingColor: Colors.black,
                   message: stringLoginGoogle,
                   callback: () => introBloc.dispatch(IntroEventGoogleLogin()),
+                ),
+                SizedBox(height: 20.0),
+                LoginButton(
+                  image: Image(
+                    image: AssetImage(kakaoImage),
+                    width: 50.0,
+                    height: 40.0,
+                  ),
+                  buttonColor: AppColor.kakaoLogo,
+                  textColor: Colors.black,
+                  loadingColor: Colors.black,
+                  message: stringLoginKakao,
+                  callback: () {},
                 )
               ],
             ),

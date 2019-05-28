@@ -46,13 +46,9 @@ flutter:
   assets:
     - assets/images/facebook.png
     - assets/images/google.png
+    - assets/images/kakao.jpg
     - assets/images/fantasy.jpg
-    - assets/images/cinema.jpg
-    - assets/images/milkyway.jpeg
-
-    - assets/images/ironman.jpg
-    - assets/images/abouttime.jpg
-    - assets/images/spiderman.jpg
+    - assets/images/logo.png
   fonts:
   - family: NanumMyeongjo
     fonts:

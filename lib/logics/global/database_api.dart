@@ -12,11 +12,18 @@ class DatabaseAPI {
   Database _db;
   Store _movieStore, _actorStore, _diaryStore;
 
+  Database get db => _db;
+
   Future<void> initialization() async {
     _db = await AppDatabase.instance.database;
     _movieStore = _db.getStore(storeMovie);
     _actorStore = _db.getStore(storeActor);
     _diaryStore = _db.getStore(storeDiary);
+
+    assert(_db!=null);
+    assert(_movieStore!=null);
+    assert(_actorStore!=null);
+    assert(_diaryStore!=null);
   }
 
   /// [영화]

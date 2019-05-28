@@ -19,6 +19,7 @@ class FirebaseAPI {
   Future<void> setUID() async {
     FirebaseUser user = await firebaseAuth.currentUser();
     sl.get<CurrentUser>().uid = user.uid;
+    assert(sl.get<CurrentUser>().uid!=null);
   }
 
   Future<bool> isExitingMovie({@required String movieCode}) async {

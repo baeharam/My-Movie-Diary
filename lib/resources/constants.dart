@@ -80,9 +80,4 @@ const String fActorRoleField = 'actor_role';
 // Intro Screen
 const String facebookImage = 'assets/images/facebook.png';
 const String googleImage = 'assets/images/google.png';
-
-const List introBackgroundImageList = [
-  'assets/images/ironman.jpg',
-  'assets/images/spiderman.jpg',
-  'assets/images/abouttime.jpg'
-];
+const String kakaoImage = 'assets/images/kakao.jpg';
