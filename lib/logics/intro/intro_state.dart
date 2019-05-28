@@ -9,6 +9,10 @@ class IntroState {
   final bool isGoogleLoginSucceeded;
   final bool isGoogleLoginFailed;
 
+  final bool isKakaoLoginLoading;
+  final bool isKakaoLoginSucceeded;
+  final bool isKakaoLoginFailed;
+
   IntroState({
     this.isInitial: false,
 
@@ -18,7 +22,11 @@ class IntroState {
 
     this.isGoogleLoginLoading: false,
     this.isGoogleLoginSucceeded: false,
-    this.isGoogleLoginFailed: false
+    this.isGoogleLoginFailed: false,
+
+    this.isKakaoLoginLoading: false,
+    this.isKakaoLoginSucceeded: false,
+    this.isKakaoLoginFailed: false
   });
 
   factory IntroState.initial() => IntroState(isInitial: true);
@@ -30,4 +38,8 @@ class IntroState {
   factory IntroState.googleLoginLoading() => IntroState(isGoogleLoginLoading: true);
   factory IntroState.googleLoginSucceeded() => IntroState(isGoogleLoginSucceeded: true);
   factory IntroState.googleLoginFailed() => IntroState(isGoogleLoginFailed: true);
+
+  factory IntroState.kakaoLoginLoading() => IntroState(isKakaoLoginLoading: true);
+  factory IntroState.kakaoLoginSucceeded() => IntroState(isKakaoLoginSucceeded: true);
+  factory IntroState.kakaoLoginFailed() => IntroState(isKakaoLoginFailed: true);
 }

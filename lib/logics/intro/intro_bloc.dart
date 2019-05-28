@@ -37,5 +37,16 @@ class IntroBloc extends Bloc<IntroEvent,IntroState> {
         yield IntroState.googleLoginFailed();
       }
     }
+
+    if(event is IntroEventKakaoLogin) {
+      yield IntroState.kakaoLoginLoading();
+      try {
+        await _api.kakaoAuthentication();
+        yield IntroState.kakaoLoginSucceeded();
+      } catch(exception) {
+        debugPrint("카카오 로그인 실패: ${exception.toString()}");
+        yield IntroState.kakaoLoginFailed();
+      }
+    }
   }
 }

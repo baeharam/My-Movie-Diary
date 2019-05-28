@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:mymovie/logics/global/current_user.dart';
@@ -13,6 +14,7 @@ import 'package:mymovie/utils/service_locator.dart';
 class FirebaseAPI {
   final Firestore firestore = Firestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final CloudFunctions cloudFunctions = CloudFunctions.instance;
 
   Future<void> signOut() async => await firebaseAuth.signOut();
 

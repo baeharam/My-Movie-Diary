@@ -1,10 +1,12 @@
 
 import 'package:meta/meta.dart';
+import 'package:mymovie/logics/global/current_user.dart';
 import 'package:mymovie/models/actor_model.dart';
 import 'package:mymovie/models/diary_model.dart';
 import 'package:mymovie/models/movie_model.dart';
 import 'package:mymovie/resources/constants.dart';
 import 'package:mymovie/utils/app_database.dart';
+import 'package:mymovie/utils/service_locator.dart';
 import 'package:sembast/sembast.dart';
 
 class DatabaseAPI {
@@ -18,7 +20,7 @@ class DatabaseAPI {
     _db = await AppDatabase.instance.database;
     _movieStore = _db.getStore(storeMovie);
     _actorStore = _db.getStore(storeActor);
-    _diaryStore = _db.getStore(storeDiary);
+    _diaryStore = _db.getStore(sl.get<CurrentUser>().diaryStore);
 
     assert(_db!=null);
     assert(_movieStore!=null);

@@ -3,10 +3,13 @@ import 'dart:math';
 
 import 'package:meta/meta.dart';
 import 'package:mymovie/models/diary_model.dart';
+import 'package:mymovie/resources/constants.dart';
 
 class CurrentUser {
   String uid = '';
   List<DiaryModel> diaryList = List<DiaryModel>();
+
+  String get diaryStore => uid + storeDiary;
 
   void setDiaryList({@required List<DiaryModel> diaryList}) => this.diaryList = diaryList;
 

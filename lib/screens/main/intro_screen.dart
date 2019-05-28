@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mymovie/logics/global/animation_api.dart';
 import 'package:mymovie/logics/intro/intro.dart';
 import 'package:mymovie/resources/strings.dart';
 import 'package:mymovie/screens/sub/intro_body.dart';
@@ -24,13 +23,11 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _introBloc.dispatch(IntroEventStateClear());
-    sl.get<AnimationAPI>().initIntroBackground(vsync: this);
   }
 
   @override
   void dispose() {
     _introBloc.dispatch(IntroEventStateClear());
-    sl.get<AnimationAPI>().disposeIntroBackground();
     super.dispose();
   }
 
@@ -43,20 +40,17 @@ class _IntroScreenState extends State<IntroScreen> with TickerProviderStateMixin
       body: BlocBuilder<IntroEvent,IntroState>(
         bloc: _introBloc,
         builder: (context, state){
-          if(state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded) {
+          if(state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded || state.isKakaoLoginSucceeded){
             BlocNavigator.pushReplacementNamed(context, routeDrawer);
           }
-          if(state.isFacebookLoginFailed || state.isGoogleLoginFailed) {
+          if(state.isFacebookLoginFailed || state.isGoogleLoginFailed || state.isKakaoLoginFailed) {
             BlocSnackbar.show(context, '로그인에 실패하였습니다.');
           }
           return Stack(
             children: <Widget>[
-              IntroBody(
-                backgroundImageAnimation: sl.get<AnimationAPI>().introBackgroundAnimation,
-                introBloc: _introBloc,
-              ),
-              if(state.isGoogleLoginLoading || state.isFacebookLoginLoading ||
-              state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded)
+              IntroBody(introBloc: _introBloc),
+              if(state.isGoogleLoginLoading || state.isFacebookLoginLoading || state.isKakaoLoginLoading ||
+              state.isFacebookLoginSucceeded || state.isGoogleLoginSucceeded || state.isKakaoLoginSucceeded)
                 ModalProgress(text: '로그인 중입니다...',)
             ],
           );

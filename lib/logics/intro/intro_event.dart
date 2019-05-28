@@ -4,3 +4,4 @@ class IntroEventStateClear extends IntroEvent {}
 
 class IntroEventFacebookLogin extends IntroEvent {}
 class IntroEventGoogleLogin extends IntroEvent {}
+class IntroEventKakaoLogin extends IntroEvent {}
