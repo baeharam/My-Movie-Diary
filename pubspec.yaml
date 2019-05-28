@@ -34,13 +34,17 @@ dependencies:
   hidden_drawer_menu: ^1.0.1
   flutter_kakao_login: "^0.3.0"
   cloud_functions: 0.0.5
+  flutter_launcher_icons: ^0.7.2
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
+flutter_icons:
+  android: true
+  ios: false
+  image_path: 'assets/images/logo.png'
 
 flutter:
   uses-material-design: true
